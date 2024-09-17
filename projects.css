@@ -1,0 +1,154 @@
+/* Animaatio ylä */
+
+@keyframes preloader {
+    100% { transform: scale(2); }
+  }
+  
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+   
+  
+  /* Navbar container */
+  .navbar {
+    overflow: hidden;
+    background-color: #080808;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    opacity: 90%;
+  }
+  
+  /* Links inside the navbar */
+  .navbar a {
+    float: left;
+    font-size: 20px;
+    color: #dddada;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* The dropdown container */
+  .dropdown {
+    float: left;
+    overflow: hidden;
+  }
+  
+  /* Dropdown button */
+  .dropdown .dropbtn {
+    font-size: 20px;
+    border: none;
+    outline: none;
+    color: #dddada;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+  }
+  
+  /* Add a red background color to navbar links on hover */
+  .navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: rgb(129, 125, 125);
+  }
+  
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #434141;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(120, 118, 118, 0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    float: none;
+    color: rgb(205, 201, 201);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+  
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+    background: #302f2f;
+    color: #ebe3e3;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+    background: #282626;
+        color: #ebe3e3;
+  }
+  
+  .front-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .topleft {
+    position: absolute;
+    top: 200px;
+    left: 300px;
+    font-size: 24px;
+    color: aliceblue;
+  } 
+
+  body {
+    margin: 50px;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: rgb(2, 2, 2);
+
+    
+}
+h1 {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-stretch: expanded;
+    padding-top: 20px;
+    word-spacing: 5 px;
+    color: #ebe3e3;;
+
+}
+
+/*Alapalkki*/
+
+.navbar-bottom{  
+  
+    animation: 2s ease-out 0s 1 slideInFromRight;
+  } /* Animaatio ala */
+  .navbar-bottom {
+      overflow: hidden;
+      background-color: #080808;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      left: 0%;
+      opacity: 95%;
+    }
+    
+    .navbar-bottom a {
+      float: left;
+      display: block;
+      color: #fff7f7;
+      padding: 14px 12px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    
+    .navbar-bottom a:hover {
+      background: #282626;
+      color: #ebe3e3;
+    }
+  
