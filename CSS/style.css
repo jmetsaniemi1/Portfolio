@@ -1,149 +1,257 @@
 :root {
-  
-  --primary-color: #ffcb2f;
-  --base-variant: #eeeeee33;
+  --primary-color: #ffffff; /* Ensisijainen väri */
+  --secondary-color: yellow; /* Toissijainen väri */
+  --base-variant: #eeeeee33; /* Perusväri (läpinäkyvä) */
+  --text-color: rgb(252, 243, 243); /* Tekstin väri */
+  --visited-text-color: rgb(205, 168, 168); /* Tekstin väri */
+  --h1-color: white; /* H1-otsikon väri */
+  --h2-color: white; /* H2-otsikon väri */
+  --h3-color: white; /* H3-otsikon väri */
+  --h4-color: white; /* H4-otsikon väri */
+  --section-color: white; /* Osion taustaväri */
 }
 
 .darkmode {
-  background: linear-gradient(to bottom right, #02388a, #7e1b03);
-  --primary-color: #5c72ca;
-  --base-variant: #1036a8;
+  background: linear-gradient(to bottom right, #012355, #5b1402); /* Dark mode -taustagradientti */
+  --primary-color: #5c72ca; /* Dark mode -ensisijainen väri */
+  --base-variant: #1036a8; /* Dark mode -perusväri */
+  --text-color: #b2b2b2; /* Dark mode -tekstin väri */
+  background-repeat: no-repeat; /* Prevent background from repeating */
+  background-attachment: fixed; /* Keeps the background fixed during scroll */
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-decoration: none;
+  box-sizing: border-box; /* Sisällön mitoitus */
+  margin: 0; /* Nollaa oletusmarginaalit */
+  padding: 0; /* Nollaa oletuspaddingit */
+  list-style: none; /* Poistaa listapisteet */
+  text-decoration: none; /* Poistaa tekstin alleviivaukset */
 }
 
 a {
-  color: white;
+  color: var(--text-color); /* Linkkien väri */
 }
 a:visited {
-  color: white;
+  color: var(--text-color); /* Käytettyjen linkkien väri */
 }
 a:hover {
-  color: #6F86FF;
+  color: var(--visited-text-color); /* Linkkien hover-väri */
 }
 
 body {
-  background: linear-gradient(to bottom right, #de350b, #0065ff);
-  margin: 0;
-  height: 100vh;
-  font-family: sans-serif;
+  background: linear-gradient(to bottom right, #de350b, #0065ff); /* Taustagradientti */
+  margin: 10px; /* Poistaa oletusmarginaalit */
+  height: 100%; /* Koko näkymäkorkeus */
+  width: 100%; /* Sivun leveys */
+  font-family: sans-serif; /* Fontti */
+  transition: background-color 1.5s ease-in-out; /* Taustan siirtymäefekti */
+  background-repeat: no-repeat; /* Prevent background from repeating */
+  background-attachment: fixed; /* Keeps the background fixed during scroll */
 }
 
 #theme-switch {
-  height: 40px;
-  width: 40px;
-  padding: 0;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 20px;
-  right: 20px;
-  background-color: var(--base-variant);
+  height: 40px; /* Korkeus */
+  width: 40px; /* Leveys */
+  padding: 0; /* Ei sisämarginaalia */
+  border-radius: 50%; /* Pyöristetyt kulmat */
+  border: none;
+  display: flex; /* Flexbox asettelu */
+  justify-content: center; /* Keskitys vaakasuunnassa */
+  align-items: center; /* Keskitys pystysuunnassa */
+  top: 20px; /* Etäisyys yläreunasta */
+  right: 20px; /* Etäisyys oikeasta reunasta */
+  background-color: var(--base-variant); /* Taustaväri */
+  cursor: pointer; /* Osoitin näyttää käden */
+  z-index: 10; /* Etusijaisuuskerros */
 }
 
-#theme-switch svg {
-  fill: var(--primary-color);
+#moon-svg {
+  fill: var(--primary-color); /* Moon-kuvakkeen väri */
 }
 
+#sun-svg {
+  fill: var(--secondary-color); /* Sun-kuvakkeen väri */
+}
 
 #theme-switch svg:last-child {
-  display: none;
-} 
-
-.darkmore #theme-switch svg:first-child {
-  display: none;
+  display: none; /* Piilota aurinkokuvake oletuksena */
 }
 
-.darkmore #theme-switch svg:last-child {
-  display: block;
+.darkmode #theme-switch svg:first-child {
+  display: none; /* Piilota kuunkuvake darkmodessa */
 }
 
-/* off-screen-menu */
+.darkmode #theme-switch svg:last-child {
+  display: block; /* Näytä aurinkokuvake darkmodessa */
+}
+
+/* Off-screen menu */
 .off-screen-menu {
-  height: 40vh;
-  width: 50%;
-  max-width: 150px;
-  position: fixed;
-  top: 0;
-  right: -450px;
-  display: flex;
-  
-  align-items: center;    
-  justify-content: center;
-  text-align: right;
-  font-size: 20px;
-  font-weight: bolder;
-  transition: .4s ease;
-  
+  height: 40vh; /* Menun korkeus */
+  width: 50%; /* Menun leveys */
+  max-width: 150px; /* Maksimileveys */
+  position: fixed; /* Kiinnitetty paikkaan */
+  top: 0; /* Yläreunasta */
+  right: -450px; /* Piilotettu oikealle */
+  display: flex; /* Flexbox asettelu */
+  align-items: center; /* Keskitys pystysuunnassa */
+  justify-content: center; /* Keskitys vaakasuunnassa */
+  text-align: right; /* Tekstin tasaus oikealle */
+  font-size: 20px; /* Fontin koko */
+  font-weight: bolder; /* Lihavointi */
+  transition: .4s ease; /* Siirtymäefekti */
 }
+
 .off-screen-menu ul li {
- padding: 5px;
+  padding: 5px; /* Listan sisätyhjä */
+  color: var(--text-color); /* Tekstin väri */
 }
 .off-screen-menu ul li img {
-  width: 50px;
-  height: 50px;
-  margin-top: 20px;
+  width: 50px; /* Kuvan leveys */
+  height: 50px; /* Kuvan korkeus */
+  margin-top: 20px; /* Yläreunan marginaali */
 }
-.off-screen-menu ul li img:hover{
-  transform: scale(1.1);
-  transition: transform 0.5s ease-in-out;
+.off-screen-menu ul li img:hover {
+  transform: scale(1.1); /* Zoomaa kuvaa hoverilla */
+  transition: transform 0.5s ease-in-out; /* Siirtymäefekti zoomille */
+}
 
-}
 .off-screen-menu.active {
-  right: 0;
+  right: 0; /* Näytä menu */
 }
 
-
-
-/* nav */
+/* Navigaatio */
 nav {
-  padding: 10px;
-  display: flex;
+  padding: 10px; /* Sisämarginaali */
+  display: flex; /* Flexbox-asettelu */
 }
 
-
-
-/* ham menu */
+/* Ham menu */
 .ham-menu {
-  height: 50px;
-  width: 40px;
-  margin-left: auto;
-  position: relative;
+  height: 50px; /* Korkeus */
+  width: 40px; /* Leveys */
+  margin-left: auto; /* Siirto oikealle */
+  position: relative; /* Suhteellinen sijainti */
 }
 .ham-menu span {
-  height: 5px;
-  width: 100%;
-  background-color: #ededed;
-  border-radius: 25px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: .3s ease;
-  
+  height: 5px; /* Viivan korkeus */
+  width: 100%; /* Viivan leveys */
+  background-color: #ededed; /* Viivan väri */
+  border-radius: 25px; /* Pyöristetyt kulmat */
+  position: absolute; /* Absoluuttinen sijainti */
+  left: 50%; /* Keskitys vaakasuunnassa */
+  top: 50%; /* Keskitys pystysuunnassa */
+  transform: translate(-50%, -50%); /* Siirtää keskelle */
+  transition: .3s ease; /* Siirtymäefekti */
 }
 .ham-menu span:nth-child(1) {
-  top: 25%;
+  top: 25%; /* Ensimmäinen viiva ylempänä */
 }
 .ham-menu span:nth-child(3) {
-  top: 75%;
+  top: 75%; /* Kolmas viiva alempana */
 }
 .ham-menu.active span {
-  background-color: white;
+  background-color: white; /* Vaihtaa viivojen väriä aktiivisena */
 }
 .ham-menu.active span:nth-child(1) {
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
+  top: 50%; /* Keskittää viivan */
+  transform: translate(-50%, -50%) rotate(45deg); /* Kääntää viivan */
 }
 
 .ham-menu.active span:nth-child(2) {
-  top: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
+  top: 50%; /* Keskittää viivan */
+  transform: translate(-50%, -50%) rotate(-45deg); /* Kääntää viivan */
 }
+
+
+/* WELCOME */
+
+.welcome-text-box {
+  text-align: center; /* Tekstin tasaus keskelle */
+  margin-top: 150px; /* Marginaali */
+}
+
+
+.key {
+  font-size: 15vw;
+  display: inline-block;
+  letter-spacing: -2vw;
+  transition: transform 0.2s;
+  font-weight: 400;
+  font-family: "Rubik Mono One", serif;
+  color: var(--text-color);
+  text-shadow: 0 0 3px var(--text-color), 0 0 3px var(--text-color);
+  cursor:default;
+  
+}
+  
+ h1 {
+  background: linear-gradient(to right, #ffffff, #ffad06);
+  background-clip: text;
+  color: transparent;
+ }
+  
+  
+
+.key:hover {
+  transform: scale(1.1);
+}
+.line {
+  display: block;
+  width: 90%;
+  height: 4px;
+  background-color: var(--text-color);
+  margin: auto;
+}
+
+
+
+.front-boxes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  width: 800px;
+  min-width: 90%;
+  z-index: 1;
+  position: relative;
+}
+
+.background-photo-drops {
+  z-index: -1;
+  object-fit: cover;
+  height: auto;
+  width: 1280px;
+  position: absolute;
+  top: 0; /* Adjust position if necessary */
+  left: 0; /* Adjust position if necessary */
+  rotate: 180deg;
+}
+
+
+
+@media (max-width: 768px) {
+  .front-boxes {
+    flex-direction: column;
+    width: 100%; /* Ensure it uses the full width */
+  }
+}
+
+.container {
+  margin: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 300px;
+  background: rgba(215, 236, 235, 0.05);
+  backdrop-filter: blur(9px);
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1) inset. -10px -10px -10px white inset;
+}
+
+
+
+
+
+
