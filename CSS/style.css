@@ -225,9 +225,15 @@ nav {
 /* WELCOME */
 
 .welcome-text-box {
-  text-align: center; /* Tekstin tasaus keskelle */
-  margin-top: 150px; /* Marginaali */
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 50px 0;
+  pointer-events: none;
+  transform-origin: center;
+  padding: 20px; /* Lisätään tilaa ympärille */
 }
+
 .welcome-text-box {
   animation: scaleUp 4s ease-in-out infinite;
 }
@@ -415,6 +421,14 @@ nav {
 
 .dot.active {
   background: rgba(255, 255, 255, 0.8);
+}
+
+.keyboard {
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: transform;
+  padding: 20px;
+  backface-visibility: hidden;
 }
 
 

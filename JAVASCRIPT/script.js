@@ -104,3 +104,52 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCarousel();
   });
 }); 
+
+// Elastinen hiiren seuranta
+let rafId = null;
+
+document.addEventListener('mousemove', (e) => {
+  // Haetaan rajat
+  const navbar = document.querySelector('nav');
+  const line = document.querySelector('.line');
+  const navBottom = navbar.getBoundingClientRect().bottom;
+  const lineTop = line.getBoundingClientRect().top;
+  
+  // Tarkistetaan onko hiiri sallitulla alueella
+  if (e.clientY < navBottom || e.clientY > lineTop) {
+    // Jos hiiri on alueen ulkopuolella, palautetaan elementti keskiasentoon
+    const welcomeText = document.querySelector('.keyboard');
+    requestAnimationFrame(() => {
+      welcomeText.style.transform = 'translate3d(0, 0, 0) scale(1)';
+    });
+    return;
+  }
+  
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+  }
+  
+  const welcomeText = document.querySelector('.keyboard');
+  const box = document.querySelector('.welcome-text-box');
+  const rect = box.getBoundingClientRect();
+  
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  
+  const distX = (e.clientX - centerX) * 0.08;
+  const distY = (e.clientY - centerY) * 0.06;
+  
+  const limitedX = Math.max(-20, Math.min(20, distX));
+  const limitedY = Math.max(-20, Math.min(20, distY));
+  
+  const distance = Math.sqrt(limitedX * limitedX + limitedY * limitedY);
+  const maxDistance = Math.sqrt(20 * 20 + 20 * 20);
+  const distanceRatio = distance / maxDistance;
+  
+  const scale = 1.1 - (distanceRatio * 0.2);
+  
+  rafId = requestAnimationFrame(() => {
+    welcomeText.style.transform = `translate3d(${limitedX}px, ${limitedY}px, 0) scale(${scale})`;
+    rafId = null;
+  });
+}); 
