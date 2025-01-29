@@ -206,7 +206,19 @@ nav {
   background-clip: text;
   color: transparent;
  }
-  
+
+ h2 {
+  background: linear-gradient(to right, #f8d882, #e1bb69);
+  background-clip: text;
+  color: transparent;
+ }
+
+ p {
+  background: linear-gradient(to right, #ffffff, #ece5d6);
+  background-clip: text;
+  color: transparent;
+  font-weight: bold;
+ }
   
 
 
@@ -261,7 +273,7 @@ nav {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 400px;
+  height: 300px;
   width: 300px;
   background: rgba(215, 236, 235, 0.05);
   backdrop-filter: blur(9px);
@@ -276,8 +288,35 @@ nav {
 .container h1, h2, h3, p {
   text-align: center;
   padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
+#first-letter {
+  font-size: 1em;
+}
+
+#after-letter {
+  font-size: 1em;
+}
+#last-letter {
+  display: inline-block; /* Allows transform to work */
+
+  animation: scaleUp2 4s ease-in-out infinite;
+  background: linear-gradient(to right, #ffffff, #ffad06);
+  background-clip: text;
+  color: transparent;
+
+}
+@keyframes scaleUp2 {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+
+}
 
 
 
