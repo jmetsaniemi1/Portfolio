@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunSvg = document.getElementById('sun-svg');
 
   // Tarkista tallennettu teema
-  const savedTheme = localStorage.getItem('theme');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
   if (savedTheme === 'dark') {
     body.classList.add('darkmode');
     moonSvg.style.display = 'none';
@@ -18,21 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   themeSwitch.addEventListener('click', () => {
-    if (body.classList.contains('darkmode')) {
-      // Vaihto light modeen viiveellä
-      setTimeout(() => {
-        body.classList.remove('darkmode');
-        moonSvg.style.display = 'block';
-        sunSvg.style.display = 'none';
-        localStorage.setItem('theme', 'light');
-      }, 300);
-    } else {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+
+    if (newTheme === 'dark') {
       // Vaihto dark modeen viiveellä
       setTimeout(() => {
         body.classList.add('darkmode');
         moonSvg.style.display = 'none';
         sunSvg.style.display = 'block';
-        localStorage.setItem('theme', 'dark');
+      }, 300);
+    } else {
+      // Vaihto light modeen viiveellä
+      setTimeout(() => {
+        body.classList.remove('darkmode');
+        moonSvg.style.display = 'block';
+        sunSvg.style.display = 'none';
       }, 300);
     }
   });
