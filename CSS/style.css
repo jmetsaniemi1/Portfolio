@@ -231,7 +231,9 @@ nav {
   margin: 50px 0;
   pointer-events: none;
   transform-origin: center;
-  padding: 20px; /* Lisätään tilaa ympärille */
+  padding: 20px;
+  white-space: nowrap; /* Estetään rivitys */
+  overflow: visible; /* Varmistetaan että sisältö näkyy */
 }
 
 .welcome-text-box {
@@ -248,8 +250,10 @@ nav {
 }
 
 .key {
-  font-size: 12vw;
   display: inline-block;
+  white-space: nowrap; /* Varmistetaan vielä kirjaintasollakin */
+  flex-shrink: 0; /* Estetään kutistuminen */
+  font-size: 12vw;
   letter-spacing: -1.5vw;
   transition: transform 0.2s;
   font-weight: 400;
@@ -257,7 +261,6 @@ nav {
   color: var(--text-color);
   text-shadow: 0 0 3px var(--text-color), 0 0 3px var(--text-color);
   cursor:default;
-  
 }
   
  h1 {
@@ -429,6 +432,7 @@ nav {
   will-change: transform;
   padding: 20px;
   backface-visibility: hidden;
+  font-size: clamp(16px, 4vw, 32px); /* Responsiivinen fonttikoko */
 }
 
 .columns {
@@ -446,12 +450,32 @@ nav {
   justify-content: center;
   align-items: flex-start;
   gap: 30px;
-  width: 100%;
+  width: calc(100% - 200px); /* Vähennetään marginaalit kokonaisleveydestä */
+  margin: 0 100px;
 }
 
 .column {
   flex: 1;
-  max-width: 400px;
+  min-width: 300px;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 25px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.column:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.45);
+}
+
+[data-theme="dark"] .column {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .column p {
@@ -466,6 +490,16 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 25px;
+  background: transparent; /* Varmistetaan läpinäkyvä tausta */
+}
+
+[data-theme="dark"] .image-container {
+  background: transparent; /* Varmistetaan läpinäkyvä tausta myös dark modessa */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
 }
 
 .image-container img {
@@ -480,6 +514,19 @@ nav {
 }
 
 /* Responsiivisuus */
+@media (max-width: 1200px) {
+  .content {
+    width: calc(100% - 40px); /* Pienempi marginaali */
+    margin: 0 20px;
+    flex-wrap: wrap; /* Sallitaan rivien katkeaminen */
+  }
+
+  .column {
+    min-width: 250px; /* Hieman pienempi minimileveys */
+    flex: 1 1 40%; /* Flex-basis 40% */
+  }
+}
+
 @media (max-width: 768px) {
   .content {
     flex-direction: column;
@@ -488,6 +535,7 @@ nav {
 
   .column {
     width: 100%;
+    min-width: unset; /* Poistetaan minimileveys */
     max-width: 100%;
   }
 
