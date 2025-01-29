@@ -130,34 +130,41 @@ body.darkmode::after {
 
 /* Off-screen menu */
 .off-screen-menu {
-  height: 40vh; /* Menun korkeus */
-  width: 50%; /* Menun leveys */
-  max-width: 150px; /* Maksimileveys */
-  position: fixed; /* Kiinnitetty paikkaan */
-  top: 70px; /* Yläreunasta */
-  margin-right: 10px; /* Oikeasta reunasta */
-  right: -450px; /* Piilotettu oikealle */
-  display: flex; /* Flexbox asettelu */
-  align-items: center; /* Keskitys pystysuunnassa */
-  justify-content: center; /* Keskitys vaakasuunnassa */
-  text-align: right; /* Tekstin tasaus oikealle */
-  font-size: 20px; /* Fontin koko */
-  font-weight: bolder; /* Lihavointi */
-  transition: .6s ease-in-out; /* Siirtymäefekti */
+  height: 40vh;
+  width: 50%;
+  max-width: 150px;
+  position: fixed;
+  top: 70px;
+  margin-right: 10px;
+  right: -450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bolder;
+  transition: .6s ease-in-out;
+  z-index: 2001; /* Lisätään korkeampi z-index */
 }
 
 .off-screen-menu ul li {
-  padding: 5px; /* Listan sisätyhjä */
-  color: var(--text-color); /* Tekstin väri */
+  position: relative; /* Lisätään suhteellinen sijainti */
+  z-index: 2002; /* Varmistetaan että linkit ovat päällimmäisenä */
+  padding: 5px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.off-screen-menu ul li:hover:not(:has(img)) {
+  transform: scale(1.1); /* Skaalaus hoverilla (paitsi kuville) */
+}
+
 .off-screen-menu ul li img {
   width: 50px; /* Kuvan leveys */
   height: 50px; /* Kuvan korkeus */
   margin-top: 0; /* Yläreunan marginaali */
-}
-.off-screen-menu ul li img:hover {
-  transform: scale(1.1); /* Zoomaa kuvaa hoverilla */
-  transition: transform 0.5s ease-in-out; /* Siirtymäefekti zoomille */
+  pointer-events: none; /* Estetään kuvan hover-efekti */
 }
 
 .off-screen-menu.active {
@@ -178,11 +185,11 @@ nav {
 .ham-menu {
   height: 50px;
   width: 40px;
-  position: fixed; /* Muutettu kiinteäksi */
-  top: 15px; /* Säädetty yläreunasta */
-  right: 20px; /* Siirretty theme-switchin viereen */
+  position: fixed;
+  top: 15px;
+  right: 20px; /* Siirretään kauemmas theme-switchistä */
   cursor: pointer;
-  z-index: 1001; /* Sama kuin theme-switchillä */
+  z-index: 2000;
 }
 .ham-menu span {
   height: 5px; /* Viivan korkeus */
