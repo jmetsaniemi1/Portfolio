@@ -11,14 +11,7 @@
   --section-color: white; /* Osion taustaväri */
 }
 
-.darkmode {
-  background: linear-gradient(to bottom right, #012355, #5b1402); /* Dark mode -taustagradientti */
-  --primary-color: #5c72ca; /* Dark mode -ensisijainen väri */
-  --base-variant: #1036a8; /* Dark mode -perusväri */
-  --text-color: #b2b2b2; /* Dark mode -tekstin väri */
-  background-repeat: no-repeat; /* Prevent background from repeating */
-  background-attachment: fixed; /* Keeps the background fixed during scroll */
-}
+
 
 * {
   box-sizing: border-box; /* Sisällön mitoitus */
@@ -39,7 +32,10 @@ a:hover {
 }
 
 html body {
-  background: linear-gradient(to bottom right, #de350b, #0065ff); /* Taustagradientti */
+  background: linear-gradient(to bottom right, #de350b, 
+  #0065ff); /* Taustagradientti */
+  padding-top: 70px; /* Nav-elementin korkeus + pieni väli */
+
   height: 100%; /* Koko näkymäkorkeus */
   margin: 0; /* Nollaa oletusmarginaalit */
   padding: 10px;
@@ -51,7 +47,50 @@ html body {
 
 }
 
+.darkmode {
+  background: linear-gradient(to bottom right, #012355, #5b1402); /* Dark mode -taustagradientti */
+  --primary-color: #5c72ca; /* Dark mode -ensisijainen väri */
+  --base-variant: #1036a8; /* Dark mode -perusväri */
+  --text-color: #b2b2b2; /* Dark mode -tekstin väri */
+  background-repeat: no-repeat; /* Prevent background from repeating */
+  background-attachment: fixed; /* Keeps the background fixed during scroll */
+}
 
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Light mode gradient */
+  background: linear-gradient(to bottom right, #de350b, 
+  #0065ff);
+  transition: opacity 1.3s ease;
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Dark mode gradient */
+  background: linear-gradient(to bottom right, #012355, #5b1402);
+  opacity: 0;
+  transition: opacity 1.3s ease;
+  z-index: -2;
+}
+
+body.darkmode::before {
+  opacity: 0;
+}
+
+body.darkmode::after {
+  opacity: 1;
+}
 
 #theme-switch {
   height: 40px; /* Korkeus */
@@ -95,7 +134,7 @@ html body {
   width: 50%; /* Menun leveys */
   max-width: 150px; /* Maksimileveys */
   position: fixed; /* Kiinnitetty paikkaan */
-  top: 0; /* Yläreunasta */
+  top: 70px; /* Yläreunasta */
   margin-right: 10px; /* Oikeasta reunasta */
   right: -450px; /* Piilotettu oikealle */
   display: flex; /* Flexbox asettelu */
@@ -104,7 +143,7 @@ html body {
   text-align: right; /* Tekstin tasaus oikealle */
   font-size: 20px; /* Fontin koko */
   font-weight: bolder; /* Lihavointi */
-  transition: .4s ease; /* Siirtymäefekti */
+  transition: .6s ease-in-out; /* Siirtymäefekti */
 }
 
 .off-screen-menu ul li {
@@ -127,16 +166,23 @@ html body {
 
 /* Navigaatio */
 nav {
-  padding: 10px; /* Sisämarginaali */
-  display: flex; /* Flexbox-asettelu */
+  padding: 10px;
+  display: flex;
+  position: fixed; /* Muutettu kiinteäksi */
+  width: 100%; /* Koko leveys */
+  top: 0; /* Kiinnitetään yläreunaan */
+  z-index: 1000; /* Varmistetaan että nav pysyy päällimmäisenä */
 }
 
 /* Ham menu */
 .ham-menu {
-  height: 50px; /* Korkeus */
-  width: 40px; /* Leveys */
-  margin-left: auto; /* Siirto oikealle */
-  position: relative; /* Suhteellinen sijainti */
+  height: 50px;
+  width: 40px;
+  position: fixed; /* Muutettu kiinteäksi */
+  top: 15px; /* Säädetty yläreunasta */
+  right: 20px; /* Siirretty theme-switchin viereen */
+  cursor: pointer;
+  z-index: 1001; /* Sama kuin theme-switchillä */
 }
 .ham-menu span {
   height: 5px; /* Viivan korkeus */
@@ -230,59 +276,81 @@ nav {
   background-color: var(--text-color);
   margin: auto;
   margin-bottom: 30px;
+  border-radius: 50%;
 }
 
 
 
-.front-boxes {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 50px;
-  width: 800px;
-  min-width: 90%;
-  z-index: 1;
-  position: relative;
-}
+
 
 .background-photo-drops {
   z-index: -1;
   object-fit: cover;
   height: auto;
   width: 1280px;
-  position: absolute;
+  position: fixed;
   top: 0; /* Adjust position if necessary */
   left: 0; /* Adjust position if necessary */
   rotate: 180deg;
+  opacity: 0.5;
 }
 
 
+/* Lisätään wrapper karusellin ympärille */
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-@media (max-width: 768px) {
+.front-boxes {
+  position: relative;
+  width: 320px;
+  margin: 50px auto; /* Säilytetään vertical margin */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+/* Mobiiliresponsiivisuus */
+@media screen and (max-width: 768px) {
+  .wrapper {
+    padding: 0 15px; /* Lisätään pieni padding mobiilissa */
+  }
+  
   .front-boxes {
-    flex-direction: column;
-    width: 100%; /* Ensure it uses the full width */
-    margin: 0px; /* Adjust margin if necessary */
+    width: 300px;
+    margin: 50px auto;
   }
 }
 
+.containers-wrapper {
+  display: flex;
+  transition: transform 1.3s ease-in-out;
+  gap: 20px;
+}
+
 .container {
-  margin: 20px;
+  flex: 0 0 300px; /* Kiinteä leveys */
+  width: 300px;
+  height: 250px;
+  margin: 0;
   border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 300px;
-  width: 300px;
   background: rgba(215, 236, 235, 0.05);
   backdrop-filter: blur(9px);
-  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1) inset. -10px -10px -10px white inset;
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1);
 }
 
 .container:hover {
   transition: all 300ms ease-in-out ;
-  transform: scale(1.03);
+  transform: scale(1.01);
 }
 
 .container h1, h2, h3, p {
@@ -316,6 +384,30 @@ nav {
     transform: scale(1.3);
   }
 
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.793);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 
