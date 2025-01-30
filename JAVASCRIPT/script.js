@@ -114,52 +114,40 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 }); 
 
-// Elastinen hiiren seuranta
-let rafId = null;
-
-document.addEventListener('mousemove', (e) => {
-  const navbar = document.querySelector('nav');
-  const line = document.querySelector('.line');
-  const navBottom = navbar.getBoundingClientRect().bottom;
-  const lineTop = line.getBoundingClientRect().top;
-  
-  if (e.clientY < navBottom || e.clientY > lineTop) {
-    const welcomeText = document.querySelector('.keyboard');
-    requestAnimationFrame(() => {
-      welcomeText.style.transform = 'translate3d(0, 0, 0) scale(1)';
-    });
-    return;
-  }
-  
-  if (rafId) {
-    cancelAnimationFrame(rafId);
-  }
-  
+// Scroll-efekti welcome-tekstille
+window.addEventListener('scroll', function() {
   const welcomeText = document.querySelector('.keyboard');
-  const box = document.querySelector('.welcome-text-box');
-  const rect = box.getBoundingClientRect();
+  const scrollPosition = window.pageYOffset;
   
-  const centerX = rect.left + rect.width / 2;
-  const centerY = rect.top + rect.height / 2;
+  // Määritellään milloin efekti alkaa ja loppuu
+  const fadeStart = 300;  // Milloin efekti alkaa (px)
+  const fadeEnd = 400;    // Milloin efekti loppuu (px)
   
-  const distX = (e.clientX - centerX) * 0.03;
-  const distY = (e.clientY - centerY) * 0.02;
-  
-  const limitedX = Math.max(-10, Math.min(10, distX));
-  const limitedY = Math.max(-10, Math.min(10, distY));
-  
-  const distance = Math.sqrt(limitedX * limitedX + limitedY * limitedY);
-  const maxDistance = Math.sqrt(10 * 10 + 10 * 10);
-  const distanceRatio = distance / maxDistance;
-  
-  // Käänteinen skaalaus: lähellä pienempi, kaukana suurempi
-  const scale = 0.8 + (distanceRatio * 0.4); // Lähtee pienestä (0.8) ja kasvaa etäisyyden kasvaessa
-  
-  rafId = requestAnimationFrame(() => {
-    welcomeText.style.transform = `translate3d(${limitedX}px, ${limitedY}px, 0) scale(${scale})`;
-    rafId = null;
-  });
-}); 
+  // Jos scrollaus on efektialueen sisällä
+  if (scrollPosition > fadeStart) {
+      // Lasketaan efektin voimakkuus (0-1)
+      const opacity = 1 - (Math.min(scrollPosition - fadeStart, fadeEnd - fadeStart) / (fadeEnd - fadeStart));
+      
+      // Lasketaan skaalaus (1 -> 0.3)
+      const scale = 1 - ((1 - opacity) * 0.7);
+      
+      // Lasketaan siirtymä ylöspäin (-100px maksimi)
+      const moveUp = (1 - opacity) * -100;
+      
+      // Päivitetään tyylit
+      welcomeText.style.opacity = opacity;
+      welcomeText.style.transform = `translateY(${moveUp}px) scale(${scale})`;
+  } else {
+      // Palautetaan alkutila
+      welcomeText.style.opacity = 1;
+      welcomeText.style.transform = 'translateY(0) scale(1)';
+  }
+});
+// Palautetaan normaali koko kun hiiri poistuu ikkunasta
+document.addEventListener('mouseleave', () => {
+  const welcomeText = document.querySelector('.keyboard');
+  welcomeText.style.transform = 'scale(1)';
+});
 
 // Scroll-efekti
 window.addEventListener('scroll', () => {
@@ -167,8 +155,8 @@ window.addEventListener('scroll', () => {
     const nightImage = document.querySelector('.night');
     
     // Määritellään siirtymäalue
-    const scrollStart = 100; // px milloin siirtymä alkaa
-    const scrollEnd = 500;   // px milloin siirtymä loppuu
+    const scrollStart = 400; // px milloin siirtymä alkaa
+    const scrollEnd = 800;   // px milloin siirtymä loppuu
     
     const scrolled = window.pageYOffset;
     const scrollProgress = Math.min(Math.max((scrolled - scrollStart) / (scrollEnd - scrollStart), 0), 1);

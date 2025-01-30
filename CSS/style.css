@@ -441,12 +441,11 @@ nav {
 .keyboard {
   display: inline-block;
   transform-style: preserve-3d;
-  will-change: transform;
+  will-change: transform, opacity;
   padding: 20px;
-  backface-visibility: hidden;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
   font-size: clamp(16px, 8vw, 80px);
-  transform: scale(1);
-  transition: transform 0.3s ease-out;
+  transform-origin: center top; /* Muutetaan transformaation originia */
 }
 
 .columns {
