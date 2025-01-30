@@ -32,19 +32,40 @@ a:hover {
 }
 
 html body {
-  background: linear-gradient(to bottom right, #de350b, 
-  #0065ff); /* Taustagradientti */
-  padding-top: 70px; /* Nav-elementin korkeus + pieni väli */
-
-  height: 100%; /* Koko näkymäkorkeus */
-  margin: 0; /* Nollaa oletusmarginaalit */
+  padding-top: 70px;
+  height: 100%;
+  margin: 0;
   padding: 10px;
-  font-family: sans-serif; /* Fontti */
-  background-repeat: no-repeat; /* Prevent background from repeating */
-  background-attachment: fixed; /* Keeps the background fixed during scroll *
-    animation: responsiveBackground 10s ease-in-out infinite; /* Keyframes for responsive background */
-    overflow-x: hidden; /* Prevents horizontal scrolling */
+  font-family: sans-serif;
+  overflow-x: hidden;
+}
 
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.day {
+  opacity: 1;
+}
+
+.night {
+  opacity: 0;
+}
+
+/* Dark mode tilat */
+.darkmode .day {
+  opacity: 0;
+}
+
+.darkmode .night {
+  opacity: 1;
 }
 
 .darkmode {
@@ -227,13 +248,17 @@ nav {
 .welcome-text-box {
   position: relative;
   width: 100%;
-  text-align: center;
-  margin: 50px 0;
+  height: 100vh; /* Koko viewportin korkeus */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
   pointer-events: none;
   transform-origin: center;
   padding: 20px;
-  white-space: nowrap; /* Estetään rivitys */
-  overflow: visible; /* Varmistetaan että sisältö näkyy */
+  white-space: nowrap;
+  overflow: visible;
+  z-index: 1;
 }
 
 .welcome-text-box {
@@ -297,19 +322,6 @@ nav {
 
 
 
-
-
-.background-photo-drops {
-  z-index: -1;
-  object-fit: cover;
-  height: auto;
-  width: 1280px;
-  position: fixed;
-  top: 0; /* Adjust position if necessary */
-  left: 0; /* Adjust position if necessary */
-  rotate: 180deg;
-  opacity: 0.5;
-}
 
 
 /* Lisätään wrapper karusellin ympärille */
@@ -432,7 +444,9 @@ nav {
   will-change: transform;
   padding: 20px;
   backface-visibility: hidden;
-  font-size: clamp(16px, 4vw, 32px); /* Responsiivinen fonttikoko */
+  font-size: clamp(16px, 8vw, 80px);
+  transform: scale(1);
+  transition: transform 0.3s ease-out;
 }
 
 .columns {
