@@ -40,32 +40,33 @@ html body {
   overflow-x: hidden;
 }
 
-.background-image {
+.background-video {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
   object-fit: cover;
-  transition: opacity 0.5s ease;
   z-index: -1;
-}
-
-.day {
-  opacity: 1;
-}
-
-.night {
   opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.night-transition {
+  opacity: 0;
+}
+
+.day-transition {
+  opacity: 1;
 }
 
 /* Dark mode tilat */
-.darkmode .day {
-  opacity: 0;
+.darkmode .night-transition {
+  opacity: 1;
 }
 
-.darkmode .night {
-  opacity: 1;
+.darkmode .day-transition {
+  opacity: 0;
 }
 
 .darkmode {

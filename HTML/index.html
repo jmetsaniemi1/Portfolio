@@ -11,8 +11,12 @@
   
 </head>
 <body>
-  <img src="/Photos/Day.png" alt="Day background" class="background-image day">
-  <img src="/Photos/Night.png" alt="Night background" class="background-image night">
+  <video id="dayToNight" class="background-video night-transition" preload="auto" muted playsinline>
+    <source src="/VIDEOS/lightmode_background_transition-2.mp4" type="video/mp4">
+  </video>
+  <video id="nightToDay" class="background-video day-transition" preload="auto" muted playsinline>
+    <source src="/VIDEOS/darkmode_background_transition-2.mp4" type="video/mp4">
+  </video>
   
   <div class="off-screen-menu">
     <ul>

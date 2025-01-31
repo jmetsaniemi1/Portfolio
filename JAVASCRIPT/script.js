@@ -5,10 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
   const moonSvg = document.getElementById('moon-svg');
   const sunSvg = document.getElementById('sun-svg');
+  const dayToNightVideo = document.getElementById('dayToNight');
+  const nightToDayVideo = document.getElementById('nightToDay');
+
+  // Aseta videoiden alkutilat
+  dayToNightVideo.pause();
+  nightToDayVideo.pause();
 
   // Tarkista tallennettu teema
   const savedTheme = localStorage.getItem('theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
+  
+  // Aseta alkutilan ikonit
   if (savedTheme === 'dark') {
     body.classList.add('darkmode');
     moonSvg.style.display = 'none';
@@ -18,31 +26,24 @@ document.addEventListener('DOMContentLoaded', () => {
     sunSvg.style.display = 'none';
   }
 
+  // Teeman vaihto
   themeSwitch.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-
-    if (newTheme === 'dark') {
-      setTimeout(() => {
-        body.classList.add('darkmode');
-        moonSvg.style.display = 'none';
-        sunSvg.style.display = 'block';
-        document.querySelector('.day').style.opacity = 0;
-        document.querySelector('.night').style.opacity = 1;
-      }, 300);
+    if (!body.classList.contains('darkmode')) {
+      // Vaihto lightmodesta darkmodeen
+      dayToNightVideo.currentTime = 0;
+      dayToNightVideo.play();
+      body.classList.add('darkmode');
+      moonSvg.style.display = 'none';
+      sunSvg.style.display = 'block';
+      localStorage.setItem('theme', 'dark');
     } else {
-      setTimeout(() => {
-        body.classList.remove('darkmode');
-        moonSvg.style.display = 'block';
-        sunSvg.style.display = 'none';
-        const scrolled = window.pageYOffset;
-        const scrollProgress = Math.min(Math.max((scrolled - 100) / 400, 0), 1);
-        document.querySelector('.day').style.opacity = 1 - scrollProgress;
-        document.querySelector('.night').style.opacity = scrollProgress;
-      }, 300);
+      // Vaihto darkmodesta lightmodeen
+      nightToDayVideo.currentTime = 0;
+      nightToDayVideo.play();
+      body.classList.remove('darkmode');
+      moonSvg.style.display = 'block';
+      sunSvg.style.display = 'none';
+      localStorage.setItem('theme', 'light');
     }
   });
 });
