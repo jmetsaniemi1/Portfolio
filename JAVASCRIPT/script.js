@@ -69,60 +69,69 @@ hamMenu.addEventListener("click", () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const wrapper = document.querySelector('.containers-wrapper');
-  const containers = document.querySelectorAll('.container');
-  const frontBoxes = document.querySelector('.front-boxes');
-  let currentIndex = 0;
+  // Luodaan funktio yksittäisen karusellin alustamiseen
+  function initializeCarousel(wrapperNumber) {
+    const wrapper = document.querySelector(`.containers-wrapper-${wrapperNumber}`);
+    if (!wrapper) return; // Varmistetaan että wrapper löytyy
 
+    const containers = wrapper.querySelectorAll('.container');
+    const frontBoxes = wrapper.closest('.front-boxes');
+    let currentIndex = 0;
 
-
-  // Luodaan dots container
-  const dotsContainer = document.createElement('div');
-  dotsContainer.className = 'carousel-dots';
-  
-  // Luodaan pallo jokaiselle containerille
-  containers.forEach((_, index) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot';
-    if (index === 0) dot.classList.add('active');
+    // Luodaan dots container
+    const dotsContainer = document.createElement('div');
+    dotsContainer.className = `carousel-dots carousel-dots-${wrapperNumber}`;
     
-    dot.addEventListener('click', () => {
-      currentIndex = index;
+    // Luodaan pallo jokaiselle containerille
+    containers.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      if (index === 0) dot.classList.add('active');
+      
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        updateDots();
+      });
+      
+      dotsContainer.appendChild(dot);
+    });
+    
+    frontBoxes.appendChild(dotsContainer);
+
+    function updateCarousel() {
+      const containerWidth = wrapper.querySelector('.container').offsetWidth;
+      const gap = 20;
+      const offset = currentIndex * -(containerWidth + gap);
+      wrapper.style.transform = `translateX(${offset}px)`;
+    }
+
+    function updateDots() {
+      const dots = dotsContainer.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // Automaattinen vieritys eri ajoituksilla jokaiselle karusellille
+    const interval = 5000 + (wrapperNumber - 1) * 1000; // 5s, 6s, ja 7s
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % containers.length;
       updateCarousel();
       updateDots();
-    });
-    
-    dotsContainer.appendChild(dot);
-  });
-  
-  frontBoxes.appendChild(dotsContainer);
+    }, interval);
 
-  function updateCarousel() {
-    const containerWidth = document.querySelector('.container').offsetWidth;
-    const gap = 20; // tai 10px mobiilissa
-    const offset = currentIndex * -(containerWidth + gap);
-    wrapper.style.transform = `translateX(${offset}px)`;
-  }
-
-  function updateDots() {
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((dot, index) => {
-      dot.classList.toggle('active', index === currentIndex);
+    // Resize listener
+    window.addEventListener('resize', () => {
+      updateCarousel();
     });
   }
 
-  // Voit halutessasi lisätä myös automaattisen vierityksen
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % containers.length;
-    updateCarousel();
-    updateDots();
-  }, 5000); // Vaihtaa 5 sekunnin välein
-
-  // Lisätään window resize listener
-  window.addEventListener('resize', () => {
-    updateCarousel();
-  });
-}); 
+  // Alustetaan kaikki kolme karusellia
+  for (let i = 1; i <= 3; i++) {
+    initializeCarousel(i);
+  }
+});
 
 // Scroll-efekti welcome-tekstille
 window.addEventListener('scroll', function() {
