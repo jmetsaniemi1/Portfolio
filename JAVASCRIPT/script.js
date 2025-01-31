@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const sunSvg = document.getElementById('sun-svg');
   const dayToNightVideo = document.getElementById('dayToNight');
   const nightToDayVideo = document.getElementById('nightToDay');
+  const keyboard = document.querySelector('.keyboard');
 
   // Aseta videoiden alkutilat
   dayToNightVideo.pause();
@@ -28,6 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Teeman vaihto
   themeSwitch.addEventListener('click', () => {
+    // Lisätään animaatioluokka
+    keyboard.classList.add('theme-switch-animation');
+    
+    // Poistetaan animaatioluokka kun animaatio on valmis
+    keyboard.addEventListener('animationend', () => {
+      keyboard.classList.remove('theme-switch-animation');
+    }, { once: true });
+
     if (!body.classList.contains('darkmode')) {
       // Vaihto lightmodesta darkmodeen
       dayToNightVideo.currentTime = 0;

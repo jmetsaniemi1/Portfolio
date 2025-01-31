@@ -1,17 +1,27 @@
 :root {
   --primary-color: #ffffff; /* Ensisijainen väri */
-  --secondary-color: yellow; /* Toissijainen väri */
+  --secondary-color: rgb(255, 234, 0); /* Toissijainen väri */
   --base-variant: #eeeeee33; /* Perusväri (läpinäkyvä) */
   --text-color: rgb(252, 243, 243); /* Tekstin väri */
-  --visited-text-color: rgb(205, 168, 168); /* Tekstin väri */
+  --visited-text-color: rgb(102, 59, 59); /* Tekstin väri */
   --h1-color: white; /* H1-otsikon väri */
   --h2-color: white; /* H2-otsikon väri */
   --h3-color: white; /* H3-otsikon väri */
   --h4-color: white; /* H4-otsikon väri */
   --section-color: white; /* Osion taustaväri */
+  
+  /* Lisätään transition kaikille värimuuttujille */
+  transition: 
+    --primary-color 2s ease-in-out,
+    --secondary-color 2s ease-in-out,
+    --text-color 2s ease-in-out,
+    --visited-text-color 2s ease-in-out,
+    --h1-color 2s ease-in-out,
+    --h2-color 2s ease-in-out,
+    --h3-color 2s ease-in-out,
+    --h4-color 2s ease-in-out,
+    --section-color 2s ease-in-out;
 }
-
-
 
 * {
   box-sizing: border-box; /* Sisällön mitoitus */
@@ -19,10 +29,13 @@
   padding: 0; /* Nollaa oletuspaddingit */
   list-style: none; /* Poistaa listapisteet */
   text-decoration: none; /* Poistaa tekstin alleviivaukset */
+  transition: color 2s ease-in-out 0.5s, 
+             background-color 2s ease-in-out 0.5s;
 }
 
 a {
   color: var(--text-color); /* Linkkien väri */
+  transition: color 2s ease-in-out 0.8s;
 }
 a:visited {
   color: var(--text-color); /* Käytettyjen linkkien väri */
@@ -71,8 +84,8 @@ html body {
 
 .darkmode {
   background: linear-gradient(to bottom right, #012355, #5b1402); /* Dark mode -taustagradientti */
-  --primary-color: #5c72ca; /* Dark mode -ensisijainen väri */
-  --base-variant: #1036a8; /* Dark mode -perusväri */
+  --primary-color: #5c72cacc; /* Dark mode -ensisijainen väri */
+  --base-variant: #537dfb39; /* Dark mode -perusväri */
   --text-color: #b2b2b2; /* Dark mode -tekstin väri */
   background-repeat: no-repeat; /* Prevent background from repeating */
   background-attachment: fixed; /* Keeps the background fixed during scroll */
@@ -243,13 +256,12 @@ nav {
   transform: translate(-50%, -50%) rotate(-45deg); /* Kääntää viivan */
 }
 
-
 /* WELCOME */
 
 .welcome-text-box {
   position: relative;
   width: 100%;
-  height: 100vh; /* Koko viewportin korkeus */
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -260,10 +272,6 @@ nav {
   white-space: nowrap;
   overflow: visible;
   z-index: 1;
-}
-
-.welcome-text-box {
-  animation: scaleUp 4s ease-in-out infinite;
 }
 
 @keyframes scaleUp {
@@ -281,7 +289,8 @@ nav {
   flex-shrink: 0; /* Estetään kutistuminen */
   font-size: 12vw;
   letter-spacing: -1.5vw;
-  transition: transform 0.2s;
+  transition: color 2s ease-in-out 0.5s,
+              text-shadow 2s ease-in-out 0.5s;
   font-weight: 400;
   font-family: "Rubik Mono One", serif;
   color: var(--text-color);
@@ -293,12 +302,14 @@ nav {
   background: linear-gradient(to right, #ffffff, #ffad06);
   background-clip: text;
   color: transparent;
+  transition: color 2s ease-in-out 0.3s;
  }
 
  h2 {
   background: linear-gradient(to right, #f8d882, #e1bb69);
   background-clip: text;
   color: transparent;
+  transition: color 2s ease-in-out 0.4s;
  }
 
  p {
@@ -306,11 +317,9 @@ nav {
   background-clip: text;
   color: transparent;
   font-weight: bold;
+  transition: color 2s ease-in-out 0.7s;
  }
   
-
-
-
 .line {
   display: block;
   width: 90%;
@@ -320,10 +329,6 @@ nav {
   margin-bottom: 30px;
   border-radius: 50%;
 }
-
-
-
-
 
 /* Lisätään wrapper karusellin ympärille */
 .wrapper {
@@ -442,11 +447,10 @@ nav {
 .keyboard {
   display: inline-block;
   transform-style: preserve-3d;
-  will-change: transform, opacity;
+  will-change: transform;
   padding: 20px;
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  backface-visibility: hidden;
   font-size: clamp(16px, 8vw, 80px);
-  transform-origin: center top; /* Muutetaan transformaation originia */
 }
 
 .columns {
@@ -562,6 +566,17 @@ nav {
     max-height: 300px; /* Kasvatettu korkeus mobiilissa */
     width: auto;
   }
+}
+
+/* Lisätään uudet animaatioluokat */
+.theme-switch-animation {
+  animation: themeSwitch 2.5s ease-in-out;
+}
+
+@keyframes themeSwitch {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.7); }
+  100% { transform: scale(1); }
 }
 
 
