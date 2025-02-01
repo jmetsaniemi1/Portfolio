@@ -264,23 +264,38 @@ function smoothScroll(targetY, duration) {
 // Lisää tämä muiden JavaScript-koodien joukkoon
 window.addEventListener('scroll', () => {
     const scrollPosition = window.pageYOffset;
+    const viewportHeight = window.innerHeight;
     const wrapper1 = document.querySelector('.wrapper-1');
     const wrapper2 = document.querySelector('.wrapper-2');
     const wrapper3 = document.querySelector('.wrapper-3');
     
-    // Nostettu kynnysarvoja +200
-    if (scrollPosition > 700) {  // 300 -> 500
+    // Tarkistetaan elementtien sijainti viewportiin nähden
+    const rect1 = wrapper1.getBoundingClientRect();
+    const rect2 = wrapper2.getBoundingClientRect();
+    const rect3 = wrapper3.getBoundingClientRect();
+    
+    // Animaatiot käynnistyvät vain kun elementit ovat näkyvissä
+    if (rect1.top < viewportHeight && rect1.bottom > 0 && scrollPosition > 700) {
         wrapper1.style.transform = `translateX(${-(scrollPosition-700) * 0.5}px)`;
-        wrapper1.style.opacity = Math.max(1 - (scrollPosition-700) * 0.003, 0);
+        wrapper1.style.opacity = Math.max(1 - (scrollPosition-700) * 0.003, 0.3);
+    } else {
+        wrapper1.style.transform = 'translateX(0)';
+        wrapper1.style.opacity = 1;
     }
     
-    if (scrollPosition > 700) {  // 400 -> 600
+    if (rect2.top < viewportHeight && rect2.bottom > 0 && scrollPosition > 700) {
         wrapper2.style.transform = `translateY(${-(scrollPosition-700) * 0.3}px)`;
-        wrapper2.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0);
+        wrapper2.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0.3);
+    } else {
+        wrapper2.style.transform = 'translateY(0)';
+        wrapper2.style.opacity = 1;
     }
     
-    if (scrollPosition > 700) {  // 500 -> 700
+    if (rect3.top < viewportHeight && rect3.bottom > 0 && scrollPosition > 700) {
         wrapper3.style.transform = `translateX(${(scrollPosition-700) * 0.4}px)`;
-        wrapper3.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0);
+        wrapper3.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0.3);
+    } else {
+        wrapper3.style.transform = 'translateX(0)';
+        wrapper3.style.opacity = 1;
     }
 }); 
