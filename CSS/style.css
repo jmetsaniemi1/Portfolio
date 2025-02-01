@@ -580,3 +580,11 @@ nav {
   width: 100%;
   padding: 20px;
 }
+
+.column img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  width: 70%;
+}
