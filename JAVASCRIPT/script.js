@@ -9,14 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const nightToDayVideo = document.getElementById('nightToDay');
   const keyboard = document.querySelector('.keyboard');
 
-  // Aseta videoiden alkutilat
-  dayToNightVideo.pause();
-  nightToDayVideo.pause();
+ // Aseta videoiden alkutilat
+ dayToNightVideo.pause();
+ nightToDayVideo.pause();
+ 
 
   // Tarkista tallennettu teema
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    body.classList.add('darkmode');
+    dayToNightVideo.currentTime = dayToNightVideo.duration;
+  } else {
+    nightToDayVideo.currentTime = nightToDayVideo.duration;
+  }
   // Aseta alkutilan ikonit
   if (savedTheme === 'dark') {
     body.classList.add('darkmode');
@@ -66,6 +71,15 @@ const offScreenMenu = document.querySelector(".off-screen-menu");
 hamMenu.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
   offScreenMenu.classList.toggle("active");
+});
+
+// Lisätään uusi event listener dokumentille
+document.addEventListener("click", (event) => {
+  // Tarkistetaan, ettei klikkaus ole menun tai hampurilaisvalikon sisällä
+  if (!offScreenMenu.contains(event.target) && !hamMenu.contains(event.target)) {
+    hamMenu.classList.remove("active");
+    offScreenMenu.classList.remove("active");
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -136,30 +150,44 @@ document.addEventListener('DOMContentLoaded', () => {
 // Scroll-efekti welcome-tekstille
 window.addEventListener('scroll', function() {
   const welcomeText = document.querySelector('.keyboard');
+  const keys = welcomeText.querySelectorAll('.key');
   const scrollPosition = window.pageYOffset;
   
-  // Määritellään milloin efekti alkaa ja loppuu
-  const fadeStart = 300;  // Milloin efekti alkaa (px)
-  const fadeEnd = 400;    // Milloin efekti loppuu (px)
+  // Muutetaan efektin alkamis- ja loppumiskohdat
+  const fadeStart = 100;     // Efekti alkaa 100px kohdalla
+  const fadeEnd = 300;     // Efekti loppuu 300px kohdalla
   
   // Jos scrollaus on efektialueen sisällä
-  if (scrollPosition > fadeStart) {
-      // Lasketaan efektin voimakkuus (0-1)
+  if (scrollPosition >= fadeStart) {
       const opacity = 1 - (Math.min(scrollPosition - fadeStart, fadeEnd - fadeStart) / (fadeEnd - fadeStart));
-      
-      // Lasketaan skaalaus (1 -> 0.3)
       const scale = 1 - ((1 - opacity) * 0.7);
-      
-      // Lasketaan siirtymä ylöspäin (-100px maksimi)
       const moveUp = (1 - opacity) * -100;
+      const rotation = (1 - opacity) * 10;
       
-      // Päivitetään tyylit
+      // Räjähdys alkaa heti kun scrollataan
+      if (scrollPosition > 0) {
+          keys.forEach(key => {
+              // Arvotaan jokaiselle kirjaimelle oma suunta
+              const randomX = (Math.random() - 0.5) * 200;
+              const randomY = (Math.random() - 0.5) * 200;
+              const randomRotate = (Math.random() - 0.5) * 360;
+              key.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+              key.style.opacity = '0';
+              key.style.transition = 'all 0.5s ease-out';
+          });
+      }
+      
+      // Alkuperäinen häivytysanimaatio jatkuu normaalisti
       welcomeText.style.opacity = opacity;
-      welcomeText.style.transform = `translateY(${moveUp}px) scale(${scale})`;
+      welcomeText.style.transform = `translateY(${moveUp}px) scale(${scale}) rotate(${rotation}deg)`;
   } else {
-      // Palautetaan alkutila
       welcomeText.style.opacity = 1;
-      welcomeText.style.transform = 'translateY(0) scale(1)';
+      welcomeText.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+      // Palautetaan kirjaimet alkutilaan
+      keys.forEach(key => {
+          key.style.transform = 'none';
+          key.style.opacity = '1';
+      });
   }
 });
 // Palautetaan normaali koko kun hiiri poistuu ikkunasta
