@@ -327,6 +327,22 @@ nav {
 .wrapper {
   width: 320px;
   margin: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.wrapper-1 {
+  /* Liukuu vasemmalle */
+  transform-origin: left center;
+}
+
+.wrapper-2 {
+  /* Liukuu ylös */
+  transform-origin: center top;
+}
+
+.wrapper-3 {
+  /* Liukuu oikealle */
+  transform-origin: right center;
 }
 
 .front-boxes {

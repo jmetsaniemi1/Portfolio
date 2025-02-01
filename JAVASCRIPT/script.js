@@ -259,4 +259,28 @@ function smoothScroll(targetY, duration) {
     }
 
     requestAnimationFrame(step);
-} 
+}
+
+// Lisää tämä muiden JavaScript-koodien joukkoon
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.pageYOffset;
+    const wrapper1 = document.querySelector('.wrapper-1');
+    const wrapper2 = document.querySelector('.wrapper-2');
+    const wrapper3 = document.querySelector('.wrapper-3');
+    
+    // Nostettu kynnysarvoja +200
+    if (scrollPosition > 700) {  // 300 -> 500
+        wrapper1.style.transform = `translateX(${-(scrollPosition-700) * 0.5}px)`;
+        wrapper1.style.opacity = Math.max(1 - (scrollPosition-700) * 0.003, 0);
+    }
+    
+    if (scrollPosition > 700) {  // 400 -> 600
+        wrapper2.style.transform = `translateY(${-(scrollPosition-700) * 0.3}px)`;
+        wrapper2.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0);
+    }
+    
+    if (scrollPosition > 700) {  // 500 -> 700
+        wrapper3.style.transform = `translateX(${(scrollPosition-700) * 0.4}px)`;
+        wrapper3.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0);
+    }
+}); 
