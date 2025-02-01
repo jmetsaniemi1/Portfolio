@@ -165,17 +165,19 @@ body.darkmode #nightToDay {
   width: 50%;
   max-width: 150px;
   position: fixed;
-  top: 70px;
+  top: 40px;
   margin-right: 10px;
   right: -450px;
   display: flex;
+  flex-direction: column;  /* Muutetaan flex-direction columniksi */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;  /* Aloitetaan ylhäältä */
   text-align: right;
   font-size: 20px;
   font-weight: bolder;
-  transition: .6s ease-in-out;
-  z-index: 2001; /* Lisätään korkeampi z-index */
+  transition: 1.2s ease-in-out;
+  z-index: 2001;
+  padding-top: 60px;  /* Tilaa kuvalle */
 }
 
 .off-screen-menu ul li {
@@ -201,6 +203,8 @@ body.darkmode #nightToDay {
 .off-screen-menu.active {
   right: 0; /* Näytä menu */
 }
+
+
 
 /* Navigaatio */
 nav {
@@ -256,7 +260,7 @@ nav {
 
 .welcome-text-box {
   position: relative;
-  width: 100%;
+  width: 100 %;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -276,7 +280,7 @@ nav {
   display: inline-block;
   white-space: nowrap; /* Varmistetaan vielä kirjaintasollakin */
   flex-shrink: 0; /* Estetään kutistuminen */
-  font-size: 12vw;
+  font-size: 10vw;
   letter-spacing: -1.5vw;
   transition: color 2s ease-in-out 0.5s,
               text-shadow 2s ease-in-out 0.5s;
@@ -478,9 +482,10 @@ nav {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.column:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.45);
+/* Hover efekti vain kun sertifikaatit ovat kiinni */
+.column:not(:has(.certifications-content.open)):hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.45);
 }
 
 [data-theme="dark"] .column {
@@ -495,13 +500,7 @@ nav {
 }
 
 .image-container {
-  flex-shrink: 0;
-  width: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 25px;
-  background: transparent; /* Varmistetaan läpinäkyvä tausta */
+  display: none;
 }
 
 [data-theme="dark"] .image-container {
@@ -585,6 +584,111 @@ nav {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
+  margin-left: 10px;
   width: 70%;
+  text-align: left;
+}
+
+.certifications-container {
+    width: 80%;  /* Muutettu 100% -> 80% */
+    margin: 20px auto;  /* Lisätty auto sivumarginaaleihin keskittämistä varten */
+    text-align: center;
+}
+
+.view-button {
+    padding: 10px 20px;
+    background-color: rgb(229, 231, 232);
+    color: rgb(16, 15, 15);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background-color 0.7s;
+    font-weight: bold;
+
+    
+}
+
+.view-button:hover {
+    background-color: rgb(16, 15, 15);
+    color: rgb(229, 231, 232);
+}
+
+.certifications-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1.1s ease-in-out; /* Pehmeämpi animaatio */
+}
+
+.certifications-content.open {
+    max-height: 2000px; /* Säädä tätä arvoa tarvittaessa */
+}
+
+.certification-item {
+    margin: 20px 0;
+    border-radius: 5px;
+    width: 100%;  /* Varmistetaan että sisältö ei ylitä containeria */
+}
+
+.certification-item p {
+    text-align: left;  /* Muutetaan tekstin tasaus vasemmalle */
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Jos haluat otsikon (ensimmäisen p-elementin) olevan keskitetty 
+.certification-item p:first-child {
+    text-align: center;
+} 
+*/
+
+.menu-image {
+    width: 50%;
+    height: auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    transition: transform 0.6s ease-in-out;
+    filter: brightness(100); /* Oletusväri (tumma) */
+}
+
+/* Darkmode-tila */
+.darkmode .menu-image {
+    filter: brightness(5); /* Muuttaa kuvan valkoiseksi */
+}
+
+/* Kun menu on kiinni, kuva on käännetty */
+.off-screen-menu:not(.active) .menu-image {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+/* Varmistetaan että kuvat skaalautuvat oikein */
+.certification-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Lisätään erityistyyli sertifikaatti-kolumnille */
+.certifications-column {
+    max-width: 350px; /* tai mikä tahansa haluamasi leveys */
+    flex: 0 1 auto; /* Ei veny, mutta voi kutistua tarvittaessa */
+}
+
+.bio-column {
+    max-width: 450px;  /* tai muu haluamasi leveys */
+}
+
+.bio-column p {
+    font-size: 1rem;  /* Tekstin koko */
+    line-height: 1.8;   /* Riviväli */
+    color: var(--text-color);  /* Tekstin väri */
+    font-weight: 400;   /* Tekstin paksuus */
+    letter-spacing: 0.5px;  /* Kirjainväli */
+    text-align: left;   /* Tekstin tasaus */
+}
+
+/* Jos haluat hover-efektin tälle kolumnille */
+.bio-column:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.45);
 }

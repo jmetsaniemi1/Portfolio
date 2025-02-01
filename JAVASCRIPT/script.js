@@ -213,4 +213,16 @@ window.addEventListener('scroll', () => {
         dayImage.style.opacity = 1 - scrollProgress;
         nightImage.style.opacity = scrollProgress;
     }
+});
+// Certifications column toggle
+document.addEventListener('DOMContentLoaded', () => {
+    const viewButton = document.querySelector('.view-button');
+    const content = document.querySelector('.certifications-content');
+    
+    viewButton.addEventListener('click', () => {
+        content.classList.toggle('open');
+        viewButton.textContent = content.classList.contains('open') 
+            ? 'Hide Certifications' 
+            : 'View Certifications';
+    });
 }); 
