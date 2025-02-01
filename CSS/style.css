@@ -460,12 +460,14 @@ nav {
 }
 
 .content {
+  min-height: 150vh; /* Tai suurempi arvo tarvittaessa */
+  position: relative;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 30px;
-  width: calc(100% - 200px); /* Vähennetään marginaalit kokonaisleveydestä */
-  margin: 0 100px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start; /* Muutettu center -> flex-start */
+  gap: 20px;
+  padding: 20px;
 }
 
 .column {
@@ -669,9 +671,15 @@ nav {
 }
 
 /* Lisätään erityistyyli sertifikaatti-kolumnille */
-.certifications-column {
-    max-width: 350px; /* tai mikä tahansa haluamasi leveys */
-    flex: 0 1 auto; /* Ei veny, mutta voi kutistua tarvittaessa */
+.certifications-column, .projects-column {
+    max-width: 400px;
+    flex: 0 1 auto;
+    margin-bottom: 30px; /* Lisätään väli containereiden väliin */
+}
+
+/* Jos haluat eri tyylit projekteille */
+.projects-column .certification-item {
+    /* Mahdolliset projekti-spesifiset tyylit */
 }
 
 .bio-column {
@@ -691,4 +699,10 @@ nav {
 .bio-column:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.45);
+}
+
+/* Varmistetaan että containerit eivät ole liian alhaalla */
+.certifications-projects-wrapper {
+    margin-top: 20px;
+    margin-bottom: auto; /* Antaa tilaa alapuolelle */
 }

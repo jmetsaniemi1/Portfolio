@@ -202,7 +202,7 @@ window.addEventListener('scroll', () => {
     const nightImage = document.querySelector('.night');
     
     // Määritellään siirtymäalue
-    const scrollStart = 400; // px milloin siirtymä alkaa
+    const scrollStart = 500; // px milloin siirtymä alkaa
     const scrollEnd = 800;   // px milloin siirtymä loppuu
     
     const scrolled = window.pageYOffset;
@@ -216,13 +216,47 @@ window.addEventListener('scroll', () => {
 });
 // Certifications column toggle
 document.addEventListener('DOMContentLoaded', () => {
-    const viewButton = document.querySelector('.view-button');
-    const content = document.querySelector('.certifications-content');
+    const viewButtons = document.querySelectorAll('.view-button');
     
-    viewButton.addEventListener('click', () => {
-        content.classList.toggle('open');
-        viewButton.textContent = content.classList.contains('open') 
-            ? 'Hide Certifications' 
-            : 'View Certifications';
+    viewButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            content.classList.toggle('open');
+            
+            button.textContent = content.classList.contains('open') 
+                ? `Hide ${button.textContent.split(' ')[1]}` 
+                : `View ${button.textContent.split(' ')[1]}`;
+            
+            if (content.classList.contains('open')) {
+                setTimeout(() => {
+                    const container = button.closest('.certifications-container');
+                    const containerBottom = container.getBoundingClientRect().bottom;
+                    const y = window.pageYOffset + containerBottom;
+                    
+                    smoothScroll(y, 500); // 1.5 sekunnin scrollaus
+                }, 100);
+            }
+        });
     });
 }); 
+
+// Mukautettu scrollaus-funktio
+function smoothScroll(targetY, duration) {
+    const startY = window.pageYOffset;
+    const difference = targetY - startY;
+    const startTime = performance.now();
+
+    function step() {
+        const currentTime = performance.now();
+        const progress = (currentTime - startTime) / duration;
+
+        if (progress < 1) {
+            window.scrollTo(0, startY + (difference * progress));
+            requestAnimationFrame(step);
+        } else {
+            window.scrollTo(0, targetY);
+        }
+    }
+
+    requestAnimationFrame(step);
+} 
