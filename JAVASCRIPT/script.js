@@ -299,3 +299,34 @@ window.addEventListener('scroll', () => {
         wrapper3.style.opacity = 1;
     }
 }); 
+
+window.addEventListener('scroll', () => {
+    const columns = document.querySelector('.columns');
+    const columnsPosition = columns.getBoundingClientRect().top;
+    const certificationContents = document.querySelectorAll('.certifications-content');
+    
+    // Tarkista onko jokin sisältö auki
+    const isAnyContentOpen = Array.from(certificationContents).some(content => 
+        content.classList.contains('open')
+    );
+    
+    // Jos sisältö on auki, älä lisää scroll-hide-luokkaa
+    if (!isAnyContentOpen) {
+        const startPoint = 200;
+        const endPoint = 50;
+        
+        if (columnsPosition < startPoint) {
+            const progress = Math.min(Math.max((startPoint - columnsPosition) / (startPoint - endPoint), 0), 1);
+            
+            if (progress >= 1) {
+                columns.classList.add('scroll-hide');
+            } else {
+                columns.classList.remove('scroll-hide');
+            }
+        } else {
+            columns.classList.remove('scroll-hide');
+        }
+    } else {
+        columns.classList.remove('scroll-hide');
+    }
+}); 

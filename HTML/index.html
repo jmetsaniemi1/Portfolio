@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Liter&display=swap" rel="stylesheet">
 </head>
 <body>
   <video id="dayToNight" class="background-video night-transition" preload="auto" muted playsinline>
@@ -143,25 +145,31 @@
       <div class="column certifications-column">
         <div class="certifications-container">
             <h1>Certifications</h1>
-            <button class="view-button">View Certifications</button>
+            <button class="view-button" data-active="false">View Certifications</button>
             
             <div class="certifications-content">
                 <div class="certification-item">
-                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">HTML & CSS</p>
-                    <p>Ceriport Pearsons badge of completion HTML & CSS test.</p>
-                    <img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt="">
+                    <div class="certification-item-content">
+                        <div><p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">HTML & CSS</p>
+                        <p>Ceriport Pearsons badge of completion HTML & CSS test.</p></div>
+                        <div class="certification-item-image"><img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt=""></div>
+                    </div>
                 </div>
                 
                 <div class="certification-item">
-                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">JAVASCRIPT</p>
-                    <p>Ceriport Pearsons badge of completion JavaScript test.</p>
-                    <img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt="">
+                    <div class="certification-item-content">
+                        <div><p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">JAVASCRIPT</p>
+                        <p>Ceriport Pearsons badge of completion JavaScript test.</p></div>
+                        <div class="certification-item-image"><img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt=""></div>
+                    </div>
                 </div>
                 
                 <div class="certification-item">
-                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">React, Node.Js & TypeScript</p>
-                    <p>Ceriport Pearsons badge of completion JavaScript test.</p>
-                    <img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt="">
+                    <div class="certification-item-content">
+                        <div><p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">React, Node.Js & TypeScript</p>
+                        <p>Ceriport Pearsons badge of completion JavaScript test.</p></div>
+                        <div class="certification-item-image"><img src="/Photos/ITS-Badges_HTML-and-CSS_1200px.png" alt=""></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,38 +177,57 @@
       <div class="column projects-column">
         <div class="certifications-container">
             <h1>Projects</h1>
-            <button class="view-button">View Projects</button>
+            <button class="view-button" data-active="false">View Projects</button>
             
             <div class="certifications-content">
                 <div class="certification-item">
-                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold;">S.P.A.C.E</p>
+                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold; text-decoration: underline;">
+                        <a href="https://aiche-h.github.io/WEB_15_group_3_project/" style="color: inherit; text-decoration: inherit;">S.P.A.C.E</a>
+                    </p>
                     <p>A school group project about our solar system.</p>
-                    <img src="/path/to/project-image.png" alt="">
+                    <a href="https://aiche-h.github.io/WEB_15_group_3_project/">
+                        <img src="/Photos/S.P.A.C.E-project.png" alt="School project about our solar system">
+                    </a>
+                </div>
+
+                <div class="certification-item">
+                    <p style="color: rgb(238, 245, 251); font-size: 1.5rem; font-weight: bold; text-decoration: underline;">
+                        <a href="https://aiche-h.github.io/WEB_15_group_3_project/" style="color: inherit; text-decoration: inherit;">Nothing For Money Homepage</a>
+                    </p>
+                    <p>A freelance project about a company that sells nothing for money.</p>
+                    <a href="https://aiche-h.github.io/WEB_15_group_3_project/">
+                        <img src="/Photos/NothingForMoney-project.png" alt="School project about our solar system">
+                    </a>
                 </div>
             </div>
+            
+            
         </div>
       </div>
       <div class="image-container">
           <img src="/Photos/pngwing.com-2.png" alt="Placeholder Image">
       </div>
-      
-      
   </div>
-
   </div>
 
   
-  <div class="separator-section">
-    <!-- Tähän voi lisätä sisältöä myöhemmin -->
-    <p class="bio-text" style="color: rgb(12, 12, 12); font-size: 0.9rem;">I am Johannes, a software development student at Taitotalo. Currently, I am working on a team project where we are creating a website about the solar system. I am new to coding but eager to learn.  
-    <br><br>
-    In my free time, I enjoy writing historical novels, building wooden furniture, organizing events, and running in the woods.</p>
-     <!-- Tähän tulee kuva minusta itsestäni -->
-      <img class="bio-image" src="/" alt="Placeholder Image">
-  </div>
+  <div class="content-wrapper">
+    <div class="separator-section">
+        <div class="text-content">
+            <p><span style="font-weight: bold; font-size: 1.2em;">I am Johannes</span>, a software development student at <span style="font-weight: bold;">Taitotalo</span>. Currently, I am working on a team project where we are creating a <span style="font-style: italic;">website about the solar system</span>. I am new to coding but <span style="font-weight: bold;">eager to learn</span>.</p>  
 
-  <div class="Info-bio">
-    <!-- Tähän tulee musta osio -->
+            <p>Previously, I worked in the logistics field as a specialist, where I developed strong problem-solving, process optimization, and teamwork skills. While logistics gave me an analytical and structured mindset, I have always been drawn to the creative and technical aspects of digital solutions. Now, I am pursuing a new path in coding, driven by my passion for technology and innovation.</p>  
+            
+            <p>At Taitotalo, I have gained hands-on experience in web development and programming. In our team project, we follow Scrum methodology, hold regular meetings, and use GitHub for version control. This has helped me understand structured development while enhancing my collaboration skills.</p>  
+            
+        </div>
+        
+        <img class="bio-image" src="/Photos/Me.png" alt="Placeholder Image">
+    </div>
+
+    <div class="Info-bio">
+      <!-- Tähän tulee musta osio -->
+    </div>
   </div>
 
 
