@@ -313,15 +313,7 @@ nav {
   transition: color 2s ease-in-out 0.7s;
  }
   
-.line {
-  display: block;
-  width: 90%;
-  height: 4px;
-  background-color: var(--text-color);
-  margin: auto;
-  margin-bottom: 30px;
-  border-radius: 50%;
-}
+
 
 /* Lisätään wrapper karusellin ympärille */
 .wrapper {
@@ -390,12 +382,11 @@ nav {
   align-items: center;
   flex-direction: column;
   background: rgba(215, 236, 235, 0.05);
-  backdrop-filter: blur(9px);
-  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
 }
 
 .container:hover {
-  transition: all 300ms ease-in-out ;
+  transition: all 3 00ms ease-in-out ;
   transform: scale(1.01);
 }
 
@@ -416,7 +407,7 @@ nav {
 #last-letter {
   display: inline-block; /* Allows transform to work */
 
-  animation: scaleUp2 4s ease-in-out infinite;
+  animation: scaleUp2 2s ease-in-out infinite;
   background: linear-gradient(to right, #ffffff, #ffad06);
   background-clip: text;
   color: transparent;
@@ -427,7 +418,7 @@ nav {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.3);
+    transform: scale(1.2);
   }
 
 }
