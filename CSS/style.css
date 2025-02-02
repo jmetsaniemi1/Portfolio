@@ -673,7 +673,7 @@ nav {
 
 /* Varmistetaan että kuvat skaalautuvat oikein */
 .certification-item img {
-    max-width: 100%;
+    max-width: 60%;
     height: auto;
 }
 
@@ -712,4 +712,80 @@ nav {
 .certifications-projects-wrapper {
     margin-top: 20px;
     margin-bottom: auto; /* Antaa tilaa alapuolelle */
+}
+
+.separator-section {
+    position: relative;
+    background-color: #FFFDD0;
+    height: auto;
+    max-width: 80%;
+    margin: 0 auto;
+    z-index: 1;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-sizing: border-box;
+    overflow: hidden;  /* Estää sisällön vuotamisen */
+    text-align: center;
+    
+}
+
+.bio-text {
+    flex: 7;
+    min-width: 300px;
+    padding: 20px;
+    color: rgb(12, 12, 12);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.bio-image {
+  
+    flex: 3;
+    min-width: 200px;
+    object-fit: cover;
+    height: auto;
+    max-height: 300px;
+}
+
+/* Media query mobiililaitteille */
+@media screen and (max-width: 768px) {
+    .separator-section {
+        width: 90%;
+        flex-direction: column;
+    }
+
+    .bio-text {
+        flex: 1;
+        order: 1;
+    }
+
+    .bio-image {
+        flex: 1;
+        order: 2;
+        width: 100%;
+        max-height: 250px;
+    }
+}
+
+/* Varmistetaan että tausta jatkuu reunasta reunaan */
+.separator-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100%;
+    background: inherit;
+    z-index: -1;
+}
+
+.Info-bio {
+    position: relative;
+    background-color: #00000098;  /* Musta */
+    min-height: 100vh;
+    width: 80%;  /* Muutettu 100% -> 70% */
+    margin: 0 auto;  /* Keskittää elementin */
 }
