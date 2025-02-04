@@ -217,25 +217,40 @@ window.addEventListener('scroll', () => {
 // Certifications column toggle
 document.addEventListener('DOMContentLoaded', () => {
     const viewButtons = document.querySelectorAll('.view-button');
+    const contentWrapper = document.querySelector('.content-wrapper');
+    const initialTopValue = -800;
+    const moveDistance = 700;
+    const openDuration = 300; // Nopea avautuminen
+    const closeDuration = 1500; // 1 sekunnin viive sulkemisessa
     
     viewButtons.forEach(button => {
         button.addEventListener('click', () => {
             const content = button.nextElementSibling;
+            const isOpening = !content.classList.contains('open');
             content.classList.toggle('open');
             
             button.textContent = content.classList.contains('open') 
                 ? `Hide ${button.textContent.split(' ')[1]}` 
                 : `View ${button.textContent.split(' ')[1]}`;
             
-            if (content.classList.contains('open')) {
-                setTimeout(() => {
-                    const container = button.closest('.certifications-container');
-                    const containerBottom = container.getBoundingClientRect().bottom;
-                    const y = window.pageYOffset + containerBottom;
-                    
-                    smoothScroll(y, 500); // 1.5 sekunnin scrollaus
-                }, 100);
+            const certificationContent = document.querySelector('.certifications-column .certifications-content');
+            const projectContent = document.querySelector('.projects-column .certifications-content');
+            const isEitherOpen = certificationContent.classList.contains('open') || 
+                                projectContent.classList.contains('open');
+            
+            // Asetetaan animaation kesto sen mukaan, ollaanko avaamassa vai sulkemassa
+            const duration = isOpening ? openDuration : closeDuration;
+            contentWrapper.style.transition = `top ${duration}ms ease`;
+            
+            if (isEitherOpen) {
+                contentWrapper.style.top = `${initialTopValue + moveDistance}px`;
+            } else {
+                contentWrapper.style.top = `${initialTopValue}px`;
             }
+            
+            setTimeout(() => {
+                contentWrapper.style.transition = '';
+            }, duration);
         });
     });
 }); 
@@ -330,3 +345,7 @@ window.addEventListener('scroll', () => {
         columns.classList.remove('scroll-hide');
     }
 }); 
+
+// OMA BIO KOESELU MUSTA LAATIKKO
+
+// FOOTER

@@ -260,14 +260,14 @@ nav {
 
 .welcome-text-box {
   position: relative;
-  width: 100 %;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  pointer-events: none;
-  transform-origin: center;
+  width: 100 %; /* Varmistaa että elementti täyttää leveyden */
+  height: 100vh; /* Varmistaa että elementti täyttää korkeuden */
+  display: flex; /* Flexbox asettelu */
+  justify-content: center; /* Keskitys vaakasuunnassa */
+  align-items: center; /* Keskitys pystysuunnassa */
+  margin: 0; /* Nollaa oletusmarginaalit */
+  pointer-events: none; /* Estetään kuvan hover-efekti */
+  transform-origin: center; /* Keskitys elementin keskelle */
   padding: 20px;
   white-space: nowrap;
   overflow: visible;
@@ -365,11 +365,17 @@ nav {
   }
 }
 
-.containers-wrapper {
-  display: flex;
-  transition: transform 1.3s ease-in-out;
-  gap: 20px;
+/* Yhdistetään määritykset */
+.containers-wrapper-1,
+.containers-wrapper-2,
+.containers-wrapper-3 {
+    display: flex;
+    transition: transform .9s ease-out;
+    gap: 20px;
+    user-select: none;
 }
+
+
 
 .container {
   flex: 0 0 300px; /* Kiinteä leveys */
@@ -673,11 +679,13 @@ nav {
     max-height: 0;
     overflow: hidden;
     transition: max-height 1.1s ease-in-out; /* Pehmeämpi animaatio */
+    transition-duration: 300ms;
 }
 
 .certifications-content.open {
     max-height: 2000px; /* Säädä tätä arvoa tarvittaessa */
     margin-bottom: 80px; /* Lisätään tilaa avautuvan sisällön alle */
+    transition-duration: 1500ms;
 }
 
 .certification-item {
@@ -887,4 +895,12 @@ nav {
     margin-top: -60px; /* Negatiivinen marginaali tuo elementtiä ylöspäin */
     position: relative; /* Varmistaa että elementti pysyy oikeassa järjestyksessä */
     z-index: 1; /* Varmistaa että elementti on oikeassa tasossa */
+    top: -800px;
+    transition-property: top;
 }
+
+/* OMA BIO KOESELU MUSTA LAATIKKO */
+
+
+
+/* FOOTER */
