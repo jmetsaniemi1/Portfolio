@@ -4,6 +4,7 @@
   --base-variant: #eeeeee33; /* Perusväri (läpinäkyvä) */
   --text-color: rgb(252, 243, 243); /* Tekstin väri */
   --visited-text-color: rgb(102, 59, 59); /* Tekstin väri */
+  --menu-text-color: rgb(229, 229, 229); /* Tekstin väri */
   --h1-color: white; /* H1-otsikon väri */
   --h2-color: white; /* H2-otsikon väri */
   --h3-color: white; /* H3-otsikon väri */
@@ -83,6 +84,7 @@ body.darkmode #nightToDay {
   --primary-color: #5c72cacc; /* Dark mode -ensisijainen väri */
   --base-variant: #537dfb39; /* Dark mode -perusväri */
   --text-color: #b2b2b2; /* Dark mode -tekstin väri */
+  --menu-text-color: #dbdbdb; /* Dark mode -tekstin väri */
   background-repeat: no-repeat; /* Prevent background from repeating */
   background-attachment: fixed; /* Keeps the background fixed during scroll */
 }
@@ -178,6 +180,7 @@ body.darkmode #nightToDay {
   transition: 1.2s ease-in-out;
   z-index: 2001;
   padding-top: 60px;  /* Tilaa kuvalle */
+  
 }
 
 .off-screen-menu ul li {
@@ -225,6 +228,7 @@ nav {
   right: 20px; /* Siirretään kauemmas theme-switchistä */
   cursor: pointer;
   z-index: 2000;
+  
 }
 .ham-menu span {
   height: 5px; /* Viivan korkeus */
@@ -254,6 +258,14 @@ nav {
 .ham-menu.active span:nth-child(2) {
   top: 50%; /* Keskittää viivan */
   transform: translate(-50%, -50%) rotate(-45deg); /* Kääntää viivan */
+}
+.off-screen-menu li a{
+  text-shadow: 
+  10px 10px 4px rgba(0, 0, 0, 0.5),
+  -4px -4px 4px rgba(255, 255, 255, 0.5);
+  filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.5));
+  color: var(--menu-text-color);
+
 }
 
 /* WELCOME */

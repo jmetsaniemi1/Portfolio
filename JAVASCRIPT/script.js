@@ -1,28 +1,28 @@
-// DARKMODE
+// DARKMODE-osio
+document.addEventListener('DOMContentLoaded', () => {      // Odotetaan että sivu on ladattu
+  // Haetaan tarvittavat elementit DOM:sta
+  const themeSwitch = document.getElementById('theme-switch');     // Teeman vaihtamisen painike
+  const body = document.body;                                      // Sivun body-elementti
+  const moonSvg = document.getElementById('moon-svg');            // Kuu-ikoni
+  const sunSvg = document.getElementById('sun-svg');              // Aurinko-ikoni
+  const dayToNightVideo = document.getElementById('dayToNight');  // Päivä->yö video
+  const nightToDayVideo = document.getElementById('nightToDay');  // Yö->päivä video
+  const keyboard = document.querySelector('.keyboard');           // Näppäimistö-elementti
 
-document.addEventListener('DOMContentLoaded', () => {
-  const themeSwitch = document.getElementById('theme-switch');
-  const body = document.body;
-  const moonSvg = document.getElementById('moon-svg');
-  const sunSvg = document.getElementById('sun-svg');
-  const dayToNightVideo = document.getElementById('dayToNight');
-  const nightToDayVideo = document.getElementById('nightToDay');
-  const keyboard = document.querySelector('.keyboard');
+  // Pysäytetään videot alussa
+  dayToNightVideo.pause();
+  nightToDayVideo.pause();
 
- // Aseta videoiden alkutilat
- dayToNightVideo.pause();
- nightToDayVideo.pause();
- 
-
-  // Tarkista tallennettu teema
+  // Tarkistetaan localStorage:sta aiemmin tallennettu teema
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark') {
-    body.classList.add('darkmode');
-    dayToNightVideo.currentTime = dayToNightVideo.duration;
+    body.classList.add('darkmode');                      // Lisätään darkmode-luokka
+    dayToNightVideo.currentTime = dayToNightVideo.duration;  // Asetetaan video loppuun
   } else {
-    nightToDayVideo.currentTime = nightToDayVideo.duration;
+    nightToDayVideo.currentTime = nightToDayVideo.duration;  // Asetetaan video loppuun
   }
-  // Aseta alkutilan ikonit
+
+  // Asetetaan oikeat ikonit näkyviin teeman mukaan
   if (savedTheme === 'dark') {
     body.classList.add('darkmode');
     moonSvg.style.display = 'none';
@@ -32,18 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
     sunSvg.style.display = 'none';
   }
 
-  // Teeman vaihto
+  // Teeman vaihdon käsittely
   themeSwitch.addEventListener('click', () => {
-    // Lisätään animaatioluokka
-    keyboard.classList.add('theme-switch-animation');
+    keyboard.classList.add('theme-switch-animation');    // Lisätään animaatio
     
-    // Poistetaan animaatioluokka kun animaatio on valmis
+    // Poistetaan animaatio kun se on valmis
     keyboard.addEventListener('animationend', () => {
       keyboard.classList.remove('theme-switch-animation');
     }, { once: true });
 
     if (!body.classList.contains('darkmode')) {
-      // Vaihto lightmodesta darkmodeen
+      // Vaihdetaan valoisasta tummaan
       dayToNightVideo.currentTime = 0;
       dayToNightVideo.play();
       body.classList.add('darkmode');
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       sunSvg.style.display = 'block';
       localStorage.setItem('theme', 'dark');
     } else {
-      // Vaihto darkmodesta lightmodeen
+      // Vaihdetaan tummasta valoisaan
       nightToDayVideo.currentTime = 0;
       nightToDayVideo.play();
       body.classList.remove('darkmode');
@@ -62,56 +61,57 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// HAMMENU
+// HAMMENU - Hampurilaisvalikon toiminnallisuus
 
-const hamMenu = document.querySelector(".ham-menu");
+const hamMenu = document.querySelector(".ham-menu");              // Haetaan hampurilaisvalikko-elementti
+const offScreenMenu = document.querySelector(".off-screen-menu"); // Haetaan sivuvalikko-elementti
 
-const offScreenMenu = document.querySelector(".off-screen-menu");
-
-hamMenu.addEventListener("click", () => {
-  hamMenu.classList.toggle("active");
-  offScreenMenu.classList.toggle("active");
+hamMenu.addEventListener("click", () => {                        // Lisätään click-kuuntelija hampurilaisvalikolle
+  hamMenu.classList.toggle("active");                           // Toglataan hampurilaisvalikon active-luokka
+  offScreenMenu.classList.toggle("active");                     // Toglataan sivuvalikon active-luokka
 });
 
-// Lisätään uusi event listener dokumentille
-document.addEventListener("click", (event) => {
-  // Tarkistetaan, ettei klikkaus ole menun tai hampurilaisvalikon sisällä
+// Lisätään kuuntelija koko dokumentille, jotta valikko sulkeutuu klikattaessa muualle
+document.addEventListener("click", (event) => {                  // Lisätään click-kuuntelija koko dokumentille
+  // Tarkistetaan, ettei klikkaus osu valikkoon tai hampurilaisvalikkoon
   if (!offScreenMenu.contains(event.target) && !hamMenu.contains(event.target)) {
-    hamMenu.classList.remove("active");
-    offScreenMenu.classList.remove("active");
+    hamMenu.classList.remove("active");                         // Poistetaan hampurilaisvalikon active-luokka
+    offScreenMenu.classList.remove("active");                   // Poistetaan sivuvalikon active-luokka
   }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Luodaan funktio yksittäisen karusellin alustamiseen
-  function initializeCarousel(wrapperNumber) {
-    const wrapper = document.querySelector(`.containers-wrapper-${wrapperNumber}`);
-    if (!wrapper) return; // Varmistetaan että wrapper löytyy
+// Karusellin alustus
+document.addEventListener('DOMContentLoaded', () => {           // Odotetaan että DOM on ladattu
+  // Funktio yhden karusellin alustamiseen
+  function initializeCarousel(wrapperNumber) {                 // Funktion parametrina karusellin numero
+    const wrapper = document.querySelector(`.containers-wrapper-${wrapperNumber}`);  // Haetaan karusellin wrapper
+    if (!wrapper) return;                                      // Jos wrapperia ei löydy, lopetetaan
 
-    const containers = wrapper.querySelectorAll('.container');
-    const frontBoxes = wrapper.closest('.front-boxes');
-    let currentIndex = 0;
+    const containers = wrapper.querySelectorAll('.container');  // Haetaan kaikki containerit
+    const frontBoxes = wrapper.closest('.front-boxes');        // Haetaan lähin front-boxes-elementti
+    let currentIndex = 0;                                      // Alustetaan nykyinen indeksi
 
-    // Luodaan dots container
-    const dotsContainer = document.createElement('div');
-    dotsContainer.className = `carousel-dots carousel-dots-${wrapperNumber}`;
+    // Luodaan pallot karuselliin
+    const dotsContainer = document.createElement('div');        // Luodaan div palloille
+    dotsContainer.className = `carousel-dots carousel-dots-${wrapperNumber}`;  // Asetetaan luokka
     
     // Luodaan pallo jokaiselle containerille
-    containers.forEach((_, index) => {
-      const dot = document.createElement('div');
-      dot.className = 'dot';
-      if (index === 0) dot.classList.add('active');
+    containers.forEach((_, index) => {                         // Käydään läpi kaikki containerit
+      const dot = document.createElement('div');               // Luodaan pallo-elementti
+      dot.className = 'dot';                                  // Asetetaan luokka
+      if (index === 0) dot.classList.add('active');           // Ensimmäinen pallo aktiiviseksi
       
-      dot.addEventListener('click', () => {
-        currentIndex = index;
-        updateCarousel();
-        updateDots();
+      // Lisätään pallolle click-kuuntelija
+      dot.addEventListener('click', () => {                    // Kun palloa klikataan
+        currentIndex = index;                                 // Päivitetään nykyinen indeksi
+        updateCarousel();                                     // Päivitetään karuselli
+        updateDots();                                         // Päivitetään pallot
       });
       
-      dotsContainer.appendChild(dot);
+      dotsContainer.appendChild(dot);                         // Lisätään pallo containeriin
     });
     
-    frontBoxes.appendChild(dotsContainer);
+    frontBoxes.appendChild(dotsContainer);                    // Lisätään pallot-container DOMiin
 
     function updateCarousel() {
       const containerWidth = wrapper.querySelector('.container').offsetWidth;
