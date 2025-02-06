@@ -50,7 +50,6 @@ html body {
   height: 100%;
   margin: 0;
   padding: 10px;
-  font-family: sans-serif;
   overflow-x: hidden;
 }
 
@@ -83,7 +82,7 @@ body.darkmode #nightToDay {
   background: url(../Photos/Static\ background\ dark.png); 
   --primary-color: #5c72cacc; /* Dark mode -ensisijainen väri */
   --base-variant: #537dfb39; /* Dark mode -perusväri */
-  --text-color: #b2b2b2; /* Dark mode -tekstin väri */
+  --text-color: #e9e9e9; /* Dark mode -tekstin väri */
   --menu-text-color: #dbdbdb; /* Dark mode -tekstin väri */
   background-repeat: no-repeat; /* Prevent background from repeating */
   background-attachment: fixed; /* Keeps the background fixed during scroll */
@@ -413,6 +412,7 @@ nav {
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #first-letter {
@@ -499,6 +499,8 @@ nav {
   align-items: flex-start; /* Muutettu center -> flex-start */
   gap: 20px;
   padding: 20px;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 }
 
 .column {
@@ -557,6 +559,7 @@ nav {
   margin: 0;
   line-height: 1.6;
   text-align: justify;
+  font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace; 
 }
 
 .image-container {
@@ -767,6 +770,7 @@ nav {
     font-weight: 400;   /* Tekstin paksuus */
     letter-spacing: 0.5px;  /* Kirjainväli */
     text-align: left;   /* Tekstin tasaus */
+    
 }
 
 /* Jos haluat hover-efektin tälle kolumnille */
@@ -824,6 +828,7 @@ nav {
     box-sizing: border-box;
     overflow: hidden;
     transition: background 1.3s ease; /* Lisätään pehmeä siirtymä */
+   
 }
 
 /* Dark mode versio */
@@ -839,14 +844,13 @@ nav {
 }
 
 /* Lisätään uusi wrapper teksteille */
-.text-content {
+.text-content p {
     flex: 1; /* Ottaa käytettävissä olevan tilan */
     max-width: 60%; /* Rajoittaa tekstin leveyttä */
-    font-family: "Liter", serif;
-    font-weight: 200;
-    font-size: 0.9rem;
-    font-style: normal;
-    
+    font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+    font-size: 22px;
+    line-height: 27px;
+    !important;
 }
 
 
@@ -891,7 +895,6 @@ nav {
 .content-wrapper .separator-section .text-content {
     flex: 1;
     max-width: 60%;
-    font-family: "Liter", serif;
     font-weight: 400;
     font-style: normal;
     color: black;
