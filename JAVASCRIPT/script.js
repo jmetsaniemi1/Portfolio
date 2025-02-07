@@ -346,6 +346,28 @@ window.addEventListener('scroll', () => {
     }
 }); 
 
+// Typed animaatio viive
+document.addEventListener("DOMContentLoaded", () => {
+  const introText = document.querySelector(".typed-text-intro");
+
+  if (introText) {
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                  setTimeout(() => {
+                      introText.style.opacity = "1"; // Show after 3 sec
+                  }, 3000);
+                  observer.unobserve(introText); // Stop observing after showing
+              }
+          });
+      }, { threshold: 0.1 });
+
+      observer.observe(introText);
+  }
+});
+
+
+
 // OMA BIO KOESELU MUSTA LAATIKKO
 
 // FOOTER

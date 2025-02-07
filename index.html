@@ -12,6 +12,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Liter&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Flip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Observer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollToPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/Draggable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/MotionPathPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EaselPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/PixiPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/TextPlugin.min.js"></script>
+
+
+<!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
 
 </head>
 
@@ -101,7 +116,7 @@
         <div class="container">
           <h1>
             <span id="first-letter">There</span>
-            <span id="after-letter" style="color: rgb(245, 72, 62); font-size: 1.5rem; font-weight: bold;"> is also</span>
+            <span id="after-letter" style="color: var(--text-color); font-size: 1.5rem; font-weight: bold;"> is also</span>
             <span id="after-letter" style="color: var(--text-color); font-size: 1.5rem;"> a lock button for</span>
             <span id="last-letter" style="font-size: 2.5rem;"> unlock.</span>
           </h1>
@@ -216,30 +231,41 @@
   <div class="content-wrapper">
     <div class="separator-section">
         <div class="text-content">
-            <p><span style="font-weight: bold; font-size: 1.2em;">I am Johannes</span>, a software development student at <span style="font-weight: bold;">Taitotalo.</span></p>  
-            
-            <p>At Taitotalo, I have gained hands-on experience in web development and programming. In our team project, we follow Scrum methodology, hold regular meetings, and use GitHub for version control. This has helped me understand structured development while enhancing my collaboration skills.</p>
+          <p><span class="typed-intro"></span></p>
 
-            <p>I'm going to be a good <span class="typed-text"></span></p>
-              
-            
-
-            <script>
-              const typed = new Typed(".typed-text", {
-    strings: ["software developer.", "chimpanzee.", "dad."],
-    typeSpeed: 80,  // Nopeampi kirjoitus (100 on oletus)
-    backSpeed: 55,  // Hitaampi poisto
-    backDelay: 300, // Viive ennen poistamista
-    startDelay: 200, // Viive ennen kuin alkaa
-    loop: true
-});
-
+          <p class="typed-text-intro">I'm going to be a good <span class="typed-text"></span></p>
+          
+          <script>
+            // Fast animation for the intro text
+            const typedIntro = new Typed(".typed-intro", {
+                strings: [
+                    "<span style='font-weight: bold; font-size: 1.2em;'>I am Johannes</span>, a software development student at <span style='font-weight: bold;'>Taitotalo.</span><br><br>At Taitotalo, I have gained hands-on experience in web development and programming. In our team project, we follow Scrum methodology, hold regular meetings, and use GitHub for version control. This has helped me understand structured development while enhancing my collaboration skills."
+                ],
+                typeSpeed: 1,   // Super fast typing speed
+                backSpeed: 3,   // Fast backspacing (if looping)
+                startDelay: 100, 
+                showCursor: false,  // Optional: Hides the blinking cursor
+                loop: false
+            });
+          
+            // Standard animation for the last line
+            const typed = new Typed(".typed-text", {
+                strings: ["software developer.", "chimpanzee.", "dad."],
+                typeSpeed: 80,
+                backSpeed: 55,
+                backDelay: 300,
+                startDelay: 10,
+                loop: true
+            });
+          </script>
+          
+<script>
 const typedCertifications = new Typed(".typed-text-certifications", {
     strings: [" will soon have a certification.", " really don't have any skills in this."],
-    typeSpeed: 80,
-    backSpeed: 35,
-    backDelay: 300,
-    startDelay: 200,
+    typeSpeed: 80,  // Nopeampi kirjoitus (100 on oletus)
+    backSpeed: 35,  // Hitaampi poisto
+    backDelay: 300, // Viive ennen poistamista
+    startDelay: 200,  // Viive ennen kuin alkaa
     loop: true
 });
 

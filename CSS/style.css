@@ -846,13 +846,17 @@ nav {
 /* Lisätään uusi wrapper teksteille */
 .text-content p {
     flex: 1; /* Ottaa käytettävissä olevan tilan */
-    max-width: 60%; /* Rajoittaa tekstin leveyttä */
+    max-width: 90%; /* Rajoittaa tekstin leveyttä */
     font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
     font-size: 22px;
     line-height: 27px;
     !important;
 }
 
+.typed-text-intro {
+  opacity: 0; /* Hide animations before scrolling */
+  transition: opacity 0.5s ease-in-out;
+}
 
 
 .bio-image {
