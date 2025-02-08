@@ -476,31 +476,47 @@ nav {
 
 .columns {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  gap: 30px;
-  margin-top: 5rem;  /* Pienennetään tätä arvoa (oli aiemmin 15rem) */
+  gap: 30px; /* Oletusväli desktop-näytöllä */
+  margin-top: 2rem; /* Oletusmarginaali */
 }
+
+/* Mobiiliresponsiivisuus */
 @media screen and (max-width: 768px) {
   .columns {
-    margin-top: 3rem;  /* Mobiililla pienempi marginaali (48px) */
+    gap: 10px; /* Pienempi väli mobiililla */
+    margin-top: 1rem; /* Pienempi ylämarginaali */
+  }
+
+  .column.certifications-column,
+  .column.projects-column {
+    margin-bottom: 15px; /* Pienempi alapuolen marginaali */
+  }
+
+  .certifications-content.open {
+    margin-bottom: 40px; /* Pienempi marginaali avautuneelle sisällölle */
+  }
+}
+
+/* Vielä pienemmille näytöille */
+@media screen and (max-width: 480px) {
+  .columns {
+    gap: 5px; /* Vieläkin pienempi väli */
+    margin-top: 0.5rem; /* Minimaalinen ylämarginaali */
   }
 }
 
 .content {
-  min-height: 150vh; /* Tai suurempi arvo tarvittaessa */
+  min-height: 150vh;
   position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: flex-start; /* Muutettu center -> flex-start */
-  gap: 20px;
+  align-items: flex-start;
+  gap: 20px; /* Desktop-väli */
   padding: 20px;
   font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
 }
 
 .column {
@@ -517,6 +533,8 @@ nav {
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
+
+
 /* Lisätään animaatiot kolumneille */
 .columns .column:nth-child(1) {  /* Ensimmäinen kolumni (Certifications) */
   transform: translateX(0);
@@ -532,10 +550,12 @@ nav {
 @media screen and (min-width: 769px) {
   .scroll-hide .column:not(:has(.certifications-content.open)) {
     transform: translateX(-100vw);
+    transition: transform 1.5s ease;
   }
 
   .scroll-hide .column:nth-child(2):not(:has(.certifications-content.open)) {
     transform: translateX(100vw);
+    transition: transform 1.5s ease;
   }
 }
 
@@ -822,9 +842,9 @@ nav {
     z-index: 1;
     padding: 30px;
     display: flex;
-    justify-content: space-between; /* Jakaa tilan tekstin ja kuvan välillä */
-    align-items: flex-start; /* Tasaa sisällön ylös */
-    gap: 40px; /* Väli tekstin ja kuvan välillä */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
     box-sizing: border-box;
     overflow: hidden;
     transition: background 1.3s ease; /* Lisätään pehmeä siirtymä */
@@ -872,18 +892,51 @@ nav {
 /* Mobiiliresponsiivisuus */
 @media screen and (max-width: 768px) {
     .separator-section {
-        flex-direction: column; /* Vaihtaa suunnan pystysuuntaiseksi */
-        padding: 20px;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+        display: block !important;
     }
 
-    .text-content {
-        max-width: 100%; /* Täysi leveys mobiilissa */
+    .separator-section .text-content {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    .separator-section .text-content p {
+        display: block !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+        margin: 10px 0 !important;
+        font-size: 18px !important;
+        line-height: 24px !important;
+        text-align: center !important; /* Keskitetään teksti */
     }
 
     .bio-image {
-        width: 100%; /* Täysi leveys mobiilissa */
-        max-width: 400px; /* Maksimileveys */
-        margin: 20px auto 0; /* Keskittää kuvan ja lisää väliä ylös */
+        width: 95% !important;
+        max-width: 500px !important;
+        margin: 15px auto !important;
+        display: block !important;
+    }
+}
+
+/* Vielä pienemmille näytöille */
+@media screen and (max-width: 480px) {
+    .separator-section {
+        padding: 5px !important;
+    }
+
+    .separator-section .text-content p {
+        font-size: 16px !important;
+        line-height: 22px !important;
     }
 }
 
@@ -909,13 +962,45 @@ nav {
     color: var(--text-color);
 }
 
-/* Pienennetään content-wrapper-divin yläpuolista marginaalia */
+/* Muokataan content-wrapperin sijaintia näytön koon mukaan */
 .content-wrapper {
-    margin-top: -60px; /* Negatiivinen marginaali tuo elementtiä ylöspäin */
-    position: relative; /* Varmistaa että elementti pysyy oikeassa järjestyksessä */
-    z-index: 1; /* Varmistaa että elementti on oikeassa tasossa */
+    margin-top: -60px;
+    position: relative;
+    z-index: 1;
     top: -800px;
-    transition-property: top;
+    transition: top 0.3s ease; /* Lisätään smooth transition */
+}
+
+/* Porrastetaan top-arvo eri näyttökokojen mukaan */
+@media screen and (max-width: 1024px) {
+    .content-wrapper {
+        top: -600px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .content-wrapper {
+        top: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .content-wrapper {
+        top: 100px;
+    }
+}
+
+/* Muokataan columns-elementtien animaatiota */
+@media screen and (min-width: 769px) {
+    .scroll-hide .column:not(:has(.certifications-content.open)) {
+        transform: translateX(-100vw);
+        transition: transform 1.5s ease;
+    }
+
+    .scroll-hide .column:nth-child(2):not(:has(.certifications-content.open)) {
+        transform: translateX(100vw);
+        transition: transform 1.5s ease;
+    }
 }
 
 /* OMA BIO KOESELU MUSTA LAATIKKO */
@@ -923,3 +1008,100 @@ nav {
 
 
 /* FOOTER */
+
+.columns .content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .columns .content {
+        gap: 20px !important; /* Pakota väli */
+        padding: 10px;
+        margin-top: 0;
+    }
+
+    .columns .content .column {
+        margin: 50px 0 !important; /* Pakota marginaalit */
+        width: 95%;
+        max-width: none;
+    }
+
+    /* Varmista että containerit ovat lähempänä toisiaan */
+    .certifications-container {
+        margin-bottom: 10px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .columns .content {
+        gap: 5px !important;
+        padding: 5px;
+    }
+}
+
+/* Perustyylit desktop-näytölle */
+.separator-section .text-content p {
+    flex: 1;
+    max-width: 90%;
+    font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+    font-size: 22px;
+    line-height: 27px;
+}
+
+.bio-image {
+    width: 400px; /* Desktop-koko */
+    height: auto;
+    object-fit: contain;
+}
+
+/* Mobiiliresponsiivisuus */
+@media screen and (max-width: 768px) {
+    .separator-section {
+        flex-direction: column;
+        padding: 5px; /* Minimaalinen padding */
+        align-items: center;
+        width: 100%;
+    }
+
+    .separator-section .text-content {
+        width: 98%; /* Lähes koko leveys */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* Tasaa sisältö vasemmalle */
+        padding: 0;
+        margin: 0;
+    }
+
+    .separator-section .text-content p {
+        font-size: 18px;
+        line-height: 24px;
+        width: 100%;
+        max-width: none;
+        margin: 10px 0;
+        padding: 0 5px; /* Minimaalinen sivupadding */
+    }
+
+    .bio-image {
+        width: 90%; /* Suurempi koko mobiililla */
+        max-width: 500px; /* Maksimileveys */
+        margin: 20px 0; /* Lisää tilaa kuvan ympärille */
+    }
+}
+
+/* Vielä pienemmille näytöille */
+@media screen and (max-width: 480px) {
+    .separator-section .text-content p {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 0 3px; /* Vielä pienempi padding */
+    }
+
+    .bio-image {
+        width: 95%; /* Vieläkin suurempi suhteellinen koko */
+        margin: 15px 0;
+    }
+}

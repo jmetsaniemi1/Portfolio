@@ -218,10 +218,10 @@ window.addEventListener('scroll', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const viewButtons = document.querySelectorAll('.view-button');
     const contentWrapper = document.querySelector('.content-wrapper');
-    const initialTopValue = -800;
-    const moveDistance = 700;
-    const openDuration = 300; // Nopea avautuminen
-    const closeDuration = 1500; // 1 sekunnin viive sulkemisessa
+    const initialTopValue = -900; // Alkuperäinen top-arvo
+    const moveDistance = 900;     // Matka jonka verran liikutaan
+    const openDuration = 300;     // Nopea avautuminen
+    const closeDuration = 1500;   // 1.5 sekunnin viive sulkemisessa
     
     viewButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -242,15 +242,41 @@ document.addEventListener('DOMContentLoaded', () => {
             const duration = isOpening ? openDuration : closeDuration;
             contentWrapper.style.transition = `top ${duration}ms ease`;
             
-            if (isEitherOpen) {
-                contentWrapper.style.top = `${initialTopValue + moveDistance}px`;
+            // Tarkistetaan näytön koko ja asetetaan sopiva top-arvo
+            const screenWidth = window.innerWidth;
+            let baseTopValue;
+            
+            if (screenWidth > 1024) {
+                baseTopValue = -800;
+            } else if (screenWidth > 768) {
+                baseTopValue = -600;
+            } else if (screenWidth > 480) {
+                baseTopValue = -300;
             } else {
-                contentWrapper.style.top = `${initialTopValue}px`;
+                baseTopValue = -200;
+            }
+            
+            if (isEitherOpen) {
+                contentWrapper.style.top = `${baseTopValue + moveDistance}px`;
+            } else {
+                contentWrapper.style.top = `${baseTopValue}px`;
             }
             
             setTimeout(() => {
                 contentWrapper.style.transition = '';
             }, duration);
+
+            // Tarkista näytön koko
+            const isMobile = window.innerWidth <= 768;
+            
+            // Poista scroll kokonaan mobiililaitteilla
+            if (!isMobile) {
+                const targetY = button.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({
+                    top: targetY,
+                    behavior: 'smooth'
+                });
+            }
         });
     });
 }); 
@@ -284,31 +310,35 @@ window.addEventListener('scroll', () => {
     const wrapper2 = document.querySelector('.wrapper-2');
     const wrapper3 = document.querySelector('.wrapper-3');
     
+    // Määritellään eri aloituspisteet näytön koon mukaan
+    const isMobile = window.innerWidth <= 768;
+    const scrollTrigger = isMobile ? 1300 : 700; // Mobiililla myöhäisempi aloituspiste
+    
     // Tarkistetaan elementtien sijainti viewportiin nähden
     const rect1 = wrapper1.getBoundingClientRect();
     const rect2 = wrapper2.getBoundingClientRect();
     const rect3 = wrapper3.getBoundingClientRect();
     
     // Animaatiot käynnistyvät vain kun elementit ovat näkyvissä
-    if (rect1.top < viewportHeight && rect1.bottom > 0 && scrollPosition > 700) {
-        wrapper1.style.transform = `translateX(${-(scrollPosition-700) * 0.5}px)`;
-        wrapper1.style.opacity = Math.max(1 - (scrollPosition-700) * 0.003, 0.3);
+    if (rect1.top < viewportHeight && rect1.bottom > 0 && scrollPosition > scrollTrigger) {
+        wrapper1.style.transform = `translateX(${-(scrollPosition-scrollTrigger) * 0.5}px)`;
+        wrapper1.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.003, 0.3);
     } else {
         wrapper1.style.transform = 'translateX(0)';
         wrapper1.style.opacity = 1;
     }
     
-    if (rect2.top < viewportHeight && rect2.bottom > 0 && scrollPosition > 700) {
-        wrapper2.style.transform = `translateY(${-(scrollPosition-700) * 0.3}px)`;
-        wrapper2.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0.3);
+    if (rect2.top < viewportHeight && rect2.bottom > 0 && scrollPosition > scrollTrigger) {
+        wrapper2.style.transform = `translateY(${-(scrollPosition-scrollTrigger) * 0.3}px)`;
+        wrapper2.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.002, 0.3);
     } else {
         wrapper2.style.transform = 'translateY(0)';
         wrapper2.style.opacity = 1;
     }
     
-    if (rect3.top < viewportHeight && rect3.bottom > 0 && scrollPosition > 700) {
-        wrapper3.style.transform = `translateX(${(scrollPosition-700) * 0.4}px)`;
-        wrapper3.style.opacity = Math.max(1 - (scrollPosition-700) * 0.002, 0.3);
+    if (rect3.top < viewportHeight && rect3.bottom > 0 && scrollPosition > scrollTrigger) {
+        wrapper3.style.transform = `translateX(${(scrollPosition-scrollTrigger) * 0.4}px)`;
+        wrapper3.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.002, 0.3);
     } else {
         wrapper3.style.transform = 'translateX(0)';
         wrapper3.style.opacity = 1;
@@ -319,6 +349,7 @@ window.addEventListener('scroll', () => {
     const columns = document.querySelector('.columns');
     const columnsPosition = columns.getBoundingClientRect().top;
     const certificationContents = document.querySelectorAll('.certifications-content');
+    const isMobile = window.innerWidth <= 768;
     
     // Tarkista onko jokin sisältö auki
     const isAnyContentOpen = Array.from(certificationContents).some(content => 
@@ -327,8 +358,9 @@ window.addEventListener('scroll', () => {
     
     // Jos sisältö on auki, älä lisää scroll-hide-luokkaa
     if (!isAnyContentOpen) {
-        const startPoint = 200;
-        const endPoint = 50;
+        // Määritellään eri aloituspisteet näytön koon mukaan
+        const startPoint = isMobile ? 400 : 200; // Mobiililla myöhäisempi aloituspiste
+        const endPoint = isMobile ? 200 : 50;   // Mobiililla myöhäisempi lopetuspiste
         
         if (columnsPosition < startPoint) {
             const progress = Math.min(Math.max((startPoint - columnsPosition) / (startPoint - endPoint), 0), 1);
