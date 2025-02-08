@@ -154,8 +154,8 @@ window.addEventListener('scroll', function() {
   const scrollPosition = window.pageYOffset;
   
   // Muutetaan efektin alkamis- ja loppumiskohdat
-  const fadeStart = 100;     // Efekti alkaa 100px kohdalla
-  const fadeEnd = 300;     // Efekti loppuu 300px kohdalla
+  const fadeStart = 200;     // Efekti alkaa 100px kohdalla
+  const fadeEnd = 400;     // Efekti loppuu 300px kohdalla
   
   // Jos scrollaus on efektialueen sisällä
   if (scrollPosition >= fadeStart) {
@@ -202,8 +202,8 @@ window.addEventListener('scroll', () => {
     const nightImage = document.querySelector('.night');
     
     // Määritellään siirtymäalue
-    const scrollStart = 500; // px milloin siirtymä alkaa
-    const scrollEnd = 800;   // px milloin siirtymä loppuu
+    const scrollStart = 800; // px milloin siirtymä alkaa
+    const scrollEnd = 900;   // px milloin siirtymä loppuu
     
     const scrolled = window.pageYOffset;
     const scrollProgress = Math.min(Math.max((scrolled - scrollStart) / (scrollEnd - scrollStart), 0), 1);
@@ -249,11 +249,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (screenWidth > 1024) {
                 baseTopValue = -800;
             } else if (screenWidth > 768) {
-                baseTopValue = -600;
+                baseTopValue = -400;
             } else if (screenWidth > 480) {
-                baseTopValue = -300;
+                baseTopValue = -100;
             } else {
-                baseTopValue = -200;
+                baseTopValue = -100;
             }
             
             if (isEitherOpen) {
@@ -310,35 +310,68 @@ window.addEventListener('scroll', () => {
     const wrapper2 = document.querySelector('.wrapper-2');
     const wrapper3 = document.querySelector('.wrapper-3');
     
-    // Määritellään eri aloituspisteet näytön koon mukaan
+    // Määritellään näyttökoot
     const isMobile = window.innerWidth <= 768;
-    const scrollTrigger = isMobile ? 1300 : 700; // Mobiililla myöhäisempi aloituspiste
+    const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
     
-    // Tarkistetaan elementtien sijainti viewportiin nähden
+    // AJOITUKSEN SÄÄTÖ:
+    let scrollTrigger;
+    if (isMobile) {
+        scrollTrigger = 1500;     // Mobiili - myöhäisin aloitus
+    } else if (isTablet) {
+        scrollTrigger = 1200;     // Tablet - keskitason aloitus
+    } else {
+        scrollTrigger = 900;      // Desktop - SÄÄDÄ TÄTÄ ARVOA: pienempi = aiemmin, suurempi = myöhemmin
+    }
+    
+    // NOPEUDEN SÄÄTÖ:
+    let speedFactor;
+    if (isMobile) {
+        speedFactor = 0.3;        // Mobiili - hitain
+    } else if (isTablet) {
+        speedFactor = 0.4;        // Tablet - keskitaso
+    } else {
+        speedFactor = 0.2;        // Desktop - SÄÄDÄ TÄTÄ ARVOA: pienempi = hitaampi liike (esim. 0.3-0.7)
+    }
+    
+    // LÄPINÄKYVYYDEN SÄÄTÖ:
+    let opacityFactor;
+    if (isMobile) {
+        opacityFactor = 0.001;    // Mobiili - hitain häivytys
+    } else if (isTablet) {
+        opacityFactor = 0.0015;   // Tablet - keskitaso
+    } else {
+        opacityFactor = 0.001;    // Desktop - SÄÄDÄ TÄTÄ ARVOA: pienempi = hitaampi häivytys (esim. 0.001-0.003)
+    }
+    
+    // MINIMIOPASITEETIN SÄÄTÖ:
+    const minOpacity = 0.3;       // SÄÄDÄ TÄTÄ ARVOA: määrittää kuinka läpinäkyväksi elementit häipyvät (0-1)
+    
+    // Tarkistetaan elementtien sijainti
     const rect1 = wrapper1.getBoundingClientRect();
     const rect2 = wrapper2.getBoundingClientRect();
     const rect3 = wrapper3.getBoundingClientRect();
     
-    // Animaatiot käynnistyvät vain kun elementit ovat näkyvissä
+    // Animaatiot
     if (rect1.top < viewportHeight && rect1.bottom > 0 && scrollPosition > scrollTrigger) {
-        wrapper1.style.transform = `translateX(${-(scrollPosition-scrollTrigger) * 0.5}px)`;
-        wrapper1.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.003, 0.3);
+        wrapper1.style.transform = `translateX(${-(scrollPosition-scrollTrigger) * speedFactor}px)`;
+        wrapper1.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * opacityFactor, minOpacity);
     } else {
         wrapper1.style.transform = 'translateX(0)';
         wrapper1.style.opacity = 1;
     }
     
     if (rect2.top < viewportHeight && rect2.bottom > 0 && scrollPosition > scrollTrigger) {
-        wrapper2.style.transform = `translateY(${-(scrollPosition-scrollTrigger) * 0.3}px)`;
-        wrapper2.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.002, 0.3);
+        wrapper2.style.transform = `translateY(${-(scrollPosition-scrollTrigger) * speedFactor}px)`;
+        wrapper2.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * opacityFactor, minOpacity);
     } else {
         wrapper2.style.transform = 'translateY(0)';
         wrapper2.style.opacity = 1;
     }
     
     if (rect3.top < viewportHeight && rect3.bottom > 0 && scrollPosition > scrollTrigger) {
-        wrapper3.style.transform = `translateX(${(scrollPosition-scrollTrigger) * 0.4}px)`;
-        wrapper3.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * 0.002, 0.3);
+        wrapper3.style.transform = `translateX(${(scrollPosition-scrollTrigger) * speedFactor}px)`;
+        wrapper3.style.opacity = Math.max(1 - (scrollPosition-scrollTrigger) * opacityFactor, minOpacity);
     } else {
         wrapper3.style.transform = 'translateX(0)';
         wrapper3.style.opacity = 1;
@@ -358,20 +391,28 @@ window.addEventListener('scroll', () => {
     
     // Jos sisältö on auki, älä lisää scroll-hide-luokkaa
     if (!isAnyContentOpen) {
-        // Määritellään eri aloituspisteet näytön koon mukaan
-        const startPoint = isMobile ? 400 : 200; // Mobiililla myöhäisempi aloituspiste
-        const endPoint = isMobile ? 200 : 50;   // Mobiililla myöhäisempi lopetuspiste
+        // Määritellään aloitus- ja lopetuspisteet eri näyttöko'oille
+        const startPoint = isMobile ? 400 : // Mobiili
+                          window.innerWidth <= 1024 ? 300 : // Tablet
+                          200; // Desktop
+        
+        const endPoint = isMobile ? 200 : // Mobiili
+                        window.innerWidth <= 1024 ? 100 : // Tablet
+                        50;   // Desktop
         
         if (columnsPosition < startPoint) {
             const progress = Math.min(Math.max((startPoint - columnsPosition) / (startPoint - endPoint), 0), 1);
             
             if (progress >= 1) {
                 columns.classList.add('scroll-hide');
+                columns.style.transition = 'all 2.5s ease';
             } else {
                 columns.classList.remove('scroll-hide');
+                columns.style.transition = 'all 2.5s ease';
             }
         } else {
             columns.classList.remove('scroll-hide');
+            columns.style.transition = 'all 2.5s ease';
         }
     } else {
         columns.classList.remove('scroll-hide');
@@ -398,8 +439,35 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-
-
 // OMA BIO KOESELU MUSTA LAATIKKO
 
 // FOOTER
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Haetaan tarvittavat elementit
+    const projectsLink = document.querySelector('a[href="#PROJECTS"]');
+    const projectsSection = document.querySelector('.columns');
+    const projectsButton = document.querySelector('.projects-column .view-button');
+    
+    projectsLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Estetään oletustoiminto
+        
+        // Lasketaan kohteen sijainti
+        const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - 50; // -50 antaa hieman tilaa yläreunaan
+        
+        // Smooth scroll kohteeseen
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+        
+        // Odotetaan scrollauksen päättymistä ennen napin painamista
+        setTimeout(() => {
+            // Tarkistetaan onko projektit jo auki
+            if (!projectsButton.getAttribute('data-active') || 
+                projectsButton.getAttribute('data-active') === 'false') {
+                projectsButton.click(); // Avataan projektit
+            }
+        }, 1000); // 1 sekunti scrollauksen jälkeen
+    });
+});
