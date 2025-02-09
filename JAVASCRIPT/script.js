@@ -91,6 +91,86 @@ document.addEventListener('DOMContentLoaded', () => {           // Odotetaan ett
     const frontBoxes = wrapper.closest('.front-boxes');        // Haetaan lähin front-boxes-elementti
     let currentIndex = 0;                                      // Alustetaan nykyinen indeksi
 
+    // Drag-toiminnallisuuden muuttujat
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let animationID = 0;
+    let containerWidth = wrapper.querySelector('.container').offsetWidth;
+    const gap = 20;
+
+    // Touch Events
+    wrapper.addEventListener('touchstart', dragStart);
+    wrapper.addEventListener('touchend', dragEnd);
+    wrapper.addEventListener('touchmove', drag);
+
+    // Mouse Events
+    wrapper.addEventListener('mousedown', dragStart);
+    wrapper.addEventListener('mouseup', dragEnd);
+    wrapper.addEventListener('mouseleave', dragEnd);
+    wrapper.addEventListener('mousemove', drag);
+
+    // Estä kontekstimenun avautuminen raahatessa
+    wrapper.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    function dragStart(e) {
+        if (e.type === 'touchstart') {
+            startPos = e.touches[0].clientX;
+        } else {
+            startPos = e.clientX;
+            e.preventDefault();
+        }
+        
+        isDragging = true;
+        wrapper.classList.add('dragging');
+        animationID = requestAnimationFrame(animation);
+    }
+
+    function drag(e) {
+        if (!isDragging) return;
+        
+        const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+        const diff = currentPosition - startPos;
+        currentTranslate = prevTranslate + diff;
+    }
+
+    function dragEnd() {
+        isDragging = false;
+        wrapper.classList.remove('dragging');
+        cancelAnimationFrame(animationID);
+
+        // Määritä lähin slide
+        const moveBy = currentTranslate - prevTranslate;
+        if (Math.abs(moveBy) > containerWidth / 3) {
+            if (moveBy > 0 && currentIndex > 0) {
+                currentIndex--;
+            } else if (moveBy < 0 && currentIndex < containers.length - 1) {
+                currentIndex++;
+            }
+        }
+
+        goToSlide(currentIndex);
+        updateDots();
+    }
+
+    function animation() {
+        setSlidePosition();
+        if (isDragging) requestAnimationFrame(animation);
+    }
+
+    function setSlidePosition() {
+        wrapper.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        prevTranslate = -(containerWidth + gap) * currentIndex;
+        currentTranslate = prevTranslate;
+        wrapper.style.transition = 'transform 0.3s ease-out';
+        wrapper.style.transform = `translateX(${currentTranslate}px)`;
+    }
+
     // Luodaan pallot karuselliin
     const dotsContainer = document.createElement('div');        // Luodaan div palloille
     dotsContainer.className = `carousel-dots carousel-dots-${wrapperNumber}`;  // Asetetaan luokka
@@ -135,9 +215,10 @@ document.addEventListener('DOMContentLoaded', () => {           // Odotetaan ett
       updateDots();
     }, interval);
 
-    // Resize listener
+    // Päivitä containerWidth ikkunan koon muuttuessa
     window.addEventListener('resize', () => {
-      updateCarousel();
+        containerWidth = wrapper.querySelector('.container').offsetWidth;
+        goToSlide(currentIndex);
     });
   }
 

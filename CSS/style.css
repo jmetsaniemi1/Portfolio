@@ -384,9 +384,17 @@ nav {
     transition: transform .9s ease-out;
     gap: 20px;
     user-select: none;
+    cursor: grab;
+    touch-action: pan-y pinch-zoom;
 }
 
-
+/* Kun käyttäjä raahaa karusellia */
+.containers-wrapper-1.dragging,
+.containers-wrapper-2.dragging,
+.containers-wrapper-3.dragging {
+    cursor: grabbing;
+    transition: none; /* Poistetaan transition raahauksen ajaksi */
+}
 
 .container {
   flex: 0 0 300px; /* Kiinteä leveys */
