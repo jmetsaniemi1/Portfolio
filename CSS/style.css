@@ -396,6 +396,15 @@ nav {
     transition: none; /* Poistetaan transition raahauksen ajaksi */
 }
 
+/* Varmistetaan että grab-kursori säilyy myös lukitussa tilassa */
+.wrappers-container.locked .containers-wrapper {
+  cursor: grab;
+}
+
+.wrappers-container.locked .containers-wrapper.dragging {
+  cursor: grabbing;
+}
+
 .container {
   flex: 0 0 300px; /* Kiinteä leveys */
   width: 300px;
@@ -1124,4 +1133,52 @@ nav {
         width: 95%; /* Vieläkin suurempi suhteellinen koko */
         margin: 15px 0;
     }
+}
+
+.carousel-lock-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.carousel-lock-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.carousel-lock-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.carousel-lock-btn svg {
+    fill: var(--text-color);
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s ease;
+}
+
+.carousel-lock-btn .lock-icon {
+    display: none;
+}
+
+.carousel-lock-btn.locked .lock-icon {
+    display: block;
+}
+
+.carousel-lock-btn.locked .unlock-icon {
+    display: none;
+}
+
+.wrappers-container.locked .containers-wrapper {
+    cursor: default !important;
 }

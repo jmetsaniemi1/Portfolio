@@ -80,6 +80,9 @@ document.addEventListener("click", (event) => {                  // Lisätään 
   }
 });
 
+// Globaali muuttuja intervallien hallintaan
+let carouselIntervals = [];
+
 // Karusellin alustus
 document.addEventListener('DOMContentLoaded', () => {           // Odotetaan että DOM on ladattu
   // Funktio yhden karusellin alustamiseen
@@ -207,13 +210,22 @@ document.addEventListener('DOMContentLoaded', () => {           // Odotetaan ett
       });
     }
 
-    // Automaattinen vieritys eri ajoituksilla jokaiselle karusellille
-    const interval = 5000 + (wrapperNumber - 1) * 1000; // 5s, 6s, ja 7s
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % containers.length;
-      updateCarousel();
-      updateDots();
-    }, interval);
+    // Luodaan automaattinen vieritys
+    function startAutoScroll() {
+        const interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % containers.length;
+            updateCarousel();
+            updateDots();
+        }, 5000 + (wrapperNumber - 1) * 1000); // 5s, 6s, ja 7s
+
+        carouselIntervals.push(interval); // Tallennetaan intervalli globaaliin taulukkoon
+        return interval;
+    }
+
+    // Käynnistetään automaattinen vieritys
+    if (!document.querySelector('.carousel-lock-btn.locked')) {
+        startAutoScroll();
+    }
 
     // Päivitä containerWidth ikkunan koon muuttuessa
     window.addEventListener('resize', () => {
@@ -548,4 +560,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1000); // 1 sekunti scrollauksen jälkeen
     });
+});
+
+// Lukitusnapin toiminnallisuus
+document.addEventListener('DOMContentLoaded', () => {
+    const lockBtn = document.querySelector('.carousel-lock-btn');
+    const wrappersContainer = document.querySelector('.wrappers-container');
+    let isLocked = false;
+
+    function toggleLock() {
+        isLocked = !isLocked;
+        lockBtn.classList.toggle('locked');
+        wrappersContainer.classList.toggle('locked');
+
+        const wrappers = document.querySelectorAll('.containers-wrapper');
+
+        if (isLocked) {
+            // Pysäytetään vain automaattinen vieritys
+            carouselIntervals.forEach(interval => clearInterval(interval));
+            carouselIntervals = [];
+        } else {
+            // Käynnistetään karusellit uudelleen
+            wrappers.forEach((wrapper, index) => {
+                const interval = setInterval(() => {
+                    const containers = wrapper.querySelectorAll('.container');
+                    const dotsContainer = wrapper.closest('.front-boxes')
+                        .querySelector('.carousel-dots');
+                    let currentIndex = parseInt(wrapper.getAttribute('data-index') || '0');
+                    
+                    currentIndex = (currentIndex + 1) % containers.length;
+                    wrapper.setAttribute('data-index', currentIndex);
+                    
+                    updateCarousel(wrapper, currentIndex, containers[0].offsetWidth);
+                    updateDots(dotsContainer, currentIndex);
+                }, 5000 + index * 1000);
+
+                carouselIntervals.push(interval);
+            });
+        }
+    }
+
+    function updateCarousel(wrapper, index, containerWidth) {
+        const gap = 20;
+        const offset = index * -(containerWidth + gap);
+        wrapper.style.transform = `translateX(${offset}px)`;
+    }
+
+    function updateDots(dotsContainer, currentIndex) {
+        if (!dotsContainer) return;
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+        });
+    }
+
+    lockBtn.addEventListener('click', toggleLock);
 });
