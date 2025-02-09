@@ -405,14 +405,11 @@ window.addEventListener('scroll', () => {
             
             if (progress >= 1) {
                 columns.classList.add('scroll-hide');
-                columns.style.transition = 'all 2.5s ease';
             } else {
                 columns.classList.remove('scroll-hide');
-                columns.style.transition = 'all 2.5s ease';
             }
         } else {
             columns.classList.remove('scroll-hide');
-            columns.style.transition = 'all 2.5s ease';
         }
     } else {
         columns.classList.remove('scroll-hide');

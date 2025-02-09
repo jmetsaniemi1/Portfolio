@@ -535,27 +535,27 @@ nav {
 
 
 
-/* Lisätään animaatiot kolumneille */
+/* Perusmäärittelyt kolumneille */
 .columns .column:nth-child(1) {  /* Ensimmäinen kolumni (Certifications) */
   transform: translateX(0);
-  transition: transform 1.5s ease;
+  transition: transform 2.5s ease;
 }
 
 .columns .column:nth-child(2) {  /* Toinen kolumni (Projects) */
   transform: translateX(0);
-  transition: transform 1.5s ease;
+  transition: transform 2.5s ease;
 }
 
-/* Muokataan scroll-hide luokkaa */
+/* Scroll-hide määrittelyt */
 @media screen and (min-width: 769px) {
   .scroll-hide .column:not(:has(.certifications-content.open)) {
     transform: translateX(-100vw);
-    transition: transform 1.5s ease;
+    transition: transform 2.5s ease; /* Muutettu samaksi kuin yllä */
   }
 
   .scroll-hide .column:nth-child(2):not(:has(.certifications-content.open)) {
     transform: translateX(100vw);
-    transition: transform 1.5s ease;
+    transition: transform 2.5s ease; /* Muutettu samaksi kuin yllä */
   }
 }
 
@@ -1006,12 +1006,12 @@ nav {
 @media screen and (min-width: 769px) {
     .scroll-hide .column:not(:has(.certifications-content.open)) {
         transform: translateX(-100vw);
-        transition: transform 1.5s ease;
+        transition: transform 2.5s ease; /* Muutettu 1.5s -> 2.5s */
     }
 
     .scroll-hide .column:nth-child(2):not(:has(.certifications-content.open)) {
         transform: translateX(100vw);
-        transition: transform 1.5s ease;
+        transition: transform 2.5s ease; /* Muutettu 1.5s -> 2.5s */
     }
 }
 
