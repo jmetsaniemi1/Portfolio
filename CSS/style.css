@@ -852,8 +852,8 @@ nav {
     -webkit-backdrop-filter: blur(5px);
     border: 0.5px solid rgba(214, 214, 214, 0.18);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    border-radius: 20px 20px 0 0;
-    height: auto;
+    border-radius: 20px;
+    height: 590px;
     max-width: 80%;
     margin: 0 auto;
     z-index: 1;
@@ -969,15 +969,6 @@ nav {
     }
 }
 
-.Info-bio {
-    position: relative;
-    background-color: #00000098;  /* Musta */
-    min-height: 100vh;
-    width: 80%;  /* Muutettu 100% -> 70% */
-    margin: 0 auto;  /* Keskittää elementin */
-}
-
-
 .content-wrapper .separator-section .text-content {
     flex: 1;
     max-width: 60%;
@@ -1031,10 +1022,6 @@ nav {
         transition: transform 2.5s ease; /* Muutettu 1.5s -> 2.5s */
     }
 }
-
-/* OMA BIO KOESELU MUSTA LAATIKKO */
-
-
 
 /* FOOTER */
 
@@ -1135,12 +1122,18 @@ nav {
     }
 }
 
+/* Lukitusnapin container */
 .carousel-lock-container {
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    align-items: center;
+    margin: 20px auto;
+    z-index: 10;
 }
 
+/* Lukitusnappi */
 .carousel-lock-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1153,13 +1146,17 @@ nav {
     justify-content: center;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    padding: 0;
+    margin: 0;
 }
 
+/* Hover-efekti */
 .carousel-lock-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
 }
 
+/* SVG-ikonien tyylit */
 .carousel-lock-btn svg {
     fill: var(--text-color);
     width: 30px;
@@ -1167,6 +1164,7 @@ nav {
     transition: all 0.3s ease;
 }
 
+/* Lukko-ikonin näkyvyys */
 .carousel-lock-btn .lock-icon {
     display: none;
 }
@@ -1177,8 +1175,4 @@ nav {
 
 .carousel-lock-btn.locked .unlock-icon {
     display: none;
-}
-
-.wrappers-container.locked .containers-wrapper {
-    cursor: default !important;
 }
