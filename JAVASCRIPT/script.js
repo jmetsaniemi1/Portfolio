@@ -616,3 +616,63 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lockBtn.addEventListener('click', toggleLock);
 });
+
+// FOOTEr
+
+// Contact-linkin scroll-toiminnallisuus
+document.addEventListener('DOMContentLoaded', () => {
+    const contactLink = document.querySelector('a[href="#CONTACT"]');
+    
+    contactLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        const footer = document.getElementById('CONTACT');
+        footer.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Lomakkeen käsittely
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Tallennetaan nykyinen scroll-positio
+        const currentPosition = window.scrollY;
+        
+        // Kerätään lomakkeen tiedot
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value
+        };
+
+        // Simuloidaan lähetystä
+        formStatus.className = 'form-status';
+        formStatus.style.display = 'block';
+        formStatus.textContent = 'Sending...';
+
+        // Varmistetaan että pysymme samassa kohdassa
+        window.scrollTo({
+            top: currentPosition,
+            behavior: 'instant'
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // Simuloidaan onnistunutta lähetystä
+        formStatus.className = 'form-status success';
+        formStatus.textContent = 'Message sent successfully!';
+        contactForm.reset();
+
+        // Pysytään edelleen samassa kohdassa
+        window.scrollTo({
+            top: currentPosition,
+            behavior: 'instant'
+        });
+
+        // Piilotetaan ilmoitus 3 sekunnin kuluttua
+        setTimeout(() => {
+            formStatus.style.display = 'none';
+        }, 3000);
+    });
+});

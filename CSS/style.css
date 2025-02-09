@@ -189,6 +189,7 @@ body.darkmode #nightToDay {
   color: var(--text-color);
   cursor: pointer;
   transition: transform 0.3s ease;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .off-screen-menu ul li:hover:not(:has(img)) {
@@ -1175,4 +1176,106 @@ nav {
 
 .carousel-lock-btn.locked .unlock-icon {
     display: none;
+}
+
+/* Footer styles */
+.site-footer {
+    background: rgba(0, 0, 0, 0.498);
+    backdrop-filter: blur(10px);
+    padding: 60px 0;
+    margin-top: 80px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.footer-container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.footer-content h2 {
+    color: var(--text-color);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.contact-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.submit-btn {
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.form-status {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+}
+
+.form-status.success {
+    display: block;
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    color: #4CAF50;
+}
+
+.form-status.error {
+    display: block;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    color: #F44336;
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        width: 100%;
+        padding: 0 20px;
+    }
 }
