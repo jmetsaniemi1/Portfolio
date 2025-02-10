@@ -630,7 +630,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// EmailJS:n alustaminen ensin
+// EmailJS alustus
 (function() {
     emailjs.init({
         publicKey: "g78Bn0MtT9fyHrNST"
@@ -639,36 +639,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Lomakkeen käsittely
 document.addEventListener('DOMContentLoaded', () => {
-    const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
+    const form = document.getElementById('contact-form');
+    
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const submitButton = this.querySelector('#submit-btn');
+            submitButton.value = 'Sending...';
+            submitButton.disabled = true;
 
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        // Muutetaan nappi ja tila latauksen ajaksi
-        const submitButton = this.querySelector('.submit-btn');
-        const formStatus = document.getElementById('formStatus');
-        
-        submitButton.disabled = true;
-        submitButton.textContent = 'Sending...';
-        formStatus.textContent = '';
-
-        // Lähetä lomake EmailJS:n kautta
-        emailjs.sendForm('service_1ya2q5h', 'template_4a6cb3t', this)
-            .then((result) => {
-                console.log('Success:', result.text);
-                formStatus.textContent = 'Message sent successfully!';
-                formStatus.style.color = 'var(--text-color)';
-                this.reset();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                formStatus.textContent = 'Failed to send message. Please try again.';
-                formStatus.style.color = 'red';
-            })
-            .finally(() => {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message';
-            });
-    });
+            emailjs.sendForm(
+                'service_1ya2q5h',     // Service ID
+                'template_4velrtj',    // Päivitetty Template ID
+                this
+            )
+                .then((response) => {
+                    console.log('SUCCESS!', response);
+                    alert('Message sent successfully!');
+                    form.reset();
+                })
+                .catch((error) => {
+                    console.error('FAILED...', error);
+                    alert(`Failed to send message: ${error.text}`);
+                })
+                .finally(() => {
+                    submitButton.value = 'Send';
+                    submitButton.disabled = false;
+                });
+        });
+    }
 });

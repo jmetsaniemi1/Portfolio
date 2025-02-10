@@ -985,42 +985,64 @@ nav {
 
 /* Muokataan content-wrapperin sijaintia näytön koon mukaan */
 .content-wrapper {
-    margin-top: -60px;
     position: relative;
-    z-index: 1;
-    top: -800px;
-    transition: top 0.3s ease; /* Lisätään smooth transition */
+    width: 100%;
+    max-width: 1400px; /* Rajoitettu maksimileveys */
+    margin: 0 auto; /* Keskitetään */
+    margin-bottom: 120px;
+    overflow: hidden;
+    padding: 0 1rem; /* Lisätään padding reunoille */
 }
 
-/* Porrastetaan top-arvo eri näyttökokojen mukaan */
-@media screen and (max-width: 1024px) {
-    .content-wrapper {
-        top: -600px;
-    }
+.separator-section {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
 }
 
+.text-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.bio-image {
+    max-width: 200px; /* Pienennetty kuvan kokoa */
+    height: auto;
+}
+
+/* Responsiivisuus */
 @media screen and (max-width: 768px) {
     .content-wrapper {
-        top: 200px;
+        margin-bottom: 80px;
+    }
+
+    .separator-section {
+        flex-direction: column;
+    }
+
+    .text-content {
+        width: 100%;
+    }
+
+    .bio-image {
+        max-width: 150px;
+        margin: 0 auto;
+    }
+
+    .typed-intro, .typed-text {
+        font-size: 0.9rem;
     }
 }
 
 @media screen and (max-width: 480px) {
     .content-wrapper {
-        top: 100px;
-    }
-}
-
-/* Muokataan columns-elementtien animaatiota */
-@media screen and (min-width: 769px) {
-    .scroll-hide .column:not(:has(.certifications-content.open)) {
-        transform: translateX(-100vw);
-        transition: transform 2.5s ease; /* Muutettu 1.5s -> 2.5s */
+        margin-bottom: 60px;
+        padding: 0 0.5rem; /* Pienempi padding mobiililla */
     }
 
-    .scroll-hide .column:nth-child(2):not(:has(.certifications-content.open)) {
-        transform: translateX(100vw);
-        transition: transform 2.5s ease; /* Muutettu 1.5s -> 2.5s */
+    .bio-image {
+        max-width: 120px;
     }
 }
 
@@ -1181,6 +1203,7 @@ nav {
 /* Footer main styles */
 .site-footer {
     position: relative;
+    width: 100%;
     background: linear-gradient(
         135deg,
         rgba(119, 170, 179, 0.121) 0%,
@@ -1190,11 +1213,7 @@ nav {
         rgba(48, 42, 217, 0.166) 100%
     );
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 0.5px solid rgba(214, 214, 214, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     padding: 60px 0;
-    margin-top: 80px;
 }
 
 /* Dark mode versio */
@@ -1229,72 +1248,14 @@ nav {
     margin-bottom: 2rem;
 }
 
-/* Contact form styles */
-.contact-form-container {
-    width: 100%;
-    max-width: 500px;
-}
-
-.contact-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-group {
-    position: relative;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
+.contact-info {
     color: var(--text-color);
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    line-height: 1.8;
 }
 
-.form-group textarea {
-    min-height: 150px;
-    resize: vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.submit-btn {
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 25px;
-    color: var(--text-color);
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-}
-
-.submit-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.submit-btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}
-
-.form-status {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    height: 20px;
+.contact-info p {
+    margin-bottom: 1rem;
 }
 
 /* Responsiivisuus */
@@ -1308,15 +1269,6 @@ nav {
     .footer-left, .footer-right {
         width: 100%;
     }
-
-    .contact-form-container {
-        max-width: 100%;
-    }
-
-    .submit-btn {
-        width: 100%;
-        align-self: center;
-    }
 }
 
 @media screen and (max-width: 480px) {
@@ -1327,23 +1279,18 @@ nav {
     .footer-container {
         gap: 2rem;
     }
-
-    .form-group input,
-    .form-group textarea {
-        padding: 0.8rem;
-    }
 }
 
 // FOOTER TEKSTI
 
 .heading-footer {
-  font-size: 60px;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsiivinen fonttikoko */
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .content-slider {
   width: 100%;
-  height: 360px;
 }
 
 .slider {
@@ -1373,12 +1320,13 @@ nav {
 }
 
 .slider .quote {
-  font-size: 40px;
+  font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
   font-style: italic;
+  line-height: 1.4;
 }
 
 .slider .source {
-  font-size: 20px;
+  font-size: clamp(0.875rem, 2.5vw, 1.2rem); /* Responsiivinen fonttikoko */
   text-align: right;
 }
 
@@ -1592,4 +1540,219 @@ nav {
     opacity: 0;
     z-index: 0;
   }
+}
+
+/* Contact Form Styles */
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Dark mode tyylit */
+.darkmode .form-group input,
+.darkmode .form-group textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Placeholder tyylit */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.darkmode .form-group input::placeholder,
+.darkmode .form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Focus tyylit */
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.darkmode .form-group input:focus,
+.darkmode .form-group textarea:focus {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Textarea erikoisasetukset */
+.form-group textarea {
+    height: 150px;
+    resize: none;
+    line-height: 1.5;
+}
+
+/* Submit button */
+#submit-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+    backdrop-filter: blur(5px);
+}
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.darkmode #submit-btn {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.darkmode .submit-btn:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Disabled tila */
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+    #contact-form {
+        max-width: 100%;
+    }
+    
+    #submit-btn {
+        width: 100%;
+        align-self: center;
+    }
+}
+
+/* Label styles */
+.form-group label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+/* Error message styles */
+.form-group .error-message {
+    display: none;
+    color: #ff4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Show error message when input is invalid */
+.form-group input:invalid:not(:placeholder-shown) + .error-message,
+.form-group textarea:invalid:not(:placeholder-shown) + .error-message {
+    display: block;
+}
+
+/* Custom error styles for email */
+.form-group input[type="email"]:invalid:not(:placeholder-shown) {
+    border-color: #ff4444;
+}
+
+.form-group input[type="email"]:invalid:not(:placeholder-shown) + .error-message::before {
+    content: "Please enter a valid email address";
+    display: block;
+}
+
+/* Adjust spacing for the new labels */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input,
+.form-group textarea {
+    margin-top: 0.5rem;
+}
+
+/* Text slider responsiivisuus */
+.text-slider {
+    width: 100%;
+    overflow: hidden; /* Estää horisontaalisen ylivuodon */
+}
+
+.content-slider {
+    width: 100%;
+}
+
+.slider .quote {
+    font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
+    line-height: 1.4;
+}
+
+.slider .source {
+    font-size: clamp(0.875rem, 2.5vw, 1.2rem); /* Responsiivinen fonttikoko */
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+    .content-wrapper {
+        margin-bottom: 60px; /* Pienempi marginaali mobiililla */
+    }
+
+    .site-footer {
+        padding: 40px 0;
+    }
+
+    .footer-container {
+        flex-direction: column-reverse;
+        gap: 2rem;
+        padding: 1rem;
+    }
+    
+    .footer-left, .footer-right {
+        width: 100%;
+    }
+
+    /* Text slider mobiilioptimointi */
+    .content-slider {
+        padding: 0 10px;
+    }
+
+    .slider .mask {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .content-wrapper {
+        margin-bottom: 40px; /* Vielä pienempi marginaali pienillä näytöillä */
+    }
+    
+    .site-footer {
+        padding: 30px 0;
+    }
 }
