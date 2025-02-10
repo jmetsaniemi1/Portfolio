@@ -393,6 +393,39 @@ const typedCertifications = new Typed(".typed-text-certifications", {
         }
       }
     </script>
+    <script>
+      const API_KEY = "AIzaSyD3gScJAbOLmYKvBkgNazT6rKMeavCuTL8";  // ⚠️ Korvaa omalla API-avaimellasi
+        const API_URL = `https://recaptchaenterprise.googleapis.com/v1/projects/top-alliance-438914-r1/assessments?key=${API_KEY}`;
+
+        let jsonData = {}; // Tänne tallennetaan JSON-data
+
+        // 1️⃣ Ladataan JSON-tiedosto ja näytetään HTML:ssä
+        fetch('request.json')
+            .then(response => response.json())
+            .then(data => {
+                jsonData = data; // Tallennetaan JSON myöhempää käyttöä varten
+                document.getElementById('title').textContent = data.title;
+                document.getElementById('message').textContent = data.message;
+            })
+            .catch(error => console.error('Virhe JSON-tiedoston latauksessa:', error));
+
+        // 2️⃣ Lähetetään JSON API:lle kun nappia painetaan
+        document.getElementById('sendBtn').addEventListener('click', () => {
+            fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(jsonData) // Lähetetään tallennettu JSON-data
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Vastaus palvelimelta:", data);
+                alert("Data lähetetty onnistuneesti!");
+            })
+            .catch(error => console.error("Virhe lähetyksessä:", error));
+        });
+  </script>
 <script src="./JAVASCRIPT/script.js"></script>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
