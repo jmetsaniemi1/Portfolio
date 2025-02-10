@@ -1,0 +1,25 @@
+.footer-container {
+    display: flex;
+    flex-direction: row; /* oletuksena vierekkäin */
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.footer-left, .footer-right {
+    flex: 1;
+    min-width: 0; /* estää flex-itemien ylivuodon */
+}
+
+/* Mobiiliresponsiivisuus */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column-reverse; /* footer-left menee alle */
+        gap: 3rem;
+    }
+    
+    .footer-left, .footer-right {
+        width: 100%;
+    }
+} 

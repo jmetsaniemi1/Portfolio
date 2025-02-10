@@ -1,0 +1,71 @@
+/* Footer main styles */
+.site-footer {
+    background: rgba(0, 0, 0, 0.217);
+    backdrop-filter: blur(10px);
+    padding: 60px 0;
+    margin-top: 80px;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.footer-left, .footer-right {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Contact form styles */
+.contact-form-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.contact-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    color: var(--text-color);
+}
+
+.submit-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    height: 40px;
+    width: 120px;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+    .footer-container {
+        flex-direction: column-reverse;
+        gap: 3rem;
+    }
+    
+    .footer-left, .footer-right {
+        width: 100%;
+    }
+} 

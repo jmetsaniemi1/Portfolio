@@ -628,51 +628,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const footer = document.getElementById('CONTACT');
         footer.scrollIntoView({ behavior: 'smooth' });
     });
+});
 
-    // Lomakkeen käsittely
+// EmailJS:n alustaminen ensin
+(function() {
+    emailjs.init({
+        publicKey: "g78Bn0MtT9fyHrNST"
+    });
+})();
+
+// Lomakkeen käsittely
+document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
-    const formStatus = document.getElementById('formStatus');
+    if (!contactForm) return;
 
-    contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    contactForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Muutetaan nappi ja tila latauksen ajaksi
+        const submitButton = this.querySelector('.submit-btn');
+        const formStatus = document.getElementById('formStatus');
         
-        // Tallennetaan nykyinen scroll-positio
-        const currentPosition = window.scrollY;
-        
-        // Kerätään lomakkeen tiedot
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            message: document.getElementById('message').value
-        };
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+        formStatus.textContent = '';
 
-        // Simuloidaan lähetystä
-        formStatus.className = 'form-status';
-        formStatus.style.display = 'block';
-        formStatus.textContent = 'Sending...';
-
-        // Varmistetaan että pysymme samassa kohdassa
-        window.scrollTo({
-            top: currentPosition,
-            behavior: 'instant'
-        });
-
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        // Simuloidaan onnistunutta lähetystä
-        formStatus.className = 'form-status success';
-        formStatus.textContent = 'Message sent successfully!';
-        contactForm.reset();
-
-        // Pysytään edelleen samassa kohdassa
-        window.scrollTo({
-            top: currentPosition,
-            behavior: 'instant'
-        });
-
-        // Piilotetaan ilmoitus 3 sekunnin kuluttua
-        setTimeout(() => {
-            formStatus.style.display = 'none';
-        }, 3000);
+        // Lähetä lomake EmailJS:n kautta
+        emailjs.sendForm('service_1ya2q5h', 'template_4a6cb3t', this)
+            .then((result) => {
+                console.log('Success:', result.text);
+                formStatus.textContent = 'Message sent successfully!';
+                formStatus.style.color = 'var(--text-color)';
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                formStatus.textContent = 'Failed to send message. Please try again.';
+                formStatus.style.color = 'red';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            });
     });
 });
