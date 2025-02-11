@@ -27,7 +27,7 @@
 <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct"></script>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
 
 </head>
 
@@ -336,7 +336,7 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                     
                     <!-- Submit-nappi -->
                     <button id="submit-btn" class="g-recaptcha" 
-                    data-sitekey="reCAPTCHA_site_key" 
+                    data-sitekey="6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a" 
                     data-callback="onSubmit" 
                     data-action="submit">Send Message</button>
                 </form>
@@ -384,7 +384,6 @@ const typedCertifications = new Typed(".typed-text-certifications", {
   document.addEventListener('DOMContentLoaded', function() {
       console.log('DOM fully loaded and parsed');
 
-      // Varmista, että reCAPTCHA ja EmailJS ovat ladattu
       if (typeof emailjs === "undefined" || typeof grecaptcha === "undefined") {
           console.error("EmailJS tai reCAPTCHA ei ole ladattu oikein!");
           return;
@@ -403,12 +402,22 @@ const typedCertifications = new Typed(".typed-text-certifications", {
 
               const submitButton = form.querySelector('#submit-btn');
               submitButton.disabled = true;
-              submitButton.textContent = 'Sending...';
+              submitButton.textContent = 'Verifying...';
 
               try {
-                  // reCAPTCHA tarkistus
-                  const token = await verifyRecaptcha();
+                  // Hanki reCAPTCHA token
+                  const token = await grecaptcha.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', { action: 'submit' });
                   console.log('Received reCAPTCHA token:', token);
+
+                  // Lähetä token Googlelle arvioitavaksi
+                  const isHuman = await verifyRecaptcha(token);
+
+                  if (!isHuman) {
+                      alert("reCAPTCHA verification failed. Possible bot detected.");
+                      submitButton.disabled = false;
+                      submitButton.textContent = 'Send Message';
+                      return;
+                  }
 
                   // Lisää reCAPTCHA token lomakkeeseen
                   let recaptchaInput = form.querySelector('[name="g-recaptcha-response"]');
@@ -434,16 +443,39 @@ const typedCertifications = new Typed(".typed-text-certifications", {
       }
   });
 
-  // reCAPTCHA-tarkistus
-  async function verifyRecaptcha() {
+  // Google reCAPTCHA Enterprise tarkistus
+  async function verifyRecaptcha(token) {
+      const apiKey = "AIzaSyDYXon8COmACykBJlTfKEF8jOieaSCfMmg";
+      const url = `https://recaptchaenterprise.googleapis.com/v1/projects/citric-adviser-450518-b1/assessments?key=${apiKey}`;
+
+      const requestData = {
+          event: {
+              token: token,
+              siteKey: "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
+              expectedAction: "submit"
+          }
+      };
+
       try {
-          console.log('Starting reCAPTCHA verification');
-          const token = await grecaptcha.execute('6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct', {action: 'submit'});
-          console.log('reCAPTCHA token received');
-          return token;
+          const response = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(requestData)
+          });
+
+          const data = await response.json();
+          console.log("reCAPTCHA API response:", data);
+
+          if (data.riskAnalysis && data.riskAnalysis.score >= 0.5) {
+              console.log("reCAPTCHA passed!");
+              return true;
+          } else {
+              console.warn("reCAPTCHA failed, possible bot detected!");
+              return false;
+          }
       } catch (error) {
-          console.error('reCAPTCHA failed:', error);
-          throw error;
+          console.error("Error verifying reCAPTCHA:", error);
+          return false;
       }
   }
 
@@ -463,8 +495,9 @@ const typedCertifications = new Typed(".typed-text-certifications", {
 </script>
 
 <!-- Kirjastot oikeassa järjestyksessä -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 
 
 <!-- Viimeisenä oma script.js -->
