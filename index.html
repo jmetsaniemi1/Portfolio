@@ -297,12 +297,21 @@ const typedCertifications = new Typed(".typed-text-certifications", {
             <div class="footer-left">
                 <h2>Contact</h2>
                 <form id="contact-form">
+                    <!-- Piilotettu kenttä contact_number -->
                     <input type="hidden" name="contact_number" value="697483">
+                    
+                    <!-- Nimi-kenttä -->
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" id="name" name="from_name" placeholder="Enter your name" required>
+                        <input type="text" 
+                               id="name" 
+                               name="from_name" 
+                               placeholder="Enter your name" 
+                               required>
                         <span class="error-message"></span>
                     </div>
+                    
+                    <!-- Email-kenttä -->
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" 
@@ -313,20 +322,19 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                                required>
                         <span class="error-message"></span>
                     </div>
+                    
+                    <!-- Viesti-kenttä -->
                     <div class="form-group">
                         <label for="message">Message:</label>
                         <textarea id="message" 
                                  name="message" 
-                                 placeholder="Enter your message. Don't be shy. And don't be a dick. And don't steal my public key and use it for spam or other shit." 
+                                 placeholder="Enter your message" 
                                  required></textarea>
                         <span class="error-message"></span>
                     </div>
-                    <button class="g-recaptcha" 
-                            type="submit" 
-                            id="submit-btn"
-                            data-sitekey="6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct" 
-                            data-callback='onSubmit' 
-                            data-action='submit'>Send Message</button>
+                    
+                    <!-- Submit-nappi -->
+                    <button type="submit" id="submit-btn">Send Message</button>
                 </form>
             </div>
             
@@ -368,66 +376,74 @@ const typedCertifications = new Typed(".typed-text-certifications", {
     </div>
 </footer>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            // https://dashboard.emailjs.com/admin/account
-            emailjs.init({
-              publicKey: "YOUR_PUBLIC_KEY",
-            });
-        })();
-    </script>
-    <script>
-      function onSubmit(token) {
-        // Haetaan oikea lomake
-        const form = document.getElementById("contact-form");
+<script type="text/javascript">
+    // EmailJS alustus
+    emailjs.init("g78Bn0MtT9fyHrNST");
+
+    // Erillinen funktio EmailJS lähetykselle
+    async function sendEmail(form) {
+        const submitButton = form.querySelector('#submit-btn');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        try {
+            const response = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
+            console.log('EmailJS SUCCESS!', response.status, response.text);
+            alert('Message sent successfully!');
+            form.reset();
+        } catch (error) {
+            console.error('EmailJS FAILED...', error);
+            alert('Failed to send message. Please try again.');
+            throw error;
+        } finally {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+        }
+    }
+
+    // Erillinen funktio reCAPTCHA tarkistukselle
+    async function verifyRecaptcha() {
+        try {
+            console.log('Starting reCAPTCHA verification');
+            const token = await grecaptcha.execute('6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct', {action: 'submit'});
+            console.log('reCAPTCHA token received');
+            return token;
+        } catch (error) {
+            console.error('reCAPTCHA failed:', error);
+            throw error;
+        }
+    }
+
+    // Lomakkeen käsittely
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contact-form');
         
         if (form) {
-            // Tarkistetaan token
-            if (token) {
-                // Jatka lomakkeen lähetystä
-                form.submit();
-            } else {
-                alert("reCAPTCHA verification failed. Please try again.");
-            }
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                console.log('Form submission started');
+
+                try {
+                    // Ensin reCAPTCHA tarkistus
+                    await verifyRecaptcha();
+                    
+                    // Jos reCAPTCHA onnistui, lähetä sähköposti
+                    await sendEmail(this);
+                    
+                } catch (error) {
+                    console.error('Form submission failed:', error);
+                }
+
+                // Estetään lomakkeen lähetys
+                return false;
+            });
         }
-      }
-    </script>
-    <script>
-      const API_KEY = "AIzaSyD3gScJAbOLmYKvBkgNazT6rKMeavCuTL8";  // ⚠️ Korvaa omalla API-avaimellasi
-        const API_URL = `https://recaptchaenterprise.googleapis.com/v1/projects/top-alliance-438914-r1/assessments?key=${API_KEY}`;
+    });
+</script>
 
-        let jsonData = {}; // Tänne tallennetaan JSON-data
-
-        // 1️⃣ Ladataan JSON-tiedosto ja näytetään HTML:ssä
-        fetch('request.json')
-            .then(response => response.json())
-            .then(data => {
-                jsonData = data; // Tallennetaan JSON myöhempää käyttöä varten
-                document.getElementById('title').textContent = data.title;
-                document.getElementById('message').textContent = data.message;
-            })
-            .catch(error => console.error('Virhe JSON-tiedoston latauksessa:', error));
-
-        // 2️⃣ Lähetetään JSON API:lle kun nappia painetaan
-        document.getElementById('sendBtn').addEventListener('click', () => {
-            fetch(API_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(jsonData) // Lähetetään tallennettu JSON-data
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Vastaus palvelimelta:", data);
-                alert("Data lähetetty onnistuneesti!");
-            })
-            .catch(error => console.error("Virhe lähetyksessä:", error));
-        });
-  </script>
-<script src="./JAVASCRIPT/script.js"></script>
-<script src="https://www.google.com/recaptcha/api.js"></script>
+<!-- Varmista että scriptit ovat tässä järjestyksessä -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </body>
 </html>
