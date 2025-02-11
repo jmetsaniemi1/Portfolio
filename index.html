@@ -319,12 +319,11 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                       <span class="error-message"></span>
                   </div>
               
+                  <!-- Tämä div toimii reCAPTCHA:n upotuspisteenä -->
+                  <div id="recaptcha-container"></div>
+              
                   <button type="button"
-                          id="submit-btn"
-                          class="g-recaptcha"
-                          data-sitekey="6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"
-                          data-callback="onSubmit"
-                          data-action="submit">
+                          id="submit-btn">
                       Send Message
                   </button>
               </form>
@@ -368,21 +367,33 @@ const typedCertifications = new Typed(".typed-text-certifications", {
     </div>
 </footer>
 
-<script type="text/javascript">
+<<script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
       console.log("DOM loaded");
 
-      if (typeof emailjs === "undefined" || typeof grecaptcha === "undefined") {
-          console.error("EmailJS tai reCAPTCHA ei ole ladattu oikein!");
+      if (typeof emailjs === "undefined") {
+          console.error("EmailJS ei ole ladattu!");
           return;
       }
 
       // EmailJS alustus
       emailjs.init("g78Bn0MtT9fyHrNST");
 
+      // Varmistetaan, että reCAPTCHA on ladattu ennen käyttöä
+      let recaptchaWidgetId;
+      window.onload = function () {
+          grecaptcha.ready(function () {
+              recaptchaWidgetId = grecaptcha.render("recaptcha-container", {
+                  sitekey: "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
+                  size: "invisible",
+                  callback: onSubmit
+              });
+          });
+      };
+
       // Käyttäjän klikatessa nappia, suoritetaan reCAPTCHA
       document.getElementById("submit-btn").addEventListener("click", function () {
-          grecaptcha.execute();
+          grecaptcha.execute(recaptchaWidgetId);
       });
   });
 
