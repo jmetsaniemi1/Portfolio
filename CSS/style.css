@@ -1621,7 +1621,7 @@ nav {
     backdrop-filter: blur(5px);
 }
 
-.submit-btn:hover {
+#submit-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -1632,12 +1632,12 @@ nav {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-.darkmode .submit-btn:hover {
+.darkmode #submit-btn:hover {
     background: rgba(0, 0, 0, 0.3);
 }
 
 /* Disabled tila */
-.submit-btn:disabled {
+#submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none;
@@ -1757,36 +1757,3 @@ nav {
     }
 }
 
-/* reCAPTCHA badge muokkaus */
-.grecaptcha-badge { 
-    position: fixed !important;
-    bottom: 100px !important;
-    left: 20px !important;
-    right: auto !important;
-    opacity: 0;              /* Piilotetaan oletuksena */
-    z-index: 999;
-    transition: opacity 0.3s ease; /* Lisätään siirtymäanimaatio */
-    visibility: hidden;      /* Piilotetaan kokonaan */
-}
-
-/* Näytetään badge kun submit-nappia hoveroitaan */
-#submit-btn:hover ~ .grecaptcha-badge,
-#submit-btn:focus ~ .grecaptcha-badge { 
-    opacity: 0.5;
-    visibility: visible;
-}
-
-/* Näytetään badge kun lomake on aktiivinen */
-#contact-form:focus-within .grecaptcha-badge {
-    opacity: 0.5;
-    visibility: visible;
-}
-
-/* Responsiivisuus */
-@media screen and (max-width: 768px) {
-    .grecaptcha-badge {
-        transform: scale(0.8);
-        transform-origin: left bottom;
-        bottom: 80px !important;
-    }
-}
