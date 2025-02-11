@@ -27,6 +27,7 @@
 <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LerJdMqAAAAAD_XiJnIvf4oSZLylppraCKyw2Ct"></script>
 
 </head>
 
@@ -334,7 +335,10 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                     </div>
                     
                     <!-- Submit-nappi -->
-                    <button type="submit" id="submit-btn">Send Message</button>
+                    <button id="submit-btn" class="g-recaptcha" 
+                    data-sitekey="reCAPTCHA_site_key" 
+                    data-callback="onSubmit" 
+                    data-action="submit">Send Message</button>
                 </form>
             </div>
             

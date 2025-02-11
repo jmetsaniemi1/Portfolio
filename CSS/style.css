@@ -1759,17 +1759,34 @@ nav {
 
 /* reCAPTCHA badge muokkaus */
 .grecaptcha-badge { 
-    visibility: hidden;
-    opacity: 0.5;
+    position: fixed !important;
+    bottom: 100px !important;
+    left: 20px !important;
+    right: auto !important;
+    opacity: 0;              /* Piilotetaan oletuksena */
+    z-index: 999;
+    transition: opacity 0.3s ease; /* Lisätään siirtymäanimaatio */
+    visibility: hidden;      /* Piilotetaan kokonaan */
 }
 
-/* Jos haluat näyttää sen vain kun hiiri on lomakkeen päällä */
-#contact-form:hover + .grecaptcha-badge {
+/* Näytetään badge kun submit-nappia hoveroitaan */
+#submit-btn:hover ~ .grecaptcha-badge,
+#submit-btn:focus ~ .grecaptcha-badge { 
+    opacity: 0.5;
     visibility: visible;
 }
 
-/* Tai voit sijoittaa sen uudelleen */
-.grecaptcha-badge {
-    bottom: 60px !important;
-    z-index: 100;
+/* Näytetään badge kun lomake on aktiivinen */
+#contact-form:focus-within .grecaptcha-badge {
+    opacity: 0.5;
+    visibility: visible;
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+    .grecaptcha-badge {
+        transform: scale(0.8);
+        transform-origin: left bottom;
+        bottom: 80px !important;
+    }
 }
