@@ -1756,3 +1756,20 @@ nav {
         padding: 30px 0;
     }
 }
+
+/* reCAPTCHA badge muokkaus */
+.grecaptcha-badge { 
+    visibility: hidden;
+    opacity: 0.5;
+}
+
+/* Jos haluat näyttää sen vain kun hiiri on lomakkeen päällä */
+#contact-form:hover + .grecaptcha-badge {
+    visibility: visible;
+}
+
+/* Tai voit sijoittaa sen uudelleen */
+.grecaptcha-badge {
+    bottom: 60px !important;
+    z-index: 100;
+}
