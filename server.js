@@ -1,26 +1,25 @@
-require("dotenv").config();  // Lataa ympäristömuuttujat .env-tiedostosta
+require("dotenv").config();
+console.log("Ladattu API-avain:", process.env.RECAPTCHA_SECRET_KEY);
+
 const express = require("express");
 const cors = require("cors");
-const fetch = require("node-fetch");
 
 const app = express();
-app.use(express.json()); // Sallii JSON-pyyntöjen käsittelyn
-app.use(cors()); // Sallii frontendin ja backendin väliset pyynnöt
+app.use(express.json());
+app.use(cors());
 
-const PORT = 3000;
-const API_KEY = process.env.RECAPTCHA_SECRET_KEY; // Haetaan ympäristömuuttuja
+const PORT = process.env.PORT || 3000; // 🔹 Käyttää ympäristömuuttujaa tai oletuksena porttia 3000
+const API_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
-// ✅ 2️⃣ Reitti reCAPTCHA:n validointiin
 app.post("/verify-recaptcha", async (req, res) => {
-    const { token } = req.body; // Haetaan token frontendista
+    const { token } = req.body;
 
     if (!token) {
         return res.status(400).json({ success: false, message: "Token puuttuu" });
     }
 
-    // 🔹 Google reCAPTCHA API-kutsu
-    const url = `https://recaptchaenterprise.googleapis.com/v1/projects/YOUR_PROJECT_ID/assessments?key=${API_KEY}`;
-    
+    const url = `https://recaptchaenterprise.googleapis.com/v1/projects/citric-adviser-450518-b1/assessments?key=${API_KEY}`;
+
     const requestBody = {
         event: {
             token: token,
@@ -39,7 +38,6 @@ app.post("/verify-recaptcha", async (req, res) => {
         const data = await response.json();
         console.log("reCAPTCHA verification response:", data);
 
-        // Tarkistetaan onko reCAPTCHA validi
         const isValid = data.tokenProperties?.valid || false;
         res.json({ valid: isValid });
 
@@ -49,7 +47,12 @@ app.post("/verify-recaptcha", async (req, res) => {
     }
 });
 
-// ✅ 3️⃣ Käynnistä palvelin
+// Käynnistä palvelin
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+});
+
+// Testireitti
+app.get("/", (req, res) => {
+    res.send("Server is running!");
 });
