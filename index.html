@@ -319,159 +319,138 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                       <span class="error-message"></span>
                   </div>
               
-                  <!-- Tämä div toimii reCAPTCHA:n upotuspisteenä -->
+                  <!-- reCAPTCHA-elementti -->
                   <div id="recaptcha-container"></div>
               
-                  <button type="button"
-                          id="submit-btn">
+                  <button type="button" id="submit-btn">
                       Send Message
                   </button>
               </form>
-            </div>
-            
-            <!-- Oikea puoli -->
-            <div class="footer-right">
-                <div class="text-slider">
-                    <h1 class="heading-footer">Pure CSS Text Carousel</h1>
-                    <div class="content-slider">
-                        <div class="slider">
-                          <div class="mask">
-                            <ul>
-                              <li class="anim1">
-                                <div class="quote">Hello, this is a quote from a person.</div>
-                                <div class="source">- Person</div>
-                              </li>
-                              <li class="anim2">
-                                <div class="quote">Hello, this is a quote from another person.</div>
-                                <div class="source">- Another person</div>
-                              </li>
-                              <li class="anim3">
-                                <div class="quote">Hello, this is a quote from an animal.</div>
-                                <div class="source">- Animal</div>
-                              </li>
-                              <li class="anim4">
-                                <div class="quote">Hello, this is a quote from a plant.</div>
-                                <div class="source">- Plant</div>
-                              </li>
-                              <li class="anim5">
-                                <div class="quote">How do ya like that.</div>
-                                <div class="source">- Cassidy</div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</footer>
+              
+              <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded", function () {
+                    console.log("DOM loaded");
+                
+                    emailjs.init("g78Bn0MtT9fyHrNST");
+                
+                    let recaptchaWidgetId;
+                
+                    window.onload = function () {
+                        grecaptcha.enterprise.ready(function () {
+                            recaptchaWidgetId = grecaptcha.render("recaptcha-container", {
+                                sitekey: "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
+                                size: "invisible",
+                                callback: onSubmit
+                            });
+                        });
+                    };
+                
+                    document.getElementById("submit-btn").addEventListener("click", function () {
+                        console.log("Submit button clicked. Executing reCAPTCHA...");
+                        grecaptcha.enterprise.execute("6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a", { action: "submit" })
+                            .then(token => {
+                                console.log("Generated reCAPTCHA token:", token);
+                                onSubmit(token);
+                            })
+                            .catch(error => {
+                                console.error("reCAPTCHA execution error:", error);
+                            });
+                    });
+                });
+                
+                async function onSubmit(token) {
+                    console.log("reCAPTCHA onnistui:", token);
+                
+                    const isValid = await verifyRecaptchaToken(token);
+                    if (!isValid) {
+                        alert("reCAPTCHA verification failed!");
+                        return;
+                    }
+                
+                    // Lähetetään lomake EmailJS:n kautta vain jos reCAPTCHA on validi
+                    sendEmail(document.getElementById("contact-form"));
+                }
+                
+                async function verifyRecaptchaToken(token) {
+                    try {
+                        const response = await fetch("http://localhost:3000/verify-recaptcha", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ token })
+                        });
+                
+                        const data = await response.json();
+                        console.log("reCAPTCHA response from backend:", data);
+                
+                        return data.valid;
+                    } catch (error) {
+                        console.error("Error verifying reCAPTCHA:", error);
+                        return false;
+                    }
+                }
+                
+                async function sendEmail(form) {
+                    try {
+                        const response = await emailjs.sendForm("service_1ya2q5h", "template_4velrtj", form);
+                        console.log("EmailJS SUCCESS!", response.status, response.text);
+                        alert("Message sent successfully!");
+                        form.reset();
+                    } catch (error) {
+                        console.error("EmailJS FAILED...", error);
+                        alert("Failed to send message. Please try again.");
+                    }
+                }
+                </script>
+                
+              
+              <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+              <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+              <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
+              
 
-<<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function () {
-      console.log("DOM loaded");
-
-      if (typeof emailjs === "undefined") {
-          console.error("EmailJS ei ole ladattu!");
-          return;
-      }
-
-      // EmailJS alustus
-      emailjs.init("g78Bn0MtT9fyHrNST");
-
-      // Varmistetaan, että reCAPTCHA on ladattu ennen käyttöä
-      let recaptchaWidgetId;
-    
-    console.log("Checking if grecaptcha exists:", typeof grecaptcha !== "undefined");
-    
-    window.onload = function () {
-        console.log("Window loaded, initializing reCAPTCHA...");
-        if (typeof grecaptcha === "undefined") {
-            console.error("grecaptcha is not defined!");
-            return;
-        }
-
-        grecaptcha.ready(function () {
-            console.log("grecaptcha.ready() called");
-            recaptchaWidgetId = grecaptcha.render("recaptcha-container", {
-                sitekey: "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
-                size: "invisible",
-                callback: onSubmit
-            });
-            console.log("reCAPTCHA rendered with ID:", recaptchaWidgetId);
-        });
-    };
-
-      
-
-      // Käyttäjän klikatessa nappia, suoritetaan reCAPTCHA
-      document.getElementById("submit-btn").addEventListener("click", function () {
-        console.log("Submit button clicked. Executing reCAPTCHA...");
-        if (typeof recaptchaWidgetId === "undefined") {
-            console.error("reCAPTCHA widget ID is undefined! Rendering might have failed.");
-            return;
-        }
-        grecaptcha.execute(recaptchaWidgetId);
-    });
-});
-  
-
-  // Tätä funktiota kutsutaan reCAPTCHA:n vahvistuksen jälkeen
-  async function onSubmit(token) {
-      console.log("reCAPTCHA onnistui:", token);
-
-      const form = document.getElementById("contact-form");
-      const submitButton = document.getElementById("submit-btn");
-      submitButton.disabled = true;
-      submitButton.textContent = "Sending...";
-
-      try {
-          // Lisää reCAPTCHA token lomakkeeseen
-          let recaptchaInput = form.querySelector("[name='g-recaptcha-response']");
-          if (!recaptchaInput) {
-              recaptchaInput = document.createElement("input");
-              recaptchaInput.type = "hidden";
-              recaptchaInput.name = "g-recaptcha-response";
-              form.appendChild(recaptchaInput);
-          }
-          recaptchaInput.value = token;
-  console.log("reCAPTCHA token lisätty lomakkeeseen:", recaptchaInput.value);
-
-
-
-          // Lähetä lomake EmailJS:n kautta
-          await sendEmail(form);
-      } catch (error) {
-          console.error("Error submitting form:", error);
-          alert("Error submitting form. Please try again.");
-      } finally {
-          submitButton.disabled = false;
-          submitButton.textContent = "Send Message";
-      }
-  }
-
-  // EmailJS-lähetys
-  async function sendEmail(form) {
-      try {
-          const response = await emailjs.sendForm("service_1ya2q5h", "template_4velrtj", form);
-          console.log("EmailJS SUCCESS!", response.status, response.text);
-          alert("Message sent successfully!");
-          form.reset();
-      } catch (error) {
-          console.error("EmailJS FAILED...", error);
-          alert("Failed to send message. Please try again.");
-          throw error;
-      }
-  }
-</script>
-
-<script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
-
+<script src="./recaptcha.js"></script>
+<script src="./server.js"></script>
 
 <!-- Viimeisenä oma script.js -->
 <script src="./JAVASCRIPT/script.js" defer></script>
 
+
+<!-- 
+<div class="footer-right">
+  <div class="text-slider">
+      <h1 class="heading-footer">Pure CSS Text Carousel</h1>
+      <div class="content-slider">
+          <div class="slider">
+            <div class="mask">
+              <ul>
+                <li class="anim1">
+                  <div class="quote">Hello, this is a quote from a person.</div>
+                  <div class="source">- Person</div>
+                </li>
+                <li class="anim2">
+                  <div class="quote">Hello, this is a quote from another person.</div>
+                  <div class="source">- Another person</div>
+                </li>
+                <li class="anim3">
+                  <div class="quote">Hello, this is a quote from an animal.</div>
+                  <div class="source">- Animal</div>
+                </li>
+                <li class="anim4">
+                  <div class="quote">Hello, this is a quote from a plant.</div>
+                  <div class="source">- Plant</div>
+                </li>
+                <li class="anim5">
+                  <div class="quote">How do ya like that.</div>
+                  <div class="source">- Cassidy</div>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+-->
 </body>
 </html>
