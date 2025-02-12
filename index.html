@@ -391,11 +391,47 @@ const typedCertifications = new Typed(".typed-text-certifications", {
           });
       };
 
+      /*
+      let recaptchaWidgetId;
+    
+    console.log("Checking if grecaptcha exists:", typeof grecaptcha !== "undefined");
+    
+    window.onload = function () {
+        console.log("Window loaded, initializing reCAPTCHA...");
+        if (typeof grecaptcha === "undefined") {
+            console.error("grecaptcha is not defined!");
+            return;
+        }
+
+        grecaptcha.ready(function () {
+            console.log("grecaptcha.ready() called");
+            recaptchaWidgetId = grecaptcha.render("recaptcha-container", {
+                sitekey: "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
+                size: "invisible",
+                callback: onSubmit
+            });
+            console.log("reCAPTCHA rendered with ID:", recaptchaWidgetId);
+        });
+    };
+      */
+
       // Käyttäjän klikatessa nappia, suoritetaan reCAPTCHA
       document.getElementById("submit-btn").addEventListener("click", function () {
           grecaptcha.execute(recaptchaWidgetId);
       });
   });
+
+  /*
+  document.getElementById("submit-btn").addEventListener("click", function () {
+        console.log("Submit button clicked. Executing reCAPTCHA...");
+        if (typeof recaptchaWidgetId === "undefined") {
+            console.error("reCAPTCHA widget ID is undefined! Rendering might have failed.");
+            return;
+        }
+        grecaptcha.execute(recaptchaWidgetId);
+    });
+});
+  */
 
   // Tätä funktiota kutsutaan reCAPTCHA:n vahvistuksen jälkeen
   async function onSubmit(token) {
@@ -416,6 +452,9 @@ const typedCertifications = new Typed(".typed-text-certifications", {
               form.appendChild(recaptchaInput);
           }
           recaptchaInput.value = token;
+//         console.log("reCAPTCHA token lisätty lomakkeeseen:", recaptchaInput.value);
+
+
 
           // Lähetä lomake EmailJS:n kautta
           await sendEmail(form);
@@ -449,7 +488,7 @@ const typedCertifications = new Typed(".typed-text-certifications", {
 
 
 <!-- Viimeisenä oma script.js -->
-<script src="./JAVASCRIPT/script.js"></script>
+<script src="./JAVASCRIPT/script.js" defer></script>
 
 </body>
 </html>
