@@ -1757,3 +1757,14 @@ nav {
     }
 }
 
+/* Poistetaan nämä reCAPTCHA-tyylit */
+.grecaptcha-badge {
+    display: none !important;
+}
+
+/* Poistetaan mahdolliset reCAPTCHA container -tyylit */
+.recaptcha-container,
+.g-recaptcha {
+    display: none !important;
+}
+
