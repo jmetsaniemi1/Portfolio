@@ -289,24 +289,6 @@ document.addEventListener('mouseleave', () => {
   welcomeText.style.transform = 'scale(1)';
 });
 
-// Scroll-efekti
-window.addEventListener('scroll', () => {
-    const dayImage = document.querySelector('.day');
-    const nightImage = document.querySelector('.night');
-    
-    // Määritellään siirtymäalue
-    const scrollStart = 800; // px milloin siirtymä alkaa
-    const scrollEnd = 900;   // px milloin siirtymä loppuu
-    
-    const scrolled = window.pageYOffset;
-    const scrollProgress = Math.min(Math.max((scrolled - scrollStart) / (scrollEnd - scrollStart), 0), 1);
-    
-    // Päivitetään kuvien läpinäkyvyydet
-    if (!document.body.classList.contains('darkmode')) {
-        dayImage.style.opacity = 1 - scrollProgress;
-        nightImage.style.opacity = scrollProgress;
-    }
-});
 // Certifications column toggle
 document.addEventListener('DOMContentLoaded', () => {
     const viewButtons = document.querySelectorAll('.view-button');
