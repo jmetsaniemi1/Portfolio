@@ -27,7 +27,7 @@
 <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
-<script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
 
 </head>
 
@@ -345,16 +345,38 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                         });
                     };
                 
-                    document.getElementById("submit-btn").addEventListener("click", function () {
-                        console.log("Submit button clicked. Executing reCAPTCHA...");
-                        grecaptcha.enterprise.execute("6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a", { action: "submit" })
-                            .then(token => {
-                                console.log("Generated reCAPTCHA token:", token);
-                                onSubmit(token);
-                            })
-                            .catch(error => {
-                                console.error("reCAPTCHA execution error:", error);
+                    document.getElementById("submit-btn").addEventListener("click", async function (e) {
+                        e.preventDefault();
+                        
+                        try {
+                            // Suoritetaan reCAPTCHA
+                            const token = await grecaptcha.enterprise.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
+                            
+                            const apiUrl = window.location.hostname === 'localhost' 
+                                ? 'http://localhost:3000/verify-recaptcha'
+                                : 'https://www.johannesportfolio.space/verify-recaptcha';
+
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ token })
                             });
+
+                            const result = await response.json();
+                            
+                            if (result.valid) {
+                                // Jos reCAPTCHA ok, lähetetään lomake
+                                await sendEmail(document.getElementById("contact-form"));
+                                alert("Viesti lähetetty onnistuneesti!");
+                            } else {
+                                alert("reCAPTCHA tarkistus epäonnistui!");
+                            }
+                        } catch (error) {
+                            console.error("Virhe:", error);
+                            alert("Virhe viestin lähetyksessä. Yritä uudelleen.");
+                        }
                     });
                 });
                 
@@ -373,7 +395,7 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                 
                 async function verifyRecaptchaToken(token) {
                     try {
-                        const response = await fetch("https://recaptchaenterprise.googleapis.com/v1/projects/citric-adviser-450518-b1/assessments?key=API_KEY", {
+                        const response = await fetch("https://www.johannesportfolio.space", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ token })

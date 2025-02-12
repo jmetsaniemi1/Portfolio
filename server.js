@@ -5,7 +5,10 @@ const { verifyRecaptcha } = require("./recaptcha"); // Importoidaan validointifu
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['https://www.johannesportfolio.space'],
+    methods: ['GET', 'POST']
+}));
 
 const PORT = process.env.PORT || 3000;
 
