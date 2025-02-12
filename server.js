@@ -4,12 +4,19 @@ const cors = require("cors");
 const { verifyRecaptcha } = require("./recaptcha");
 
 const app = express();
-app.use(express.json());
+
+// Päivitetyt CORS-asetukset
 app.use(cors({
-    origin: ['https://www.johannesportfolio.space'],
-    methods: ['GET', 'POST'],
+    origin: 'https://www.johannesportfolio.space',  // Tarkka domain
+    methods: ['POST', 'OPTIONS'],                   // Sallitaan OPTIONS preflight-pyyntöjä varten
+    allowedHeaders: ['Content-Type'],              // Sallitaan Content-Type header
     credentials: true
 }));
+
+// Lisätään explicit OPTIONS handling
+app.options('/verify-recaptcha', cors());  // Käsitellään preflight-pyynnöt
+
+app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
