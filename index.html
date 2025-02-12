@@ -339,22 +339,11 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                             submitBtn.disabled = true;
                             submitBtn.textContent = "Lähetetään...";
 
-                            // Vaihdetaan tavallinen execute enterprise-versioon
-                            const token = await grecaptcha.enterprise.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
+                            // Lähetetään lomake EmailJS:n kautta
+                            const form = document.getElementById("contact-form");
+                            const result = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
                             
-                            // Validoidaan token palvelimella
-                            const validationResponse = await fetch('https://www.johannesportfolio.space/verify-recaptcha', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ 
-                                    token: token,
-                                    expectedAction: 'submit'
-                                })
-                            });
-                            
-                            console.log("Viesti lähetetty onnistuneesti:", validationResponse);
+                            console.log("Viesti lähetetty onnistuneesti:", result);
                             alert("Viesti lähetetty onnistuneesti!");
                             form.reset();
 
@@ -371,9 +360,9 @@ const typedCertifications = new Typed(".typed-text-certifications", {
               </script>
               
               
-              <script src="https://www.google.com/recaptcha/api.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
+              
               <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-              <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
+              
               
 
 <!-- Viimeisenä oma script.js -->
