@@ -1,6 +1,6 @@
 {
   "event": {
-    "token": "TOKEN.",
+    "token": "TOKEN",
     "expectedAction": "USER_ACTION",
     "siteKey": "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"
   }

@@ -349,33 +349,31 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                         e.preventDefault();
                         
                         try {
+                            // Näytetään latausanimaatio tai disabloidaan nappi
+                            const submitBtn = document.getElementById("submit-btn");
+                            submitBtn.disabled = true;
+                            submitBtn.textContent = "Lähetetään...";
+
                             // Suoritetaan reCAPTCHA
-                            const token = await grecaptcha.enterprise.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
-                            
-                            const apiUrl = window.location.hostname === 'localhost' 
-                                ? 'http://localhost:3000/verify-recaptcha'
-                                : 'https://www.johannesportfolio.space/verify-recaptcha';
+                            const token = await grecaptcha.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
+                            console.log("reCAPTCHA token:", token); // Debugging
 
-                            const response = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ token })
-                            });
-
-                            const result = await response.json();
+                            // Lähetetään lomake EmailJS:n kautta
+                            const form = document.getElementById("contact-form");
+                            const result = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
                             
-                            if (result.valid) {
-                                // Jos reCAPTCHA ok, lähetetään lomake
-                                await sendEmail(document.getElementById("contact-form"));
-                                alert("Viesti lähetetty onnistuneesti!");
-                            } else {
-                                alert("reCAPTCHA tarkistus epäonnistui!");
-                            }
+                            console.log("Viesti lähetetty onnistuneesti:", result);
+                            alert("Viesti lähetetty onnistuneesti!");
+                            form.reset();
+
                         } catch (error) {
                             console.error("Virhe:", error);
                             alert("Virhe viestin lähetyksessä. Yritä uudelleen.");
+                        } finally {
+                            // Palautetaan nappi normaalitilaan
+                            const submitBtn = document.getElementById("submit-btn");
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = "Send Message";
                         }
                     });
                 });
@@ -425,13 +423,10 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                 </script>
                 
               
-              <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+              <script src="https://www.google.com/recaptcha/api.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
               <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
               <script src="https://www.google.com/recaptcha/enterprise.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
               
-
-<script src="./recaptcha.js"></script>
-<script src="./server.js"></script>
 
 <!-- Viimeisenä oma script.js -->
 <script src="./JAVASCRIPT/script.js" defer></script>
