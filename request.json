@@ -1,7 +1,7 @@
 {
-    "event": {
-      "token": "TOKEN",
-      "expectedAction": "USER_ACTION",
-      "siteKey": "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a",
-    }
+  "event": {
+    "token": "03AFcWeA60V8KgRZ2O40Kn6KOPdNPItnr4mx3ErKeRdf9OgmUFF37gyqtoNJhyiqFeyLncCmVTI8w8v5bqcZS65beScTfND0JliBlOa8WV-U3iWqHyE-_OfYqoBtuuhW_58sJh9pqPTn...",
+    "expectedAction": "USER_ACTION",
+    "siteKey": "6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"
   }
+}
