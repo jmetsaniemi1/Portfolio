@@ -2,12 +2,11 @@ require("dotenv").config();
 const axios = require("axios");
 
 const API_KEY = process.env.RECAPTCHA_SECRET_KEY;
-const SITE_KEY = process.env.RECAPTCHA_SITE_KEY;
-const PROJECT_ID = "citric-adviser-450518-b1"; // Vaihda tarvittaessa oikeaan projektitunnukseen
+const PROJECT_ID = "citric-adviser-450518-b1"; // Varmista että tämä on oikea projekti-ID
 
-// Tarkistetaan, että API_KEY ja SITE_KEY on asetettu
-if (!API_KEY || !SITE_KEY) {
-    console.error("❌ Virhe: RECAPTCHA_SECRET_KEY tai RECAPTCHA_SITE_KEY puuttuu ympäristömuuttujista!");
+// Tarkistetaan, että API_KEY on asetettu
+if (!API_KEY) {
+    console.error("❌ Virhe: RECAPTCHA_SECRET_KEY puuttuu ympäristömuuttujista!");
     process.exit(1); // Lopetetaan prosessi virheen takia
 }
 
@@ -24,18 +23,22 @@ async function verifyRecaptcha(token) {
             event: {
                 token: token,
                 expectedAction: "submit",
-                siteKey: SITE_KEY
+                siteKey: process.env.RECAPTCHA_SITE_KEY
             }
         });
 
         const data = response.data;
         console.log("🔹 reCAPTCHA vastaus:", JSON.stringify(data, null, 2));
 
-        // Tarkistetaan, onko token validi
-        if (data.tokenProperties?.valid) {
-            return { valid: true, reason: "Success" };
+        // Enterprise-version tarkistus
+        if (data.tokenProperties?.valid && data.riskAnalysis?.score >= 0.5) {
+            return { valid: true, score: data.riskAnalysis.score };
         } else {
-            return { valid: false, reason: data.tokenProperties?.invalidReason || "Unknown error" };
+            return { 
+                valid: false, 
+                reason: data.tokenProperties?.invalidReason || "Score too low",
+                score: data.riskAnalysis?.score
+            };
         }
 
     } catch (error) {

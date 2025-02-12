@@ -339,18 +339,22 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                             submitBtn.disabled = true;
                             submitBtn.textContent = "Lähetetään...";
 
-                            // Suoritetaan reCAPTCHA
-                            const token = await grecaptcha.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
+                            // Vaihdetaan tavallinen execute enterprise-versioon
+                            const token = await grecaptcha.enterprise.execute('6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a', {action: 'submit'});
                             
-                            if (!token) {
-                                throw new Error('reCAPTCHA tarkistus epäonnistui');
-                            }
-
-                            // Lähetetään lomake EmailJS:n kautta
-                            const form = document.getElementById("contact-form");
-                            const result = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
+                            // Validoidaan token palvelimella
+                            const validationResponse = await fetch('https://www.johannesportfolio.space/verify-recaptcha', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ 
+                                    token: token,
+                                    expectedAction: 'submit'
+                                })
+                            });
                             
-                            console.log("Viesti lähetetty onnistuneesti:", result);
+                            console.log("Viesti lähetetty onnistuneesti:", validationResponse);
                             alert("Viesti lähetetty onnistuneesti!");
                             form.reset();
 
