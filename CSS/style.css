@@ -526,7 +526,7 @@ nav {
 }
 
 .content {
-  min-height: 150vh;
+  min-height: 10vh;
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -838,262 +838,184 @@ nav {
     margin: 0;
 }
 
+/* Separator section */
 
+/* Base Styles */
 .separator-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 4rem;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    background: linear-gradient(
-        135deg,
-        rgba(119, 170, 179, 0.121) 0%,
-        rgba(167, 211, 202, 0.378) 25%,
-        rgba(209, 212, 139, 0.346) 50%,
-        rgba(7, 120, 118, 0.36) 75%,
-        rgba(48, 42, 217, 0.166) 100%
-    );
-    backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* Lopullinen arvo, korvaa aiemman 4rem */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px auto;
+  background: linear-gradient(
+    135deg,
+    rgba(119, 170, 179, 0.121) 0%,
+    rgba(167, 211, 202, 0.378) 25%,
+    rgba(209, 212, 139, 0.346) 50%,
+    rgba(7, 120, 118, 0.36) 75%,
+    rgba(48, 42, 217, 0.166) 100%
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
 }
 
-/* Dark mode versio */
 .darkmode .separator-section {
-    background: linear-gradient(
-        135deg,
-        rgba(45, 62, 80, 0.9) 0%,
-        rgba(52, 73, 94, 0.424) 25%,
-        rgba(44, 62, 80, 0.601) 50%,
-        rgba(33, 47, 61, 0.614) 75%,
-        rgba(23, 32, 42, 0.26) 100%
-    );
+  background: linear-gradient(
+    135deg,
+    rgba(45, 62, 80, 0.9) 0%,
+    rgba(52, 73, 94, 0.424) 25%,
+    rgba(44, 62, 80, 0.601) 50%,
+    rgba(33, 47, 61, 0.614) 75%,
+    rgba(23, 32, 42, 0.26) 100%
+  );
 }
 
-/* Lisätään uusi wrapper teksteille */
-.text-content p {
-    flex: 1; /* Ottaa käytettävissä olevan tilan */
-    max-width: 90%; /* Rajoittaa tekstin leveyttä */
-    font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
-    font-size: 22px;
-    line-height: 27px;
-    !important;
+/* Yleiset tekstityylit (sama kuin .separator-section .text-content p) */
+.text-content p,
+.separator-section .text-content p {
+  flex: 1;
+  max-width: 100%;
+  font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+  font-size: 22px;
+  line-height: 27px;
+}
+
+/* Tarkemmat asettelut tekstin ympärillä */
+.content-wrapper .separator-section .text-content {
+  flex: 1;
+  max-width: 60%;
+  font-weight: 400;
+  font-style: normal;
+  color: black;
+}
+
+.content-wrapper .separator-section .text-content p {
+  color: var(--text-color);
 }
 
 .typed-text-intro {
-  opacity: 0; /* Hide animations before scrolling */
+  opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
 
-
+/* Bio-kuvan perustyylit (desktop) */
 .bio-image {
-    width: 600px; /* Kasvatetaan kuvan kokoa */
-    height: auto;
-    object-fit: contain;
-    max-width: 100%; /* Varmistetaan responsiivisuus */
+  width: 400px;
+  height: auto;
+  object-fit: contain;
 }
 
-/* Mobiiliresponsiivisuus */
-@media screen and (max-width: 1200px) {
-    .bio-image {
-        width: 500px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .separator-section {
-        flex-direction: column;
-        gap: 3rem;
-        padding: 0 10px;
-    }
-
-    .bio-image {
-        width: 90%;
-        max-width: 500px;
-        margin-top: 2rem;
-    }
-}
-
-.content-wrapper .separator-section .text-content {
-    flex: 1;
-    max-width: 60%;
-    font-weight: 400;
-    font-style: normal;
-    color: black;
-}
-
-/* Tai vielä spesifisemmin tekstielementeille: */
-.content-wrapper .separator-section .text-content p {
-    color: var(--text-color);
-}
-
-/* Muokataan content-wrapperin sijaintia näytön koon mukaan */
+/* Content Wrapper */
 .content-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    width: 100%;
-    min-height: 100vh; /* Vähintään näytön korkuinen */
-    padding: 20px;
-}
-
-.separator-section {
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    width: 100%;
-    max-width: 1200px; /* Rajoitetaan maksimileveys */
-    margin: 0 auto;
-}
-
-.text-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.bio-image {
-    max-width: 200px; /* Pienennetty kuvan kokoa */
-    height: auto;
-}
-
-/* Responsiivisuus */
-@media screen and (max-width: 768px) {
-    .content-wrapper {
-        padding: 40px 20px; /* Lisätään padding ylös ja alas */
-        min-height: 120vh; /* Kasvatetaan korkeutta mobiililla */
-    }
-
-    .separator-section {
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    .text-content {
-        width: 100%;
-    }
-
-    .bio-image {
-        margin-top: 2rem; /* Lisätään tilaa kuvan yläpuolelle */
-    }
-
-    .typed-intro, .typed-text {
-        font-size: 0.9rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .content-wrapper {
-        margin-bottom: 60px;
-        padding: 0 0.5rem; /* Pienempi padding mobiililla */
-    }
-
-    .bio-image {
-        max-width: 120px;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 /* FOOTER */
-
 .columns .content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 1200px) {
+  .bio-image {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .separator-section {
+    flex-direction: column;
+    gap: 3rem;
+    padding: 0 10px;
+  }
+
+  .bio-image {
+    width: 90%;
+    max-width: 500px;
+    margin-top: 2rem;
+  }
+
+  .content-wrapper {
+    padding: 40px 20px;
+    min-height: 120vh;
+  }
+
+  .separator-section .text-content {
+    width: 98%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+  }
+
+  .separator-section .text-content p {
+    font-size: 18px;
+    line-height: 24px;
     width: 100%;
-}
+    max-width: none;
+    margin: 10px 0;
+    padding: 0 5px;
+  }
 
-@media screen and (max-width: 768px) {
-    .columns .content {
-        gap: 20px !important; /* Pakota väli */
-        padding: 10px;
-        margin-top: 0;
-    }
+  .typed-intro,
+  .typed-text {
+    font-size: 0.9rem;
+  }
 
-    .columns .content .column {
-        margin: 50px 0 !important; /* Pakota marginaalit */
-        width: 95%;
-        max-width: none;
-    }
-
-    /* Varmista että containerit ovat lähempänä toisiaan */
-    .certifications-container {
-        margin-bottom: 10px !important;
-    }
+  /* Footer mobiili */
+  .columns .content {
+    gap: 20px !important;
+    padding: 10px;
+    margin-top: 0;
+  }
+  .columns .content .column {
+    margin: 50px 0 !important;
+    width: 95%;
+    max-width: none;
+  }
+  .certifications-container {
+    margin-bottom: 10px !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .columns .content {
-        gap: 5px !important;
-        padding: 5px;
-    }
+  .content-wrapper {
+    margin-bottom: 60px;
+    padding: 0 0.5rem;
+  }
+
+  .bio-image {
+    width: 95%;
+    max-width: 120px;
+    margin: 15px 0;
+  }
+
+  .separator-section .text-content p {
+    font-size: 16px;
+    line-height: 22px;
+    padding: 0 3px;
+    min-width: 90%;
+  }
+
+  .columns .content {
+    gap: 5px !important;
+    padding: 5px;
+  }
 }
 
-/* Perustyylit desktop-näytölle */
-.separator-section .text-content p {
-    flex: 1;
-    max-width: 90%;
-    font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
-    font-size: 22px;
-    line-height: 27px;
-}
-
-.bio-image {
-    width: 400px; /* Desktop-koko */
-    height: auto;
-    object-fit: contain;
-}
-
-/* Mobiiliresponsiivisuus */
-@media screen and (max-width: 768px) {
-    .separator-section {
-        flex-direction: column;
-        padding: 5px; /* Minimaalinen padding */
-        align-items: center;
-        width: 100%;
-    }
-
-    .separator-section .text-content {
-        width: 98%; /* Lähes koko leveys */
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start; /* Tasaa sisältö vasemmalle */
-        padding: 0;
-        margin: 0;
-    }
-
-    .separator-section .text-content p {
-        font-size: 18px;
-        line-height: 24px;
-        width: 100%;
-        max-width: none;
-        margin: 10px 0;
-        padding: 0 5px; /* Minimaalinen sivupadding */
-    }
-
-    .bio-image {
-        width: 90%; /* Suurempi koko mobiililla */
-        max-width: 500px; /* Maksimileveys */
-        margin: 20px 0; /* Lisää tilaa kuvan ympärille */
-    }
-}
-
-/* Vielä pienemmille näytöille */
-@media screen and (max-width: 480px) {
-    .separator-section .text-content p {
-        font-size: 16px;
-        line-height: 22px;
-        padding: 0 3px; /* Vielä pienempi padding */
-    }
-
-    .bio-image {
-        width: 95%; /* Vieläkin suurempi suhteellinen koko */
-        margin: 15px 0;
-    }
-}
 
 /* Lukitusnapin container */
 .carousel-lock-container {
