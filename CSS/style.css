@@ -840,7 +840,14 @@ nav {
 
 
 .separator-section {
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     background: linear-gradient(
         135deg,
         rgba(119, 170, 179, 0.121) 0%,
@@ -850,23 +857,6 @@ nav {
         rgba(48, 42, 217, 0.166) 100%
     );
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 0.5px solid rgba(214, 214, 214, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    border-radius: 20px;
-    height: 590px;
-    max-width: 80%;
-    margin: 0 auto;
-    z-index: 1;
-    padding: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: background 1.3s ease; /* Lisätään pehmeä siirtymä */
-   
 }
 
 /* Dark mode versio */
@@ -898,75 +888,30 @@ nav {
 
 
 .bio-image {
-    flex: 0 0 auto;
-    width: 35%;
+    width: 600px; /* Kasvatetaan kuvan kokoa */
     height: auto;
-    object-fit: cover;
-    filter: drop-shadow(40px 40px 30px rgba(0, 0, 0, 0.977));
-    transform: scale(1.3); /* Suurentaa kuvaa 30% */
-    transform-origin: center top; /* Ankkuroi skaalauksen oikeaan reunaan */
+    object-fit: contain;
+    max-width: 100%; /* Varmistetaan responsiivisuus */
 }
 
 /* Mobiiliresponsiivisuus */
-@media screen and (max-width: 768px) {
-    .separator-section {
-        width: 90vw !important;
-        max-width: 90vw !important;
-        margin: 0 !important;
-        padding: 10px !important;
-        box-sizing: border-box !important;
-        display: block !important;
-        overflow: hidden !important; /* Estetään ylivuoto */
-        left: 3% !important;
-
-    }
-
-    .separator-section .text-content {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-    .separator-section .text-content p {
-        display: block !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 0 !important;
-        margin: 10px 0 !important;
-        font-size: 18px !important;
-        line-height: 24px !important;
-        text-align: center !important; /* Keskitetään teksti */
-    }
-
+@media screen and (max-width: 1200px) {
     .bio-image {
-        width: 95% !important;
-        max-width: 500px !important;
-        height: auto !important;
-        margin: 15px auto !important;
-        display: block !important;
-        object-fit: contain !important; /* Varmistetaan kuvan sovitus */
-        transform: scale(1) !important; /* Resetoidaan mahdolliset transformit */
-        transform-origin: center !important;
+        width: 500px;
     }
 }
 
-/* Vielä pienemmille näytöille */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
     .separator-section {
-        padding: 5px !important;
-    }
-
-    .separator-section .text-content p {
-        font-size: 16px !important;
-        line-height: 22px !important;
+        flex-direction: column;
+        gap: 3rem;
+        padding: 0 10px;
     }
 
     .bio-image {
-        width: 90% !important; /* Hieman pienempi leveys */
-        margin: 10px auto !important;
+        width: 90%;
+        max-width: 500px;
+        margin-top: 2rem;
     }
 }
 
@@ -985,19 +930,21 @@ nav {
 
 /* Muokataan content-wrapperin sijaintia näytön koon mukaan */
 .content-wrapper {
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 1400px; /* Rajoitettu maksimileveys */
-    margin: 0 auto; /* Keskitetään */
-    margin-bottom: 120px;
-    overflow: hidden;
-    padding: 0 1rem; /* Lisätään padding reunoille */
+    min-height: 100vh; /* Vähintään näytön korkuinen */
+    padding: 20px;
 }
 
 .separator-section {
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 2rem;
     width: 100%;
+    max-width: 1200px; /* Rajoitetaan maksimileveys */
     margin: 0 auto;
 }
 
@@ -1014,11 +961,13 @@ nav {
 /* Responsiivisuus */
 @media screen and (max-width: 768px) {
     .content-wrapper {
-        margin-bottom: 80px;
+        padding: 40px 20px; /* Lisätään padding ylös ja alas */
+        min-height: 120vh; /* Kasvatetaan korkeutta mobiililla */
     }
 
     .separator-section {
         flex-direction: column;
+        gap: 3rem;
     }
 
     .text-content {
@@ -1026,8 +975,7 @@ nav {
     }
 
     .bio-image {
-        max-width: 150px;
-        margin: 0 auto;
+        margin-top: 2rem; /* Lisätään tilaa kuvan yläpuolelle */
     }
 
     .typed-intro, .typed-text {
@@ -1214,6 +1162,8 @@ nav {
     );
     backdrop-filter: blur(10px);
     padding: 60px 0;
+    max-width: 1200px;
+    margin: 20px auto;
 }
 
 /* Dark mode versio */
@@ -1231,7 +1181,7 @@ nav {
 .footer-container {
     display: flex;
     justify-content: space-between;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
     gap: 4rem;
@@ -1313,8 +1263,8 @@ nav {
 }
 
 .slider {
-  height: 320px;
-  width: 680px;
+  width: 100%;  /* Muutetaan kiinteä leveys suhteelliseksi */
+  max-width: 680px;  /* Maksimileveys alkuperäisen leveyden mukaan */
   margin: 40px auto 0;
   overflow: visible;
   position: relative;
@@ -1332,22 +1282,40 @@ nav {
 }
 
 .slider li {
-  width: 680px;
+  width: 100%;  /* Muutetaan kiinteä leveys suhteelliseksi */
   height: 320px;
   position: absolute;
   list-style: none;
 }
 
 .slider .quote {
-  font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
+  font-size: 1.5rem;  /* Sama koko kuin muualla sivustolla */
   line-height: 1.4;
+  color: var(--text-color);
+  font-family: GeistMono, ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono", "Courier New", monospace;
+}
+
+.slider .quote .tech-highlight {
+  font-weight: bold;
+}
+
+.slider .quote .tech-highlight.html {
+  color: blue;
+}
+
+.slider .quote .tech-highlight.css {
+  color: red;
+}
+
+.slider .quote .tech-highlight.js {
+  color: yellow;
 }
 
 .tech-bar {
   display: flex;
   width: 100%;
-  height: 10px;
-  border-radius: 5px;
+  height: 15px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -1659,47 +1627,22 @@ nav {
 }
 
 .slider .quote {
-    font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
+    font-size: 1.5rem;  /* Sama koko kuin muualla sivustolla */
     line-height: 1.4;
+    color: var(--text-color);
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;  /* Sama fontti kuin muualla */
 }
 
-/* Responsiivisuus */
+/* Responsiivisuus pienemmille näytöille */
 @media screen and (max-width: 768px) {
-    .content-wrapper {
-        margin-bottom: 60px; /* Pienempi marginaali mobiililla */
-    }
-
-    .site-footer {
-        padding: 40px 0;
-    }
-
-    .footer-container {
-        flex-direction: column-reverse;
-        gap: 2rem;
-        padding: 1rem;
-    }
-    
-    .footer-left, .footer-right {
-        width: 100%;
-    }
-
-    /* Text slider mobiilioptimointi */
-    .content-slider {
-        padding: 0 10px;
-    }
-
-    .slider .mask {
-        width: 100%;
+    .slider .quote {
+        font-size: 1.2rem;  /* Hieman pienempi mobiililla */
     }
 }
 
 @media screen and (max-width: 480px) {
-    .content-wrapper {
-        margin-bottom: 40px; /* Vielä pienempi marginaali pienillä näytöillä */
-    }
-    
-    .site-footer {
-        padding: 30px 0;
+    .slider .quote {
+        font-size: 1rem;  /* Vielä pienempi pienillä näytöillä */
     }
 }
 
@@ -1712,5 +1655,30 @@ nav {
 .recaptcha-container,
 .g-recaptcha {
     display: none !important;
+}
+
+/* Mobiiliresponsiivisuus text-sliderille */
+@media screen and (max-width: 768px) {
+    .text-slider {
+        margin: 0 20px;  /* Lisää marginaali molemmille puolille */
+        width: calc(100% - 40px);  /* Huomioi marginaalit leveydessä */
+    }
+    
+    .slider {
+        width: 100%;  /* Täysi leveys containerissa */
+        margin: 20px auto;  /* Pienempi marginaali ylhäällä ja alhaalla */
+    }
+    
+    .slider li {
+        width: 100%;  /* Täysi leveys */
+    }
+}
+
+/* Vielä pienemmille näytöille */
+@media screen and (max-width: 480px) {
+    .text-slider {
+        margin: 0 10px;  /* Pienempi marginaali */
+        width: calc(100% - 20px);
+    }
 }
 
