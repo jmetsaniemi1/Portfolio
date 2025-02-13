@@ -1340,7 +1340,6 @@ nav {
 
 .slider .quote {
   font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
-  font-style: italic;
   line-height: 1.4;
 }
 
