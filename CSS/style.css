@@ -1236,6 +1236,12 @@ nav {
     padding: 2rem;
     gap: 4rem;
 }
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+}
 
 .footer-left, .footer-right {
     flex: 1;
@@ -1281,12 +1287,25 @@ nav {
     }
 }
 
-// FOOTER TEKSTI
-
+/* Kopioidaan Contact-otsikon tyyli heading-footer-luokalle */
 .heading-footer {
-  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsiivinen fonttikoko */
-  text-align: center;
-  margin-bottom: 1rem;
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Jos haluat varmistaa että molemmat otsikot näyttävät identtisiltä, 
+   voit myös tyylittää footer-left h2:n samalla tavalla */
+.footer-left h2 {
+    color: var(--text-color);
+    font-size: 2em;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .content-slider {
@@ -1325,10 +1344,17 @@ nav {
   line-height: 1.4;
 }
 
-.slider .source {
-  font-size: clamp(0.875rem, 2.5vw, 1.2rem); /* Responsiivinen fonttikoko */
-  text-align: right;
+.tech-bar {
+  display: flex;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
 }
+
+.css { background-color: #2965f1; width: 45.7%; } /* CSS */
+.js { background-color: #f7df1e; width: 29.5%; } /* JS */
+.html { background-color: #e34f26; width: 24.8%; } /* HTML */
 
 .slider li.anim1 {
   animation: cycle 15s linear infinite;
@@ -1340,14 +1366,6 @@ nav {
 
 .slider li.anim3 {
   animation: cycle3 15s linear infinite;
-}
-
-.slider li.anim4 {
-  animation: cycle4 15s linear infinite;
-}
-
-.slider li.anim5 {
-  animation: cycle5 15s linear infinite;
 }
 
 .slider:hover li {
@@ -1474,73 +1492,6 @@ nav {
   }
 }
 
-@keyframes cycle4 {
-  0% {
-    top: -325px;
-    opacity: 0;
-  }
-  56% {
-    top: -325px;
-    opacity: 0;
-  }
-  60% {
-    top: 0px;
-    opacity: 1;
-  }
-  64% {
-    top: 0px;
-    opacity: 1;
-  }
-  76% {
-    top: 0px;
-    opacity: 1;
-    z-index: 0;
-  }
-  80% {
-    top: 325px;
-    opacity: 0;
-    z-index: 0;
-  }
-  81% {
-    top: -325px;
-    opacity: 0;
-    z-index: -1;
-  }
-  100% {
-    top: -325px;
-    opacity: 0;
-    z-index: -1;
-  }
-}
-
-@keyframes cycle5 {
-  0% {
-    top: -325px;
-    opacity: 0;
-  }
-  76% {
-    top: -325px;
-    opacity: 0;
-  }
-  80% {
-    top: 0px;
-    opacity: 1;
-  }
-  84% {
-    top: 0px;
-    opacity: 1;
-  }
-  96% {
-    top: 0px;
-    opacity: 1;
-    z-index: 0;
-  }
-  100% {
-    top: 325px;
-    opacity: 0;
-    z-index: 0;
-  }
-}
 
 /* Contact Form Styles */
 #contact-form {
@@ -1711,10 +1662,6 @@ nav {
 .slider .quote {
     font-size: clamp(1rem, 3vw, 1.5rem); /* Responsiivinen fonttikoko */
     line-height: 1.4;
-}
-
-.slider .source {
-    font-size: clamp(0.875rem, 2.5vw, 1.2rem); /* Responsiivinen fonttikoko */
 }
 
 /* Responsiivisuus */

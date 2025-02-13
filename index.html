@@ -323,121 +323,75 @@ const typedCertifications = new Typed(".typed-text-certifications", {
                       Send Message
                   </button>
               </form>
+            </div>
 
-              <div class="footer-right">
+            <!-- Oikea puoli -->
+            <div class="footer-right">
                 <div class="text-slider">
-                    <h1 class="heading-footer">Pure CSS Text Carousel</h1>
+                    <h1 class="heading-footer">Some facts</h1>
                     <div class="content-slider">
                         <div class="slider">
-                          <div class="mask">
-                            <ul>
-                              <li class="anim1">
-                                <div class="quote">Hello, this is a quote from a person.</div>
-                                <div class="source">- Person</div>
-                              </li>
-                              <li class="anim2">
-                                <div class="quote">Hello, this is a quote from another person.</div>
-                                <div class="source">- Another person</div>
-                              </li>
-                              <li class="anim3">
-                                <div class="quote">Hello, this is a quote from an animal.</div>
-                                <div class="source">- Animal</div>
-                              </li>
-                              <li class="anim4">
-                                <div class="quote">Hello, this is a quote from a plant.</div>
-                                <div class="source">- Plant</div>
-                              </li>
-                              <li class="anim5">
-                                <div class="quote">How do ya like that.</div>
-                                <div class="source">- Cassidy</div>
-                              </li>
-                            </ul>
-                          </div>
+                            <div class="mask">
+                                <ul>
+                                    <li class="anim1">
+                                        <div class="quote">I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying, I said fuck it. Instead I made this carousel.</div>
+                                    </li>
+                                    <li class="anim2">
+                                        <div class="quote">Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing. I'm still becoming.</div>
+                                    </li>
+                                    <li class="anim3">
+                                        <div class="quote">Currently, the website is 45,7% CSS, 29,5% JavaScript and 24,8% HTML.</div>
+                                        <div class="tech-bar">
+                                          <div class="css"></div>
+                                          <div class="js"></div>
+                                          <div class="html"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-              </div>
-              </div>
-              </div>
-              
-              <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded", function () {
-                    emailjs.init("g78Bn0MtT9fyHrNST");
-                
-                    document.getElementById("submit-btn").addEventListener("click", async function (e) {
-                        e.preventDefault();
-                        
-                        try {
-                            const submitBtn = document.getElementById("submit-btn");
-                            submitBtn.disabled = true;
-                            submitBtn.textContent = "Lähetetään...";
+            </div>
+        </div>
+    </div>
+</footer>
 
-                            // Lähetetään lomake EmailJS:n kautta
-                            const form = document.getElementById("contact-form");
-                            const result = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
-                            
-                            console.log("Viesti lähetetty onnistuneesti:", result);
-                            alert("Viesti lähetetty onnistuneesti!");
-                            form.reset();
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+      emailjs.init("g78Bn0MtT9fyHrNST");
+  
+      document.getElementById("submit-btn").addEventListener("click", async function (e) {
+          e.preventDefault();
+          
+          try {
+              const submitBtn = document.getElementById("submit-btn");
+              submitBtn.disabled = true;
+              submitBtn.textContent = "Lähetetään...";
 
-                        } catch (error) {
-                            console.error("Virhe:", error);
-                            alert("Virhe viestin lähetyksessä. Yritä uudelleen.");
-                        } finally {
-                            const submitBtn = document.getElementById("submit-btn");
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = "Send Message";
-                        }
-                    });
-                });
-              </script>
+              // Lähetetään lomake EmailJS:n kautta
+              const form = document.getElementById("contact-form");
+              const result = await emailjs.sendForm('service_1ya2q5h', 'template_4velrtj', form);
               
-              
-              
-              <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-              
-              
+              console.log("Viesti lähetetty onnistuneesti:", result);
+              alert("Viesti lähetetty onnistuneesti!");
+              form.reset();
+
+          } catch (error) {
+              console.error("Virhe:", error);
+              alert("Virhe viestin lähetyksessä. Yritä uudelleen.");
+          } finally {
+              const submitBtn = document.getElementById("submit-btn");
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Send Message";
+          }
+      });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <!-- Viimeisenä oma script.js -->
 <script src="./JAVASCRIPT/script.js" defer></script>
-
-
-<!-- 
-<div class="footer-right">
-  <div class="text-slider">
-      <h1 class="heading-footer">Pure CSS Text Carousel</h1>
-      <div class="content-slider">
-          <div class="slider">
-            <div class="mask">
-              <ul>
-                <li class="anim1">
-                  <div class="quote">Hello, this is a quote from a person.</div>
-                  <div class="source">- Person</div>
-                </li>
-                <li class="anim2">
-                  <div class="quote">Hello, this is a quote from another person.</div>
-                  <div class="source">- Another person</div>
-                </li>
-                <li class="anim3">
-                  <div class="quote">Hello, this is a quote from an animal.</div>
-                  <div class="source">- Animal</div>
-                </li>
-                <li class="anim4">
-                  <div class="quote">Hello, this is a quote from a plant.</div>
-                  <div class="source">- Plant</div>
-                </li>
-                <li class="anim5">
-                  <div class="quote">How do ya like that.</div>
-                  <div class="source">- Cassidy</div>
-                </li>
-              </ul>
-            </div>
-          </div>
-      </div>
-  </div>
-</div>
-</div>
-</div>
--->
 </body>
 </html>
