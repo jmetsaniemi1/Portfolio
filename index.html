@@ -358,36 +358,56 @@ const typedCertifications = new Typed(".typed-text-certifications", {
     </div>
 
     <script>
-      // Quote 1 animation (0-5s)
-    const quote1 = new Typed("#quote1", {
-        strings: ["I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying, I said fuck it. Instead I made this carousel."],
-        typeSpeed: 1,
-        backSpeed: 3,
-        startDelay: 100,
-        showCursor: false,
-        loop: false
-    });
+      const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  // Käynnistetään sekä CSS että Typed animaatiot
+                  entry.target.classList.add('playing');
+                  startTypedAnimations();
+                  // Lopetetaan tarkkailu
+                  observer.disconnect();
+              }
+          });  
+      }, {
+          threshold: 0.1
+      });
 
-    // Quote 2 animation (5-10s)
-    const quote2 = new Typed("#quote2", {
-        strings: ["Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing."],
-        typeSpeed: 1,
-        backSpeed: 3,
-        startDelay: 6000, // 5s
-        showCursor: false,
-        loop: false
-    });
+      // Funktio animaatioiden käynnistämiseen
+      function startTypedAnimations() {
+          // Quote 1 animation (0-5s)
+          const quote1 = new Typed("#quote1", {
+              strings: ["I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying, I said fuck it. Instead I made this carousel."],
+              typeSpeed: 1,
+              backSpeed: 3,
+              startDelay: 100,
+              showCursor: false,
+              loop: false
+          });
 
-    // Quote 3 animation (10-15s)
-    const quote3 = new Typed("#quote3", {
-        strings: ["Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%)."],
-        typeSpeed: 1,
-        backSpeed: 3,
-        startDelay: 11000, // 10s
-        showCursor: false,
-        loop: false
-    });
-  </script>
+          // Quote 2 animation (5-10s)
+          const quote2 = new Typed("#quote2", {
+              strings: ["Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing."],
+              typeSpeed: 1,
+              backSpeed: 3,
+              startDelay: 6000,
+              showCursor: false,
+              loop: false
+          });
+
+          // Quote 3 animation (10-15s)
+          const quote3 = new Typed("#quote3", {
+              strings: ["Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%)."],
+              typeSpeed: 1,
+              backSpeed: 3,
+              startDelay: 11000,
+              showCursor: false,
+              loop: false
+          });
+      }
+
+      // Aloitetaan slider-elementin tarkkailu
+      observer.observe(document.querySelector('.slider'));
+    </script>
 
 </footer>
 

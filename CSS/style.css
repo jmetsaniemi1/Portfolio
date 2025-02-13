@@ -1323,20 +1323,30 @@ nav {
 .js { background-color: #f7df1e; width: 29.5%; } /* JS */
 .html { background-color: #e34f26; width: 24.8%; } /* HTML */
 
-.slider li.anim1 {
-  animation: cycle 15s linear infinite;
-}
-
-.slider li.anim2 {
-  animation: cycle2 15s linear infinite;
-}
-
+.slider li.anim1,
+.slider li.anim2,
 .slider li.anim3 {
-  animation: cycle3 15s linear infinite;
+    animation-play-state: paused; /* Oletuksena pysäytetty */
 }
 
+.slider.playing li.anim1 {
+    animation: cycle 15s linear infinite;
+    animation-play-state: running;
+}
+
+.slider.playing li.anim2 {
+    animation: cycle2 15s linear infinite;
+    animation-play-state: running;
+}
+
+.slider.playing li.anim3 {
+    animation: cycle3 15s linear infinite;
+    animation-play-state: running;
+}
+
+/* Säilytetään hover-toiminto */
 .slider:hover li {
-  animation-play-state: paused;
+    animation-play-state: paused !important;
 }
 
 @keyframes cycle {
