@@ -315,7 +315,7 @@ const typedCertifications = new Typed(".typed-text-certifications", {
               
                   <div class="form-group">
                       <label for="message">Message:</label>
-                      <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+                      <textarea id="message" name="message" placeholder="Enter your message...  And, pleace, it's just a portfolio, so don't steal my key and use it for sinister shit like bombarding spam." required></textarea>
                       <span class="error-message"></span>
                   </div>
               
@@ -328,19 +328,19 @@ const typedCertifications = new Typed(".typed-text-certifications", {
             <!-- Oikea puoli -->
             <div class="footer-right">
                 <div class="text-slider">
-                    <h1 class="heading-footer">Some facts</h1>
+                    <h1 class="heading-footer">Random facts</h1>
                     <div class="content-slider">
                         <div class="slider">
                             <div class="mask">
                                 <ul>
                                     <li class="anim1">
-                                        <div class="quote">I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying, I said fuck it. Instead I made this carousel.</div>
+                                        <div class="quote"><span id="quote1"></span></div>
                                     </li>
                                     <li class="anim2">
-                                        <div class="quote">Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing. I'm still becoming.</div>
+                                        <div class="quote"><span id="quote2"></span></div>
                                     </li>
                                     <li class="anim3">
-                                        <div class="quote">Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%).</div>
+                                        <div class="quote"><span id="quote3"></span></div>
                                         <br>
                                         <div class="tech-bar">
                                           <div class="css"></div>
@@ -356,6 +356,39 @@ const typedCertifications = new Typed(".typed-text-certifications", {
             </div>
         </div>
     </div>
+
+    <script>
+      // Quote 1 animation (0-5s)
+    const quote1 = new Typed("#quote1", {
+        strings: ["I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying, I said fuck it. Instead I made this carousel."],
+        typeSpeed: 1,
+        backSpeed: 3,
+        startDelay: 100,
+        showCursor: false,
+        loop: false
+    });
+
+    // Quote 2 animation (5-10s)
+    const quote2 = new Typed("#quote2", {
+        strings: ["Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing."],
+        typeSpeed: 1,
+        backSpeed: 3,
+        startDelay: 6000, // 5s
+        showCursor: false,
+        loop: false
+    });
+
+    // Quote 3 animation (10-15s)
+    const quote3 = new Typed("#quote3", {
+        strings: ["Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%)."],
+        typeSpeed: 1,
+        backSpeed: 3,
+        startDelay: 11000, // 10s
+        showCursor: false,
+        loop: false
+    });
+  </script>
+
 </footer>
 
 <script type="text/javascript">
