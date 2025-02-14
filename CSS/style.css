@@ -487,7 +487,7 @@ nav {
   display: inline-block;
   transform-style: preserve-3d;
   will-change: transform;
-  padding: 20px;
+  padding: 10px;
   backface-visibility: hidden;
   font-size: clamp(16px, 8vw, 80px);
 }

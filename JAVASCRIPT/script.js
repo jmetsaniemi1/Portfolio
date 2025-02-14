@@ -527,11 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Lasketaan kohteen sijainti
         const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - 50; // -50 antaa hieman tilaa yläreunaan
         
-        // Smooth scroll kohteeseen
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
+        // Mukautettu smooth scroll kohteeseen
+        smoothScrollToPosition(targetPosition, 1200); // Hidas scrollaus (1200ms)
         
         // Odotetaan scrollauksen päättymistä ennen napin painamista
         setTimeout(() => {
@@ -540,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 projectsButton.getAttribute('data-active') === 'false') {
                 projectsButton.click(); // Avataan projektit
             }
-        }, 1000); // 1 sekunti scrollauksen jälkeen
+        }, 1200); // Sama aika kuin scrollauksessa
     });
 });
 
@@ -608,6 +605,75 @@ document.addEventListener('DOMContentLoaded', () => {
     contactLink.addEventListener('click', (e) => {
         e.preventDefault();
         const footer = document.getElementById('CONTACT');
-        footer.scrollIntoView({ behavior: 'smooth' });
+        const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+        
+        // Mukautettu smooth scroll alas
+        smoothScrollToPosition(footerPosition, 1200); // Hidas scrollaus (1200ms)
     });
 });
+
+// Mukautettu scroll-funktio kohdepisteeseen
+function smoothScrollToPosition(targetPosition, duration) {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const startTime = performance.now();
+
+    function scrollStep(currentTime) {
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        // Easing-funktio tekee liikkeestä sulavamman
+        const easeInOutCubic = progress => progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(0, startPosition + (distance * easeInOutCubic(progress)));
+
+        if (progress < 1) {
+            requestAnimationFrame(scrollStep);
+        }
+    }
+
+    requestAnimationFrame(scrollStep);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const frontPageLink = document.querySelector('a[href="#"]');
+    
+    frontPageLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Tarkistetaan onko käyttäjä jo ylhäällä (alle 100px scrollattu)
+        if (window.scrollY < 100) return;
+        
+        // Mukautettu smooth scroll ylös
+        smoothScrollToTop(1200); // Säädä nopeutta muuttamalla tätä arvoa (ms)
+        // 400 = nopea
+        // 800 = keskitaso (oletus)
+        // 1200 = hidas
+    });
+});
+
+// Mukautettu scroll-funktio nopeuden säätöä varten
+function smoothScrollToTop(duration) {
+    const startPosition = window.pageYOffset;
+    const startTime = performance.now();
+
+    function scrollStep(currentTime) {
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        
+        // Easing-funktio tekee liikkeestä sulavamman
+        const easeInOutCubic = progress => progress < 0.5
+            ? 4 * progress * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+        window.scrollTo(0, startPosition * (1 - easeInOutCubic(progress)));
+
+        if (progress < 1) {
+            requestAnimationFrame(scrollStep);
+        }
+    }
+
+    requestAnimationFrame(scrollStep);
+}
