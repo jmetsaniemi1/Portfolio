@@ -27,7 +27,7 @@
 <!-- RoughEase, ExpoScaleEase and SlowMo are all included in the EasePack file -->    
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/EasePack.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/CustomEase.min.js"></script>
-<script src="https://www.google.com/recaptcha/api.js?render=6Lfru9MqAAAAAHLMCch59VAR51mQEMLpyh5Xms_a"></script>
+
 
 </head>
 
@@ -45,7 +45,7 @@
       <li><img src="./Photos/Generated Image.png" alt=""></li>
       <li><a href="#">FRONT PAGE</a></li>
       <li><a href="#PROJECTS">PROJECTS</a></li>
-      <li><a href="">CV</a></li>
+      <button id="open-modal">CV</button>
       <li><a href="#CONTACT">CONTACT</a></li>
     </ul>
   </div>
@@ -78,6 +78,15 @@
     <span class="key">S</span>
   </div>
 </div>
+
+<dialog class="modal" id="modal">
+  <h2 style="font-size: 2rem">CV</h2>
+  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. In quam provident ipsum quidem earum libero distinctio voluptatum doloribus sapiente dolor?</p>
+  <br>
+  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ipsum iste iusto quos veniam! Harum quam quaerat nihil officiis quos. Veniam.</p>
+  <button id="close-modal">Close</button>
+</dialog>
+
 
 
 <div class="wrappers-container">
@@ -251,7 +260,7 @@
             // Fast animation for the intro text
             const typedIntro = new Typed(".typed-intro", {
                 strings: [
-                    "<span style='font-weight: bold; font-size: 1.2em;'>I am Johannes</span>, a software development student at <span style='font-weight: bold;'>Taitotalo.</span><br><br>At Taitotalo, I have gained hands-on experience in web development and programming. In our team project, we follow Scrum methodology, hold regular meetings, and use GitHub for version control. This has helped me understand structured development while enhancing my collaboration skills."
+                    "I am Johannes, a software development student at Taitotalo.<br><br>At Taitotalo, I have gained hands-on experience in web development and programming. In our team project, we follow Scrum methodology, hold regular meetings, and use GitHub for version control. This has helped me understand structured development while enhancing my collaboration skills."
                 ],
                 typeSpeed: 1,   // Super fast typing speed
                 backSpeed: 3,   // Fast backspacing (if looping)

@@ -677,3 +677,26 @@ function smoothScrollToTop(duration) {
 
     requestAnimationFrame(scrollStep);
 }
+
+
+// Modal
+
+const openModal = document.getElementById('open-modal');
+const closeModal = document.getElementById('close-modal');
+const modal = document.getElementById('modal');
+
+openModal.addEventListener('click', () => {
+    modal.showModal();
+    // Pieni viive ennen fade-in luokan lisäämistä
+    setTimeout(() => {
+        modal.classList.add('fade-in');
+    }, 10);
+});
+
+closeModal.addEventListener('click', () => {
+    modal.classList.remove('fade-in');
+    // Odotetaan transition päättymistä ennen sulkemista
+    setTimeout(() => {
+        modal.close();
+    }, 1000);
+});
