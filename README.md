@@ -26,13 +26,17 @@ portfolio/
 │
 ├── CSS/
 │ └── style.css
+│
 ├── JAVASCRIPT/
 │ └── script.js
+│
 ├── VIDEOS/
 │ ├── darkmode_background_transition-2.mp4
 │ └── lightmode_background_transition-2.mp4
+│
 ├── Photos/
 │ └── [image assets]
+│
 └── index.html
 
 
@@ -77,8 +81,5 @@ git clone [repository-url]
 
 Johannes Metsäniemi
 - Email: jmetsaniemi@me.com
-- LinkedIn: [Profile URL]
+- LinkedIn: [https://www.linkedin.com/in/johannes-metsäniemi-266079aa/]
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details

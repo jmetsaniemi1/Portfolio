@@ -753,7 +753,7 @@ function initCVAnimations() {
     // Aloitetaan animaatiot järjestyksessä
     createTyped('.typed-name', 'Johannes Metsäniemi', startDelay);
     createTyped('.typed-contact', 
-        'Untamontie 15, D 29 | jmetsaniemi@me.com | +358 50 346 7862 | [LinkedIn Profile]', 
+        'Untamontie 15, D 29 | jmetsaniemi@me.com | +358 50 346 7862 | [https://www.linkedin.com/in/johannes-metsäniemi-266079aa]', 
         startDelay + 0);
     createTyped('.typed-summary', 
         'Motivated and analytical ICT student transitioning from a 15-year career in logistics to software development. Experienced in teamwork, problem-solving, and process optimization. Adept at both independent and collaborative work, with a strong ability to see the big picture and anticipate potential challenges. Passionate about technology, innovation, and digital solutions.',
