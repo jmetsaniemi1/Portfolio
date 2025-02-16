@@ -453,36 +453,29 @@ window.addEventListener('scroll', () => {
     }
 }); 
 
+// Scroll-hide logiikka
 window.addEventListener('scroll', () => {
     const columns = document.querySelector('.columns');
     const columnsPosition = columns.getBoundingClientRect().top;
+    const columnsHeight = columns.offsetHeight;
     const certificationContents = document.querySelectorAll('.certifications-content');
     const isMobile = window.innerWidth <= 768;
     
-    // Tarkista onko jokin sisältö auki
+    // Tarkista onko jokin sisältö auki tai onko sulkemisanimaatio käynnissä
     const isAnyContentOpen = Array.from(certificationContents).some(content => 
         content.classList.contains('open')
     );
+    const isClosing = columns.classList.contains('closing');
     
-    // Jos sisältö on auki, älä lisää scroll-hide-luokkaa
-    if (!isAnyContentOpen) {
-        // Määritellään aloitus- ja lopetuspisteet eri näyttöko'oille
-        const startPoint = isMobile ? 400 : // Mobiili
-                          window.innerWidth <= 1024 ? 300 : // Tablet
-                          200; // Desktop
-        
-        const endPoint = isMobile ? 200 : // Mobiili
-                        window.innerWidth <= 1024 ? 100 : // Tablet
-                        50;   // Desktop
+    if (!isAnyContentOpen && !isClosing) {
+        // Asetetaan startPoint puoleen elementin korkeudesta
+        const startPoint = columnsHeight / 50;
+        // EndPoint hieman pienempi kuin startPoint sulavampaa animaatiota varten
+        const endPoint = startPoint - 10;
         
         if (columnsPosition < startPoint) {
             const progress = Math.min(Math.max((startPoint - columnsPosition) / (startPoint - endPoint), 0), 1);
-            
-            if (progress >= 1) {
-                columns.classList.add('scroll-hide');
-            } else {
-                columns.classList.remove('scroll-hide');
-            }
+            columns.classList.toggle('scroll-hide', progress >= 1);
         } else {
             columns.classList.remove('scroll-hide');
         }
@@ -490,6 +483,57 @@ window.addEventListener('scroll', () => {
         columns.classList.remove('scroll-hide');
     }
 }); 
+
+// Projects-linkin käsittelijä (Menu)
+document.addEventListener('DOMContentLoaded', () => {
+    const projectsLink = document.querySelector('a[href="#PROJECTS"]');
+    const projectsSection = document.querySelector('.columns');
+    const projectsButton = document.querySelector('.projects-column .view-button');
+    
+    projectsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Lisätään closing-luokka ennen scrollausta
+        projectsSection.classList.add('closing');
+        
+        const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - 50;
+        
+        smoothScrollToPosition(targetPosition, 1200);
+        
+        setTimeout(() => {
+            if (!projectsButton.getAttribute('data-active') || 
+                projectsButton.getAttribute('data-active') === 'false') {
+                projectsButton.click();
+            }
+            
+            // Poistetaan closing-luokka vasta kaiken jälkeen
+            setTimeout(() => {
+                projectsSection.classList.remove('closing');
+            }, 1500); // Sulkemisanimaation kesto
+        }, 1200);
+    });
+});
+
+// View-button käsittelijä (Scroll)
+document.addEventListener('DOMContentLoaded', () => {
+    const viewButtons = document.querySelectorAll('.view-button');
+    const columns = document.querySelector('.columns');
+    
+    viewButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const isClosing = content.classList.contains('open');
+            
+            if (isClosing) {
+                columns.classList.add('closing');
+                // Poista closing-luokka animaation jälkeen
+                setTimeout(() => {
+                    columns.classList.remove('closing');
+                }, 1500); // Sama aika kuin sulkemisanimaatiossa
+            }
+        });
+    });
+});
 
 // Typed animaatio viive
 document.addEventListener("DOMContentLoaded", () => {
@@ -515,31 +559,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // FOOTER
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Haetaan tarvittavat elementit
-    const projectsLink = document.querySelector('a[href="#PROJECTS"]');
-    const projectsSection = document.querySelector('.columns');
-    const projectsButton = document.querySelector('.projects-column .view-button');
-    
-    projectsLink.addEventListener('click', (e) => {
-        e.preventDefault(); // Estetään oletustoiminto
-        
-        // Lasketaan kohteen sijainti
-        const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - 50; // -50 antaa hieman tilaa yläreunaan
-        
-        // Mukautettu smooth scroll kohteeseen
-        smoothScrollToPosition(targetPosition, 1200); // Hidas scrollaus (1200ms)
-        
-        // Odotetaan scrollauksen päättymistä ennen napin painamista
-        setTimeout(() => {
-            // Tarkistetaan onko projektit jo auki
-            if (!projectsButton.getAttribute('data-active') || 
-                projectsButton.getAttribute('data-active') === 'false') {
-                projectsButton.click(); // Avataan projektit
-            }
-        }, 1200); // Sama aika kuin scrollauksessa
-    });
-});
+
 
 // Lukitusnapin toiminnallisuus
 document.addEventListener('DOMContentLoaded', () => {
@@ -700,3 +720,4 @@ closeModal.addEventListener('click', () => {
         modal.close();
     }, 1000);
 });
+
