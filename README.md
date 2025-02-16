@@ -22,7 +22,22 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 
 ## Project Structure
 
-portfolio/ │ ├── CSS/ │ └── style.css │ ├── JAVASCRIPT/ │ └── script.js │ ├── VIDEOS/ │ ├── darkmode_background_transition-2.mp4 │ └── lightmode_background_transition-2.mp4 │ ├── Photos/ │ └── [image assets] │ └── index.html
+portfolio/
+│
+├── CSS/
+│   └── style.css
+│
+├── JAVASCRIPT/
+│   └── script.js
+│
+├── VIDEOS/
+│   ├── darkmode_background_transition-2.mp4
+│   └── lightmode_background_transition-2.mp4
+│
+├── Photos/
+│   └── [image assets]
+│
+└── index.html
 
 
 ## Key Features Explained
