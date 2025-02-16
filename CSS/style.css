@@ -769,6 +769,7 @@ dialog {
 
 .certifications-container {
     text-align: center;
+    min-height: 750px;
 }
 
 .certification-item-image {
@@ -921,6 +922,7 @@ dialog {
   gap: 2rem; /* Lopullinen arvo, korvaa aiemman 4rem */
   width: 100%;
   max-width: 1200px;
+  min-height: 900px;
   margin: 0 auto;
   padding: 20px auto;
   background: linear-gradient(
