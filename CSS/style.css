@@ -769,7 +769,6 @@ dialog {
 
 .certifications-container {
     text-align: center;
-    min-height: 750px;
 }
 
 .certification-item-image {
@@ -813,6 +812,8 @@ dialog {
     max-height: 2000px; /* Säädä tätä arvoa tarvittaessa */
     margin-bottom: 80px; /* Lisätään tilaa avautuvan sisällön alle */
     transition-duration: 1500ms;
+    min-height: 620px;
+
 }
 
 .certification-item {
