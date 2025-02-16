@@ -16,7 +16,7 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 - HTML5
 - CSS3
 - JavaScript (Vanilla)
-- GSAP (GreenSock Animation Platform)
+- GSAP (GreenSock Animation Platform) ( not in use yet )
 - Typed.js
 - EmailJS
 
