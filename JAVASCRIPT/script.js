@@ -710,6 +710,8 @@ openModal.addEventListener('click', () => {
     // Pieni viive ennen fade-in luokan lisäämistä
     setTimeout(() => {
         modal.classList.add('fade-in');
+        // Käynnistä animaatiot kun modaali on avattu
+        initCVAnimations();
     }, 10);
 });
 
@@ -718,6 +720,59 @@ closeModal.addEventListener('click', () => {
     // Odotetaan transition päättymistä ennen sulkemista
     setTimeout(() => {
         modal.close();
+        // Nollaa typed elementit sulkemisen yhteydessä
+        document.querySelectorAll('[class*="typed-"]').forEach(element => {
+            element.innerHTML = '';
+        });
     }, 1000);
 });
+
+// Skip animation button
+document.getElementById('skip-animation').addEventListener('click', () => {
+    // Pysäytä kaikki animaatiot ja näytä teksti heti
+    document.querySelectorAll('[class*="typed-"]').forEach(element => {
+        element.innerHTML = element.getAttribute('data-complete-text');
+    });
+});
+
+// CV animaatiot
+function initCVAnimations() {
+    const startDelay = 100;
+    
+    function createTyped(element, text, delay, speed = 1) {
+        setTimeout(() => {
+            new Typed(element, {
+                strings: [text],
+                typeSpeed: 0.1,
+                showCursor: false,
+                startDelay: 0
+            });
+        }, delay);
+    }
+
+    // Aloitetaan animaatiot järjestyksessä
+    createTyped('.typed-name', 'Johannes Metsäniemi', startDelay);
+    createTyped('.typed-contact', 
+        'Untamontie 15, D 29 | jmetsaniemi@me.com | +358 50 346 7862 | [LinkedIn Profile]', 
+        startDelay + 0);
+    createTyped('.typed-summary', 
+        'Motivated and analytical ICT student transitioning from a 15-year career in logistics to software development. Experienced in teamwork, problem-solving, and process optimization. Adept at both independent and collaborative work, with a strong ability to see the big picture and anticipate potential challenges. Passionate about technology, innovation, and digital solutions.',
+        startDelay + 0);
+    
+    // Technical Skills
+    createTyped('.skill-1', 
+        '<strong>Programming Languages:</strong> HTML, CSS, JavaScript (beginner, learning React & Node.js)',
+        startDelay + 0);
+    createTyped('.skill-2',
+        '<strong>Software & Tools:</strong> SAP ERP, GitHub, Visual Studio Code. Experienced with WordPress, Figma and Framer. Adobe Photoshop and Illustrator.',
+        startDelay + 0);
+    createTyped('.skill-3',
+        '<strong>Methodologies:</strong> Scrum, Agile development',
+        startDelay + 0);
+    createTyped('.skill-4',
+        '<strong>Database Management:</strong> Basic understanding (learning SQL and database structures)',
+        startDelay + 0);
+}
+
+
 

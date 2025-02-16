@@ -330,7 +330,7 @@ dialog {
   -4px -4px 4px rgba(255, 255, 255, 0.5);
   filter: drop-shadow(6px 6px 8px rgba(0, 0, 0, 0.5));
   color: var(--menu-text-color);
-}
+  }
 
 #open-modal:hover {
   color: var(--visited-text-color);
@@ -384,7 +384,7 @@ dialog {
 /* Yhteystiedot */
 .modal p:first-of-type {
   font-style: italic;
-  color: #7f8c8d;
+  color: #181818;
   border-bottom: 1px solid #ecf0f1;
   padding-bottom: 1rem;
 }
@@ -406,7 +406,6 @@ dialog {
 .modal .section {
   margin: 2rem 0;
   padding: 0 1rem;
-  border-left: 3px solid #ecf0f1;
 }
 
 /* Korostukset */
@@ -435,6 +434,8 @@ dialog {
 .modal #close-modal:hover {
   background: #34495e;
 }
+
+
 
 /* WELCOME */
 
@@ -1698,5 +1699,7 @@ dialog {
 }
 
 /* Otsikot */
+
+
 
 
