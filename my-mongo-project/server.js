@@ -1,7 +1,11 @@
 require('dotenv').config();
+const express = require('express');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const uri = process.env.MONGO_URI; // Turvallisempaa käyttää .env-tiedostoa!
+const app = express();
+const port = process.env.PORT || 3000;
+
+const uri = process.env.MONGO_URI;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -14,9 +18,17 @@ async function run() {
   try {
     await client.connect();
     await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    await client.close();
+    console.log("✅ Yhteys MongoDB:hen onnistui!");
+  } catch (error) {
+    console.error("❌ Yhteys epäonnistui:", error);
   }
 }
-run().catch(console.dir);
+run();
+
+app.get('/test-connection', (req, res) => {
+  res.json({ message: "Yhteys tietokantaan toimii!" });
+});
+
+app.listen(port, () => {
+  console.log(`🌍 Serveri käynnissä portissa ${port}`);
+});
