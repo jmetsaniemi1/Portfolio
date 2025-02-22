@@ -130,3 +130,9 @@ app.post('/login', async (req, res) => {
       res.status(500).json({ message: "Server error" });
   }
 });
+
+
+// test backend
+app.get("/", (req, res) => {
+  res.send("Backend toimii!");
+});
