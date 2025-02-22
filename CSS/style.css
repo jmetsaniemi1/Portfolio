@@ -288,7 +288,8 @@ dialog {
   backdrop-filter: blur(50px);
   max-width: 800px;
   width: 90%;
-  opacity: 0;
+  opacity: 1;
+  display: none;
   transition: opacity 1s ease;
   border: none;
   background: #fff;
@@ -301,17 +302,25 @@ dialog {
   font-family: 'Crimson Text', 'Georgia', serif;
 }
 
-.modal.fade-in {
-  opacity: 1;
+.modal[open] {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Lisätään backdrop-tyylit */
 .modal::backdrop {
-  background: none;
-  transition: background-color 1s ease;
+  background: rgba(0, 0, 0, 0.7); /* Tumma tausta */
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.modal.fade-in::backdrop {
-  background-color: rgba(11, 45, 74, 0.698);
+.modal[open]::backdrop {
+  opacity: 1;
 }
 
 #open-modal, #open-login-modal, #open-user-modal {
