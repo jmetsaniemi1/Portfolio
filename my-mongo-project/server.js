@@ -101,7 +101,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-cconst PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
 
 app.get("/", (req, res) => {
