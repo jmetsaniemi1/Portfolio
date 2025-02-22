@@ -6,15 +6,8 @@ const UserSchema = new mongoose.Schema({
     passwordHash: { type: String, required: true },
     role: { type: String, default: "user" },
     is_active: { type: Boolean, default: true }
-});
+}, { collection: 'Users' }); // Pakotetaan käyttämään 'Users' kokoelmaa
 
-const UserSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    passwordHash: String,
-    role: String
-  }, { collection: 'Users' }); // Pakotetaan käyttämään 'Users' kokoelmaa
-
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;
