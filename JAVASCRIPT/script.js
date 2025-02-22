@@ -836,3 +836,9 @@ document.getElementById("logout-btn").addEventListener("click", function () {
     document.getElementById("user-modal").close();
     document.getElementById("login-modal").showModal();
 });
+
+// backend frontend CORS
+app.use(cors({
+    origin: "https://www.johannesportfolio.space",
+    credentials: true
+}));
