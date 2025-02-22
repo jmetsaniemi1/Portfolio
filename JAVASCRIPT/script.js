@@ -802,7 +802,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("https://your-backend-url.com/login", {  // 🔹 Vaihda tähän Renderin backendi-URL
+        const response = await fetch("https://portfolio-zvkt.onrender.com/login", {  // 🔹 Vaihda tähän Renderin backendi-URL
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
