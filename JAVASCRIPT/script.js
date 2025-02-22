@@ -793,4 +793,46 @@ closeLoginModal.addEventListener('click', () => {
     }, 1000);
 });
 
+// Login modal send data to database for check up
 
+document.getElementById("login-form").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Estetään lomakkeen oletusarvoinen lähetys
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("https://your-backend-url.com/login", {  // 🔹 Vaihda tähän Renderin backendi-URL
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })  // Lähetetään kirjautumistiedot JSON-muodossa
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // 🔹 Kirjautuminen onnistui
+            localStorage.setItem("token", data.token);  // Tallenna JWT-token (jos käytät sitä)
+            document.getElementById("user-email").textContent = email; // Näytä käyttäjän sähköposti
+
+            // Piilotetaan login-modal ja näytetään user-modal
+            document.getElementById("login-modal").close();
+            document.getElementById("user-modal").showModal();
+        } else {
+            alert("Kirjautuminen epäonnistui: " + data.message);
+        }
+    } catch (error) {
+        console.error("Virhe kirjautumisessa:", error);
+        alert("Palvelimeen ei saada yhteyttä.");
+    }
+});
+
+// sign out button
+
+document.getElementById("logout-btn").addEventListener("click", function () {
+    localStorage.removeItem("token"); // Poistetaan tallennettu token
+    document.getElementById("user-modal").close();
+    document.getElementById("login-modal").showModal();
+});
