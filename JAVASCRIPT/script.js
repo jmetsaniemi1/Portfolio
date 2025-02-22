@@ -774,4 +774,23 @@ function initCVAnimations() {
         startDelay + 0);
 }
 
+// Login Modal
+const openLoginModal = document.getElementById('open-login-modal');
+const closeLoginModal = document.getElementById('close-login-modal');
+const loginModal = document.getElementById('login-modal');
+
+openLoginModal.addEventListener('click', () => {
+    loginModal.showModal();
+    setTimeout(() => {
+        loginModal.classList.add('fade-in');
+    }, 10);
+});
+
+closeLoginModal.addEventListener('click', () => {
+    loginModal.classList.remove('fade-in');
+    setTimeout(() => {
+        loginModal.close();
+    }, 1000);
+});
+
 

@@ -314,7 +314,7 @@ dialog {
   background-color: rgba(11, 45, 74, 0.698);
 }
 
-#open-modal {
+#open-modal, #open-login-modal {
   background: none;
   border: none;
   color: var(--text-color);
@@ -332,12 +332,12 @@ dialog {
   color: var(--menu-text-color);
   }
 
-#open-modal:hover {
+#open-modal:hover, #open-login-modal:hover {
   color: var(--visited-text-color);
   transform: scale(1.1);
 }
 
-#close-modal {
+#close-modal, #close-login-modal {
   padding: 10px 20px;
     background-color: rgb(229, 231, 232);
     color: rgb(16, 15, 15);
@@ -419,7 +419,7 @@ dialog {
 }
 
 /* Sulkunappi */
-.modal #close-modal {
+.modal #close-modal, .modal #close-login-modal {
   font-family: 'Playfair Display', serif;
   background: #2c3e50;
   color: white;
@@ -431,7 +431,7 @@ dialog {
   margin-top: 2rem;
 }
 
-.modal #close-modal:hover {
+.modal #close-modal:hover, .modal #close-login-modal:hover {
   background: #34495e;
 }
 
