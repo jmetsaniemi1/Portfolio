@@ -92,6 +92,14 @@ app.post('/login', async (req, res) => {
         }
 
         console.log("✅ Password correct, generating JWT token");
+
+        // Debug: Tulostetaan ympäristömuuttuja
+        console.log("🔹 JWT_SECRET from env:", process.env.JWT_SECRET);
+
+        if (!process.env.JWT_SECRET) {
+            throw new Error("JWT_SECRET is not defined in environment variables!");
+        }
+
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
         res.json({ token, role: user.role });
