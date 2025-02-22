@@ -8,6 +8,13 @@ const UserSchema = new mongoose.Schema({
     is_active: { type: Boolean, default: true }
 });
 
-const User = mongoose.model('User', UserSchema);
+const UserSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    passwordHash: String,
+    role: String
+  }, { collection: 'Users' }); // Pakotetaan käyttämään 'Users' kokoelmaa
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
