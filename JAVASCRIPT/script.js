@@ -847,6 +847,8 @@ app.use(cors({
 // login modal to own page transition
 
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("📌 Skripti ladattu, tarkistetaan login-tilanne...");
+
     const loginModal = document.getElementById("login-modal");
     const userModal = document.getElementById("user-modal");
     const closeLoginModal = document.getElementById("close-login-modal");
@@ -855,19 +857,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutBtn = document.getElementById("logout-btn");
     const userEmailSpan = document.getElementById("user-email");
 
+    if (!loginModal || !userModal) {
+        console.error("🚨 Modaaleja ei löytynyt, tarkista HTML!");
+        return;
+    }
+
     // 📌 Suljetaan kirjautumisikkuna
     closeLoginModal.addEventListener("click", function () {
+        console.log("🔹 Suljetaan kirjautumisikkuna.");
         loginModal.close();
     });
 
     // 📌 Suljetaan käyttäjämodaali
     closeUserModal.addEventListener("click", function () {
+        console.log("🔹 Suljetaan käyttäjämodaali.");
         userModal.close();
     });
 
     // 📌 Kirjautuminen
     loginForm.addEventListener("submit", async function (event) {
         event.preventDefault();
+        console.log("📌 Kirjautumislomake lähetetty!");
 
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
@@ -880,10 +890,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             const data = await response.json();
+            console.log("🔹 Saatiin vastaus palvelimelta:", data);
 
             if (response.ok) {
-                console.log("✅ Kirjautuminen onnistui!");
-                
+                console.log("✅ Kirjautuminen onnistui, avataan käyttäjämodaali.");
+
                 // Tallennetaan token ja sähköposti localStorageen
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userEmail", email);
@@ -893,8 +904,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 📌 Suljetaan login-modaali ja avataan user-modaali
                 loginModal.close();
-                userModal.showModal();
+
+                setTimeout(() => {
+                    console.log("🔹 Avataan käyttäjämodaali...");
+                    userModal.showModal();
+                }, 300); // Viive varmistaa, että modal ei sulkeudu liian nopeasti
             } else {
+                console.error("⚠️ Virhe palvelimen vastauksessa:", data.message);
                 alert("⚠️ Virhe: " + data.message);
             }
         } catch (error) {
@@ -905,27 +921,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 📌 Uloskirjautuminen
     logoutBtn.addEventListener("click", function () {
+        console.log("🔹 Kirjaudutaan ulos...");
         localStorage.removeItem("token");
         localStorage.removeItem("userEmail");
 
-        // Suljetaan user-modaali ja avataan login-modaali
+        // 📌 Suljetaan user-modaali ja avataan login-modaali
         userModal.close();
-        loginModal.showModal();
+
+        setTimeout(() => {
+            console.log("🔹 Avataan kirjautumisikkuna...");
+            loginModal.showModal();
+        }, 300);
     });
 
     // 📌 Tarkistetaan, onko käyttäjä jo kirjautunut sisään
     function checkLoginStatus() {
+        console.log("📌 Tarkistetaan, onko käyttäjä kirjautunut...");
         const token = localStorage.getItem("token");
         const userEmail = localStorage.getItem("userEmail");
 
         if (token && userEmail) {
+            console.log("✅ Käyttäjä on kirjautunut, avataan käyttäjämodaali.");
             userEmailSpan.textContent = userEmail;
-            userModal.showModal();
+
+            setTimeout(() => {
+                userModal.showModal();
+            }, 300);
         } else {
-            loginModal.showModal();
+            console.log("🔹 Käyttäjä ei ole kirjautunut, näytetään kirjautumisikkuna.");
+            setTimeout(() => {
+                loginModal.showModal();
+            }, 300);
         }
     }
 
     checkLoginStatus();
 });
+
  

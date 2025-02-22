@@ -288,9 +288,7 @@ dialog {
   backdrop-filter: blur(50px);
   max-width: 800px;
   width: 90%;
-  opacity: 1;
-  display: none;
-  transition: opacity 1s ease;
+  opacity: 1;  transition: opacity 1s ease;
   border: none;
   background: #fff;
   color: #333;
