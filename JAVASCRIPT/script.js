@@ -842,3 +842,89 @@ app.use(cors({
     origin: "https://www.johannesportfolio.space",
     credentials: true
 }));
+
+
+// login modal to own page transition
+
+document.addEventListener("DOMContentLoaded", function () {
+    const loginModal = document.getElementById("login-modal");
+    const userModal = document.getElementById("user-modal");
+    const closeLoginModal = document.getElementById("close-login-modal");
+    const closeUserModal = document.getElementById("close-user-modal");
+    const loginForm = document.getElementById("login-form");
+    const logoutBtn = document.getElementById("logout-btn");
+    const userEmailSpan = document.getElementById("user-email");
+
+    // 📌 Suljetaan kirjautumisikkuna
+    closeLoginModal.addEventListener("click", function () {
+        loginModal.close();
+    });
+
+    // 📌 Suljetaan käyttäjämodaali
+    closeUserModal.addEventListener("click", function () {
+        userModal.close();
+    });
+
+    // 📌 Kirjautuminen
+    loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log("✅ Kirjautuminen onnistui!");
+                
+                // Tallennetaan token ja sähköposti localStorageen
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("userEmail", email);
+
+                // Päivitetään käyttäjän sähköposti näkyviin
+                userEmailSpan.textContent = email;
+
+                // 📌 Suljetaan login-modaali ja avataan user-modaali
+                loginModal.close();
+                userModal.showModal();
+            } else {
+                alert("⚠️ Virhe: " + data.message);
+            }
+        } catch (error) {
+            console.error("❌ Kirjautumisvirhe:", error);
+            alert("⚠️ Palvelinvirhe, yritä myöhemmin.");
+        }
+    });
+
+    // 📌 Uloskirjautuminen
+    logoutBtn.addEventListener("click", function () {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userEmail");
+
+        // Suljetaan user-modaali ja avataan login-modaali
+        userModal.close();
+        loginModal.showModal();
+    });
+
+    // 📌 Tarkistetaan, onko käyttäjä jo kirjautunut sisään
+    function checkLoginStatus() {
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("userEmail");
+
+        if (token && userEmail) {
+            userEmailSpan.textContent = userEmail;
+            userModal.showModal();
+        } else {
+            loginModal.showModal();
+        }
+    }
+
+    checkLoginStatus();
+});
