@@ -958,4 +958,51 @@ document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus();
 });
 
+// creating account
+
+document.getElementById("register-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    
+    const email = document.getElementById("register-email").value;
+    const password = document.getElementById("register-password").value;
+
+    const response = await fetch("https://portfolio-zvkt.onrender.com/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    alert(data.message);
+});
+
+document.getElementById("login-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("https://portfolio-zvkt.onrender.com/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        localStorage.setItem("token", data.token);
+        alert("Kirjautuminen onnistui!");
+        document.getElementById("user-email").innerText = email;
+        document.getElementById("user-modal").showModal();
+    } else {
+        alert(data.message);
+    }
+});
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    alert("Kirjauduttu ulos!");
+    document.getElementById("user-modal").close();
+});
+
  

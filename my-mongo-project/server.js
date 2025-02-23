@@ -115,3 +115,66 @@ app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${POR
 app.get("/", (req, res) => {
   res.send("Backend toimii!");
 });
+
+// creating a new account
+
+const express = require("express");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const User = require("./models/User"); // Luo User-malli MongoDB:lle
+require("dotenv").config();
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+const SECRET_KEY = process.env.JWT_SECRET;
+
+// Rekisteröinti
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(400).json({ message: "Sähköposti on jo käytössä." });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword });
+
+        await newUser.save();
+        res.status(201).json({ message: "Rekisteröinti onnistui." });
+    } catch (error) {
+        res.status(500).json({ message: "Virhe rekisteröinnissä." });
+    }
+});
+
+// Kirjautuminen
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "Käyttäjää ei löytynyt." });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ message: "Väärä salasana." });
+        }
+
+        const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+        res.json({ message: "Kirjautuminen onnistui.", token });
+    } catch (error) {
+        res.status(500).json({ message: "Virhe kirjautumisessa." });
+    }
+});
+
+// Serverin käynnistys
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Serveri käynnissä portissa ${PORT}`));
+
