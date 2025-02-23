@@ -5,9 +5,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
-
 const cors = require('cors');
 
+const app = express(); // 🟢 Alustetaan `app` ennen käyttöä
+
+app.use(express.json());
+
+// ✅ CORS-asetukset oikeassa kohdassa
 app.use(cors({
     origin: "https://www.johannesportfolio.space",
     credentials: true
