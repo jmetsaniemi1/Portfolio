@@ -17,9 +17,7 @@ app.use(cors({
     credentials: true
 }));
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+
 
 const uri = process.env.MONGO_URI; 
 const SECRET_KEY = process.env.JWT_SECRET;
