@@ -5,12 +5,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-
-
-
 const User = require('./models/User');
-const uri = process.env.MONGO_URI; 
 
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+const uri = process.env.MONGO_URI; 
+const SECRET_KEY = process.env.JWT_SECRET;
+
+// MongoDB-yhteyden testaus
 async function testMongoConnection() {
   const client = new MongoClient(uri, {
     serverApi: {
@@ -32,6 +36,7 @@ async function testMongoConnection() {
 }
 testMongoConnection();
 
+// MongoDB-yhteyden muodostus
 async function connectToDatabase() {
   try {
     await mongoose.connect(uri);
@@ -43,6 +48,7 @@ async function connectToDatabase() {
 }
 connectToDatabase();
 
+// Luo admin-käyttäjä, jos sitä ei ole
 async function createAdminUser() {
     try {
         const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
@@ -70,11 +76,28 @@ async function createAdminUser() {
 }
 createAdminUser();
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+// Rekisteröinti
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const existingUser = await User.findOne({ email });
 
-app.post('/login', async (req, res) => {
+        if (existingUser) {
+            return res.status(400).json({ message: "Sähköposti on jo käytössä." });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, passwordHash: hashedPassword });
+
+        await newUser.save();
+        res.status(201).json({ message: "Rekisteröinti onnistui." });
+    } catch (error) {
+        res.status(500).json({ message: "Virhe rekisteröinnissä." });
+    }
+});
+
+// Kirjautuminen
+app.post("/login", async (req, res) => {
     console.log("🔹 Login request received:", req.body);
     const { email, password } = req.body;
 
@@ -95,14 +118,11 @@ app.post('/login', async (req, res) => {
 
         console.log("✅ Password correct, generating JWT token");
 
-        // Debug: Tulostetaan ympäristömuuttuja
-        console.log("🔹 JWT_SECRET from env:", process.env.JWT_SECRET);
-
-        if (!process.env.JWT_SECRET) {
+        if (!SECRET_KEY) {
             throw new Error("JWT_SECRET is not defined in environment variables!");
         }
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ id: user._id, role: user.role }, SECRET_KEY, { expiresIn: "1h" });
 
         res.json({ token, role: user.role });
     } catch (error) {
@@ -111,66 +131,12 @@ app.post('/login', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 10000;
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
-
+// Pääsivun testireitti
 app.get("/", (req, res) => {
   res.send("Backend toimii!");
 });
 
-// creating a new account
-
-require("dotenv").config();
-
-const app = express();
-app.use(express.json());
-app.use(cors());
-
-const SECRET_KEY = process.env.JWT_SECRET;
-
-// Rekisteröinti
-app.post("/register", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const existingUser = await User.findOne({ email });
-
-        if (existingUser) {
-            return res.status(400).json({ message: "Sähköposti on jo käytössä." });
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, password: hashedPassword });
-
-        await newUser.save();
-        res.status(201).json({ message: "Rekisteröinti onnistui." });
-    } catch (error) {
-        res.status(500).json({ message: "Virhe rekisteröinnissä." });
-    }
-});
-
-// Kirjautuminen
-app.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
-
-        if (!user) {
-            return res.status(400).json({ message: "Käyttäjää ei löytynyt." });
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(400).json({ message: "Väärä salasana." });
-        }
-
-        const token = jwt.sign({ email: user.email }, SECRET_KEY, { expiresIn: "1h" });
-        res.json({ message: "Kirjautuminen onnistui.", token });
-    } catch (error) {
-        res.status(500).json({ message: "Virhe kirjautumisessa." });
-    }
-});
-
-// Serverin käynnistys
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Serveri käynnissä portissa ${PORT}`));
+// Palvelimen käynnistys
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
 
