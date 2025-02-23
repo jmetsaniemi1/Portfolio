@@ -48,13 +48,15 @@ testMongoConnection();
 async function connectToDatabase() {
   try {
     await mongoose.connect(uri);
-    console.log("✅ MongoDB connected");
+    const dbName = mongoose.connection.name; // Hakee yhdistetyn tietokannan nimen
+    console.log(`✅ MongoDB connected to: ${dbName}`);
   } catch (err) {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   }
 }
 connectToDatabase();
+
 
 // Luo admin-käyttäjä, jos sitä ei ole
 async function createAdminUser() {
