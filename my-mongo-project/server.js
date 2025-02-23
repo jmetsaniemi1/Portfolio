@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
+
+
 const User = require('./models/User');
 const uri = process.env.MONGO_URI; 
 
@@ -118,12 +120,6 @@ app.get("/", (req, res) => {
 
 // creating a new account
 
-const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const User = require("./models/User"); // Luo User-malli MongoDB:lle
 require("dotenv").config();
 
 const app = express();
