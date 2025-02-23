@@ -837,14 +837,14 @@ document.getElementById("logout-btn").addEventListener("click", function () {
     document.getElementById("login-modal").showModal();
 });
 
-const cors = require('cors');
-
-
-// backend frontend CORS
-app.use(cors({
-    origin: "https://www.johannesportfolio.space",
-    credentials: true
-}));
+// register modal
+fetch("https://www.johannesportfolio.space/register", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+});
 
 
 // login modal to own page transition

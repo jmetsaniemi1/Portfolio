@@ -4,8 +4,14 @@ const bcrypt = require('bcryptjs');
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
 const User = require('./models/User');
+
+const cors = require('cors');
+
+app.use(cors({
+    origin: "https://www.johannesportfolio.space",
+    credentials: true
+}));
 
 const app = express();
 app.use(express.json());
