@@ -86,23 +86,26 @@ createAdminUser();
 
 // Rekisteröinti
 app.post("/register", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const existingUser = await User.findOne({ email });
+  try {
+      const { email, password } = req.body;
+      const existingUser = await User.findOne({ email });
 
-        if (existingUser) {
-            return res.status(400).json({ message: "Sähköposti on jo käytössä." });
-        }
+      if (existingUser) {
+          return res.status(400).json({ message: "Sähköposti on jo käytössä." });
+      }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ email, passwordHash: hashedPassword });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({ email, password: hashedPassword });
 
-        await newUser.save();
-        res.status(201).json({ message: "Rekisteröinti onnistui." });
-    } catch (error) {
-        res.status(500).json({ message: "Virhe rekisteröinnissä." });
-    }
+      await newUser.save();
+      res.status(201).json({ message: "Rekisteröinti onnistui." });
+
+  } catch (error) {
+      console.error("❌ Rekisteröintivirhe:", error); // 🔥 Lisää tämä, jotta Render näyttää virheen
+      res.status(500).json({ message: "Virhe rekisteröinnissä." });
+  }
 });
+
 
 // Kirjautuminen
 app.post("/login", async (req, res) => {
