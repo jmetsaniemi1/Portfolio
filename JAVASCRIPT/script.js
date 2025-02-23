@@ -707,20 +707,16 @@ const modal = document.getElementById('modal');
 
 openModal.addEventListener('click', () => {
     modal.showModal();
-    // Pieni viive ennen fade-in luokan lisäämistä
     setTimeout(() => {
         modal.classList.add('fade-in');
-        // Käynnistä animaatiot kun modaali on avattu
         initCVAnimations();
     }, 10);
 });
 
 closeModal.addEventListener('click', () => {
     modal.classList.remove('fade-in');
-    // Odotetaan transition päättymistä ennen sulkemista
     setTimeout(() => {
         modal.close();
-        // Nollaa typed elementit sulkemisen yhteydessä
         document.querySelectorAll('[class*="typed-"]').forEach(element => {
             element.innerHTML = '';
         });
@@ -729,7 +725,6 @@ closeModal.addEventListener('click', () => {
 
 // Skip animation button
 document.getElementById('skip-animation').addEventListener('click', () => {
-    // Pysäytä kaikki animaatiot ja näytä teksti heti
     document.querySelectorAll('[class*="typed-"]').forEach(element => {
         element.innerHTML = element.getAttribute('data-complete-text');
     });
@@ -750,28 +745,26 @@ function initCVAnimations() {
         }, delay);
     }
 
-    // Aloitetaan animaatiot järjestyksessä
     createTyped('.typed-name', 'Johannes Metsäniemi', startDelay);
     createTyped('.typed-contact', 
         'Untamontie 15, D 29 | jmetsaniemi@me.com | +358 50 346 7862 | [https://www.linkedin.com/in/johannes-metsäniemi-266079aa]', 
-        startDelay + 0);
+        startDelay);
     createTyped('.typed-summary', 
         'Motivated and analytical ICT student transitioning from a 15-year career in logistics to software development. Experienced in teamwork, problem-solving, and process optimization. Adept at both independent and collaborative work, with a strong ability to see the big picture and anticipate potential challenges. Passionate about technology, innovation, and digital solutions.',
-        startDelay + 0);
+        startDelay);
     
-    // Technical Skills
     createTyped('.skill-1', 
         '<strong>Programming Languages:</strong> HTML, CSS, JavaScript (beginner, learning React & Node.js)',
-        startDelay + 0);
+        startDelay);
     createTyped('.skill-2',
         '<strong>Software & Tools:</strong> SAP ERP, GitHub, Visual Studio Code. Experienced with WordPress, Figma and Framer. Adobe Photoshop and Illustrator.',
-        startDelay + 0);
+        startDelay);
     createTyped('.skill-3',
         '<strong>Methodologies:</strong> Scrum, Agile development',
-        startDelay + 0);
+        startDelay);
     createTyped('.skill-4',
         '<strong>Database Management:</strong> Basic understanding (learning SQL and database structures)',
-        startDelay + 0);
+        startDelay);
 }
 
 // Login Modal
@@ -793,32 +786,31 @@ closeLoginModal.addEventListener('click', () => {
     }, 1000);
 });
 
-// Login modal send data to database for check up
-
+// Kirjautuminen lomakkeesta
 document.getElementById("login-form").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Estetään lomakkeen oletusarvoinen lähetys
+    event.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
+    if (!email || !password) {
+        alert("Täytä kaikki kentät ennen lähettämistä.");
+        return;
+    }
+
     try {
-        const response = await fetch("https://portfolio-zvkt.onrender.com/login", {  // 🔹 Vaihda tähän Renderin backendi-URL
+        const response = await fetch("https://portfolio-zvkt.onrender.com/login", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })  // Lähetetään kirjautumistiedot JSON-muodossa
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            // 🔹 Kirjautuminen onnistui
-            localStorage.setItem("token", data.token);  // Tallenna JWT-token (jos käytät sitä)
-            document.getElementById("user-email").textContent = email; // Näytä käyttäjän sähköposti
-
-            // Piilotetaan login-modal ja näytetään user-modal
-            document.getElementById("login-modal").close();
+            localStorage.setItem("token", data.token);
+            document.getElementById("user-email").textContent = email;
+            loginModal.close();
             document.getElementById("user-modal").showModal();
         } else {
             alert("Kirjautuminen epäonnistui: " + data.message);
@@ -829,183 +821,42 @@ document.getElementById("login-form").addEventListener("submit", async function 
     }
 });
 
-// sign out button
-
+// Uloskirjautuminen
 document.getElementById("logout-btn").addEventListener("click", function () {
-    localStorage.removeItem("token"); // Poistetaan tallennettu token
+    localStorage.removeItem("token");
     document.getElementById("user-modal").close();
-    document.getElementById("login-modal").showModal();
+    loginModal.showModal();
 });
 
-// register modal
-fetch("https://www.johannesportfolio.space/register", {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-});
-
-
-// login modal to own page transition
-
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("📌 Skripti ladattu, tarkistetaan login-tilanne...");
-
-    const loginModal = document.getElementById("login-modal");
-    const userModal = document.getElementById("user-modal");
-    const closeLoginModal = document.getElementById("close-login-modal");
-    const closeUserModal = document.getElementById("close-user-modal");
-    const loginForm = document.getElementById("login-form");
-    const logoutBtn = document.getElementById("logout-btn");
-    const userEmailSpan = document.getElementById("user-email");
-
-    if (!loginModal || !userModal) {
-        console.error("🚨 Modaaleja ei löytynyt, tarkista HTML!");
-        return;
-    }
-
-    // 📌 Suljetaan kirjautumisikkuna
-    closeLoginModal.addEventListener("click", function () {
-        console.log("🔹 Suljetaan kirjautumisikkuna.");
-        loginModal.close();
-    });
-
-    // 📌 Suljetaan käyttäjämodaali
-    closeUserModal.addEventListener("click", function () {
-        console.log("🔹 Suljetaan käyttäjämodaali.");
-        userModal.close();
-    });
-
-    // 📌 Kirjautuminen
-    loginForm.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        console.log("📌 Kirjautumislomake lähetetty!");
-
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        try {
-            const response = await fetch("/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-
-            const data = await response.json();
-            console.log("🔹 Saatiin vastaus palvelimelta:", data);
-
-            if (response.ok) {
-                console.log("✅ Kirjautuminen onnistui, avataan käyttäjämodaali.");
-
-                // Tallennetaan token ja sähköposti localStorageen
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("userEmail", email);
-
-                // Päivitetään käyttäjän sähköposti näkyviin
-                userEmailSpan.textContent = email;
-
-                // 📌 Suljetaan login-modaali ja avataan user-modaali
-                loginModal.close();
-
-                setTimeout(() => {
-                    console.log("🔹 Avataan käyttäjämodaali...");
-                    userModal.showModal();
-                }, 300); // Viive varmistaa, että modal ei sulkeudu liian nopeasti
-            } else {
-                console.error("⚠️ Virhe palvelimen vastauksessa:", data.message);
-                alert("⚠️ Virhe: " + data.message);
-            }
-        } catch (error) {
-            console.error("❌ Kirjautumisvirhe:", error);
-            alert("⚠️ Palvelinvirhe, yritä myöhemmin.");
-        }
-    });
-
-    // 📌 Uloskirjautuminen
-    logoutBtn.addEventListener("click", function () {
-        console.log("🔹 Kirjaudutaan ulos...");
-        localStorage.removeItem("token");
-        localStorage.removeItem("userEmail");
-
-        // 📌 Suljetaan user-modaali ja avataan login-modaali
-        userModal.close();
-
-        setTimeout(() => {
-            console.log("🔹 Avataan kirjautumisikkuna...");
-            loginModal.showModal();
-        }, 300);
-    });
-
-    // 📌 Tarkistetaan, onko käyttäjä jo kirjautunut sisään
-    function checkLoginStatus() {
-        console.log("📌 Tarkistetaan, onko käyttäjä kirjautunut...");
-        const token = localStorage.getItem("token");
-        const userEmail = localStorage.getItem("userEmail");
-
-        if (token && userEmail) {
-            console.log("✅ Käyttäjä on kirjautunut, avataan käyttäjämodaali.");
-            userEmailSpan.textContent = userEmail;
-
-            setTimeout(() => {
-                userModal.showModal();
-            }, 300);
-        } else {
-            console.log("🔹 Käyttäjä ei ole kirjautunut, näytetään kirjautumisikkuna.");
-            setTimeout(() => {
-                loginModal.showModal();
-            }, 300);
-        }
-    }
-
-    checkLoginStatus();
-});
-
-// creating account
-
-document.getElementById("register-form").addEventListener("submit", async (event) => {
+// Rekisteröinti lomakkeesta
+document.getElementById("register-form").addEventListener("submit", async function (event) {
     event.preventDefault();
-    
+
     const email = document.getElementById("register-email").value;
     const password = document.getElementById("register-password").value;
 
-    const response = await fetch("https://portfolio-zvkt.onrender.com/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-    });
+    if (!email || !password) {
+        alert("Täytä kaikki kentät ennen lähettämistä.");
+        return;
+    }
 
-    const data = await response.json();
-    alert(data.message);
-});
+    try {
+        const response = await fetch("https://portfolio-zvkt.onrender.com/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
 
-document.getElementById("login-form").addEventListener("submit", async (event) => {
-    event.preventDefault();
-    
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+        const data = await response.json();
 
-    const response = await fetch("https://portfolio-zvkt.onrender.com/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-        localStorage.setItem("token", data.token);
-        alert("Kirjautuminen onnistui!");
-        document.getElementById("user-email").innerText = email;
-        document.getElementById("user-modal").showModal();
-    } else {
-        alert(data.message);
+        if (response.ok) {
+            alert("Rekisteröinti onnistui! Kirjaudu sisään.");
+        } else {
+            alert("Rekisteröinti epäonnistui: " + data.message);
+        }
+    } catch (error) {
+        console.error("Virhe rekisteröinnissä:", error);
+        alert("Palvelimeen ei saada yhteyttä.");
     }
 });
-
-document.getElementById("logout-btn").addEventListener("click", () => {
-    localStorage.removeItem("token");
-    alert("Kirjauduttu ulos!");
-    document.getElementById("user-modal").close();
-});
-
  

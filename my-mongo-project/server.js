@@ -88,6 +88,23 @@ createAdminUser();
 app.post("/register", async (req, res) => {
   try {
       const { email, password } = req.body;
+
+      // Tarkistetaan, että kaikki kentät on täytetty
+      if (!email || !password) {
+          return res.status(400).json({ message: "Sähköposti ja salasana ovat pakollisia." });
+      }
+
+      // Tarkistetaan, että sähköposti on validi
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+          return res.status(400).json({ message: "Virheellinen sähköpostiosoite." });
+      }
+
+      // Tarkistetaan salasanan pituus
+      if (password.length < 6) {
+          return res.status(400).json({ message: "Salasanan on oltava vähintään 6 merkkiä pitkä." });
+      }
+
       const existingUser = await User.findOne({ email });
 
       if (existingUser) {
@@ -101,10 +118,11 @@ app.post("/register", async (req, res) => {
       res.status(201).json({ message: "Rekisteröinti onnistui." });
 
   } catch (error) {
-      console.error("❌ Rekisteröintivirhe:", error); // 🔥 Lisää tämä, jotta Render näyttää virheen
-      res.status(500).json({ message: "Virhe rekisteröinnissä." });
+      console.error("❌ Rekisteröintivirhe:", error);
+      res.status(500).json({ message: "Palvelinvirhe rekisteröinnissä." });
   }
 });
+
 
 
 // Kirjautuminen
