@@ -47,15 +47,15 @@ testMongoConnection();
 // MongoDB-yhteyden muodostus
 async function connectToDatabase() {
   try {
-    await mongoose.connect(uri);
-    const dbName = mongoose.connection.name; // Hakee yhdistetyn tietokannan nimen
-    console.log(`✅ MongoDB connected to: ${dbName}`);
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log(`✅ MongoDB connected to: ${mongoose.connection.name}`);
   } catch (err) {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   }
 }
 connectToDatabase();
+
 
 
 // Luo admin-käyttäjä, jos sitä ei ole
