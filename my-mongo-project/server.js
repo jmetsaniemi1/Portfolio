@@ -112,7 +112,7 @@ app.post("/register", async (req, res) => {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new User({ email, password: hashedPassword });
+      const newUser = new User({ email, passwordHash: hashedPassword });
 
       await newUser.save();
       res.status(201).json({ message: "Rekisteröinti onnistui." });
