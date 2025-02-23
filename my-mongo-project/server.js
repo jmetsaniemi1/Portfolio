@@ -45,16 +45,19 @@ async function testMongoConnection() {
 testMongoConnection();
 
 // MongoDB-yhteyden muodostus
+// MongoDB-yhteyden muodostus
 async function connectToDatabase() {
   try {
+    console.log(`🛠 Connecting to MongoDB with URI: ${process.env.MONGO_URI}`); // 🔥 Debug-tulostus
     await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB connected to: ${mongoose.connection.name}`);
+    console.log(`✅ MongoDB connected to: ${mongoose.connection.db.databaseName}`); // Muutettu varmistaakseni tietokannan nimen
   } catch (err) {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   }
 }
 connectToDatabase();
+
 
 
 
