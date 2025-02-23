@@ -837,6 +837,9 @@ document.getElementById("logout-btn").addEventListener("click", function () {
     document.getElementById("login-modal").showModal();
 });
 
+const cors = require('cors');
+
+
 // backend frontend CORS
 app.use(cors({
     origin: "https://www.johannesportfolio.space",
