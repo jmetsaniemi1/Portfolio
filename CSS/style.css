@@ -298,6 +298,7 @@ dialog {
   border: none;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   font-family: 'Crimson Text', 'Georgia', serif;
+  opacity: 0.93;
 }
 
 .modal[open] {
@@ -339,12 +340,12 @@ dialog {
   color: var(--menu-text-color);
   }
 
-#open-modal:hover, #open-login-modal:hover, #open-user-modal:hover {
+#open-modal:hover, #open-login-modal:hover, #open-user-modal:hover,  {
   color: var(--visited-text-color);
   transform: scale(1.1);
 }
 
-#close-modal, #close-login-modal, #close-user-modal {
+#close-modal, #close-login-modal, #close-user-modal, #register-button, #login-button, #logout-btn {
   padding: 10px 20px;
     background-color: rgb(229, 231, 232);
     color: rgb(16, 15, 15);
@@ -382,7 +383,7 @@ dialog {
 
 /* Perusteksti */
 .modal p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: #2c3e50;
   margin-bottom: 1rem;
@@ -392,7 +393,6 @@ dialog {
 .modal p:first-of-type {
   font-style: italic;
   color: #181818;
-  border-bottom: 1px solid #ecf0f1;
   padding-bottom: 1rem;
 }
 
@@ -425,8 +425,125 @@ dialog {
   color: #34495e;
 }
 
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#login-form label {
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+#login-form input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  color: #1f2937;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  max-width: 300px;
+}
+
+#login-form input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.darkmode #login-form input {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+.darkmode #login-form input:focus {
+  border-color: #60a5fa;
+  background: #111827;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+/* Responsiivisuus */
+@media screen and (max-width: 768px) {
+  .login-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+/* Register Form Styles - käytetään samaa tyyliä kuin login-lomakkeessa */
+#register-email,
+#register-password {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  color: #1f2937;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  max-width: 300px;
+}
+
+#register-email:focus,
+#register-password:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.darkmode #register-email,
+.darkmode #register-password {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+.darkmode #register-email:focus,
+.darkmode #register-password:focus {
+  border-color: #60a5fa;
+  background: #111827;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+/* Label styles for register form */
+label[for="register-email"],
+label[for="register-password"] {
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  display: block;
+}
+
+.darkmode label[for="register-email"],
+.darkmode label[for="register-password"] {
+  color: #f9fafb;
+}
+
+
+
 /* Sulkunappi */
-.modal #close-modal, .modal #close-login-modal, .modal #close-user-modal {
+.modal #close-modal, .modal #close-login-modal, .modal #close-user-modal, .modal #register-button, .modal #login-button, .modal #logout-btn {
   font-family: 'Playfair Display', serif;
   background: #2c3e50;
   color: white;
@@ -438,7 +555,7 @@ dialog {
   margin-top: 2rem;
 }
 
-.modal #close-modal:hover, .modal #close-login-modal:hover, .modal #close-user-modal:hover {
+.modal #close-modal:hover, .modal #close-login-modal:hover, .modal #close-user-modal:hover, .modal #register-button:hover, .modal #login-button:hover, .modal #logout-btn:hover {
   background: #34495e;
 }
 
@@ -1707,6 +1824,17 @@ dialog {
 
 /* Otsikot */
 
+/* typed-js text https link style */
+.typed-contact a {
+    color: #3b82f6;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.typed-contact a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
 
 
 

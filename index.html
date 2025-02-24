@@ -190,7 +190,7 @@
   <div class="section">
       <h2>References</h2>
       <hr>
-      <p>Available upon request</p>
+      <p>Available upon request. LOL.</p>
   </div>
   
 </dialog>
@@ -198,38 +198,45 @@
 <dialog class="modal" id="login-modal">
   <button id="close-login-modal">Close</button>
   <h2 style="font-size: 4rem">Login</h2>
+  
+  <p>I'm using MongoDB database to store data and Render cloud service to host the backend. Together they enable registration and login. If you register, you can login with your email and password.</p>
+  <br>
+  <p>The page is made for testing purposes. Database access is secured by JWT tokens and admin credentials stored in .env file.</p>
+  <br>
+  <p>Please enter your email and password to login. If you don't have an account, please create one.</p>
+  
 
   <form id="login-form">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
-    <button type="submit">Login</button>
+    <button id="login-button" type="submit">Login</button>
 </form>
-
+<h2>OR</h2>
 <p>Create account</p>
 
 <form id="register-form">
     
-    <label for="register-email">Sähköposti:</label>
+    <label for="register-email">Email:</label>
     <input type="email" id="register-email" required>
     
-    <label for="register-password">Salasana:</label>
+    <label for="register-password">Password:</label>
     <input type="password" id="register-password" required>
-    
-    <button type="submit">Rekisteröidy</button>
+    <br>
+    <button id="register-button" type="submit">Register</button>
 </form>
 </dialog>
 
 <dialog class="modal" id="user-modal">
   <button id="close-user-modal">Close</button>
-  <h2 style="font-size: 4rem">Omat sivut</h2>
+  <h2 style="font-size: 4rem">Your page</h2>
   <div class="user-content">
-    <h3>Tervetuloa!</h3>
+    <h3>Welcome!</h3>
     <div class="user-info">
-      <p>Sähköposti: <span id="user-email"></span></p>
+      <p>Registered email: <span id="user-email"></span></p>
     </div>
-    <button id="logout-btn">Kirjaudu ulos</button>
+    <button id="logout-btn">Sign out</button>
   </div>
 </dialog>
 
