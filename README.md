@@ -27,32 +27,32 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 
 portfolio/  
 │       
-├── .github/            # GitHub configuration
+├── .github/
 │
-├── CSS/               # Stylefiles
+├── CSS/             
 │   └── style.css        
 │   
-├── ICONS/             # Ikoni-resurssit
+├── ICONS/            
 │
-├── JAVASCRIPT/        # JavaScript-files
+├── JAVASCRIPT/      
 │   └── script.js       
 │       
-├── VIDEOS/            # Video resources    
+├── VIDEOS/           
 │   ├── darkmode_background_transition-2.mp4        
 │   └── lightmode_background_transition-2.mp4       
 │       
-├── Photos/            # Photo resources    
+├── Photos/          
 │   └── [image assets]      
 │
-├── my-mongo-project/  # MongoDB-backend
+├── my-mongo-project/ 
 │   ├── models/
 │   └── server.js
 │
-├── node_modules/      # NPM packages
+├── node_modules/     
 │
-├── package.json       # NPM configurations
-├── package-lock.json  # NPM configurations
-└── index.html         # Main Page    
+├── package.json       
+├── package-lock.json 
+└── index.html            
 
 
 ## Key Features Explained
