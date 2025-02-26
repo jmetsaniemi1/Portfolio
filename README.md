@@ -33,7 +33,8 @@ portfolio/
 │   └── style.css     
 │       
 ├── ICONS/      
-│ ├── JAVASCRIPT/       
+│      
+├── JAVASCRIPT/       
 │ └── script.js      
 │       
 ├── VIDEOS/       
