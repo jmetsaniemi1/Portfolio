@@ -27,9 +27,10 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 
 portfolio/    
 │      
-├── .github/      
-│ ├── CSS/    
-│ └── style.css     
+├── .github/         
+│    
+├── CSS/    
+│   └── style.css     
 │       
 ├── ICONS/      
 │ ├── JAVASCRIPT/       
