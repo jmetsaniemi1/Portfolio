@@ -43,7 +43,8 @@ portfolio/
 │         
 ├── Photos/      
 │ └── [image assets]       
-│ ├── my-mongo-project/      
+│       
+├── my-mongo-project/      
 │ ├── models/      
 │ └── server.js     
 │     
