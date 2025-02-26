@@ -10,7 +10,14 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 - **Custom Animations**: Including scroll animations and interactive elements
 - **Project Showcase**: Interactive project cards with detailed information
 - **Contact Form**: Integrated email functionality using EmailJS
-- **Login Page / Modal**: Integ
+- **Login modal and register modal**: Ability to register and login to your own page with credentials
+- **Authentication System**: Secure login and registration functionality with MongoDB backend
+  - Login Modal with form validation
+  - Registration Modal for new users
+  - Password encryption and secure storage
+  - Session management
+
+  
 
 ## Technologies Used
 
@@ -74,13 +81,26 @@ portfolio/
 - Success/error handling
 - Spam protection
 
+### Authentication System
+- Secure user registration with email validation
+- Password hashing and encryption
+- JWT-based authentication
+- Protected routes and content
+- MongoDB user data storage
+- Session management with secure cookies
+- Password reset functionality
+- Input validation and sanitization
+- Rate limiting for security
+
 ## Future Improvements
 
 - [ ] Add more interactive project examples
-- [ ] Implement backend functionality
+- [x] Implement backend functionality
 - [ ] Add blog section
 - [ ] Enhance accessibility features
 - [ ] Add more animation options
+- [ ] Implement OAuth social login options
+- [ ] Add user profile customization
 
 ## Local Development
 
