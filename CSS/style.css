@@ -192,7 +192,19 @@ body.darkmode #nightToDay {
   font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.off-screen-menu ul button {
+  position: relative; /* Lisätään suhteellinen sijainti */
+  z-index: 2002; /* Varmistetaan että linkit ovat päällimmäisenä */
+  padding: 5px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+
 .off-screen-menu ul li:hover:not(:has(img)) {
+  transform: scale(1.1); /* Skaalaus hoverilla (paitsi kuville) */
+}
+.off-screen-menu ul button:hover:not(:has(img)) {
   transform: scale(1.1); /* Skaalaus hoverilla (paitsi kuville) */
 }
 
