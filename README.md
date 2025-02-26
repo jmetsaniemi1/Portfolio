@@ -25,34 +25,31 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 
 ## Project Structure
 
-portfolio/  
+portfolio/    
+│      
+├── .github/      
+│ ├── CSS/    
+│ └── style.css     
 │       
-├── .github/
-│
-├── CSS/             
-│   └── style.css        
-│   
-├── ICONS/            
-│
-├── JAVASCRIPT/      
-│   └── script.js       
+├── ICONS/      
+│ ├── JAVASCRIPT/       
+│ └── script.js      
 │       
-├── VIDEOS/           
-│   ├── darkmode_background_transition-2.mp4        
-│   └── lightmode_background_transition-2.mp4       
+├── VIDEOS/       
+│ ├── darkmode_background_transition-2.mp4         
+│ └── lightmode_background_transition-2.mp4       
+│         
+├── Photos/      
+│ └── [image assets]       
+│ ├── my-mongo-project/      
+│ ├── models/      
+│ └── server.js     
+│     
+├── node_modules/       
 │       
-├── Photos/          
-│   └── [image assets]      
-│
-├── my-mongo-project/ 
-│   ├── models/
-│   └── server.js
-│
-├── node_modules/     
-│
 ├── package.json       
-├── package-lock.json 
-└── index.html            
+├── package-lock.json        
+└── index.html        
 
 
 ## Key Features Explained
