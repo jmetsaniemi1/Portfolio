@@ -10,6 +10,7 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 - **Custom Animations**: Including scroll animations and interactive elements
 - **Project Showcase**: Interactive project cards with detailed information
 - **Contact Form**: Integrated email functionality using EmailJS
+- **Login Page / Modal**: Integ
 
 ## Technologies Used
 
@@ -19,26 +20,39 @@ A modern, interactive portfolio website showcasing my journey from logistics to 
 - GSAP (GreenSock Animation Platform) ( not in use yet )
 - Typed.js
 - EmailJS
+- Render.com
+- MongoDB Database
 
 ## Project Structure
 
 portfolio/  
 │       
-├── CSS/    
+├── .github/            # GitHub configuration
+│
+├── CSS/               # Stylefiles
 │   └── style.css        
 │   
-├── JAVASCRIPT/  
+├── ICONS/             # Ikoni-resurssit
+│
+├── JAVASCRIPT/        # JavaScript-files
 │   └── script.js       
 │       
-├── VIDEOS/     
+├── VIDEOS/            # Video resources    
 │   ├── darkmode_background_transition-2.mp4        
 │   └── lightmode_background_transition-2.mp4       
 │       
-│   
-├── Photos/     
+├── Photos/            # Photo resources    
 │   └── [image assets]      
-│       
-└── index.html      
+│
+├── my-mongo-project/  # MongoDB-backend
+│   ├── models/
+│   └── server.js
+│
+├── node_modules/      # NPM packages
+│
+├── package.json       # NPM configurations
+├── package-lock.json  # NPM configurations
+└── index.html         # Main Page    
 
 
 ## Key Features Explained
