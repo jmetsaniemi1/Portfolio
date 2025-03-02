@@ -191,41 +191,65 @@ const verifyToken = (req, res, next) => {
     }
 };
 
+const express = require("express");
+const mongoose = require("mongoose");
+const User = require("./models/User");
+
+// 🔹 Yritetään tuoda UserPosts ja UserSettings, mutta ei kaadeta palvelinta jos ne puuttuvat
+let UserPosts, UserSettings;
+try {
+    UserPosts = require("./models/UserPosts");
+    UserSettings = require("./models/UserSettings");
+} catch (error) {
+    console.warn("⚠️ Warning: UserPosts or UserSettings model not found.");
+}
+
+const app = express();
+
 // Delete account endpoint
 app.delete("/delete-account", verifyToken, async (req, res) => {
-    console.log('🔹 Delete account request received');
+    console.log("🔹 Delete account request received");
 
     try {
         const userId = req.user.id; // Tokenista saatu käyttäjän ID
-        console.log('🔹 Attempting to delete user with ID:', userId);
+        console.log("🔹 Attempting to delete user with ID:", userId);
 
         // Tarkistetaan, että käyttäjä on olemassa
         const user = await User.findById(userId);
         if (!user) {
-            console.log('❌ User not found:', userId);
+            console.log("❌ User not found:", userId);
             return res.status(404).json({ message: "User not found" });
         }
 
         // Poistetaan käyttäjä PortfolioDatabase.Users -kokoelmasta
-        console.log('🔹 Deleting user from database...');
+        console.log("🔹 Deleting user from database...");
         const deletedUser = await User.findByIdAndDelete(userId);
-        
+
         if (!deletedUser) {
-            console.log('❌ Failed to delete user:', userId);
+            console.log("❌ Failed to delete user:", userId);
             return res.status(500).json({ message: "Failed to delete user" });
         }
 
-        console.log('✅ User deleted successfully:', userId);
+        console.log("✅ User deleted successfully:", userId);
 
-        // (Valinnainen) Poistetaan käyttäjän mahdolliset muut tiedot muista tauluista
-        console.log('🔹 Deleting related user data...');
-        const deletedPosts = await UserPosts.deleteMany({ userId });
-        console.log('🔹 Deleted user posts:', deletedPosts.deletedCount);
+        // (Valinnainen tulevaisuuden käyttöön) Poistetaan käyttäjän mahdolliset muut tiedot muista tauluista, jos mallit on määritelty
+        if (UserPosts) {
+            console.log("🔹 Deleting related user posts...");
+            const deletedPosts = await UserPosts.deleteMany({ userId });
+            console.log("🔹 Deleted user posts:", deletedPosts.deletedCount);
+        } else {
+            console.warn("⚠️ Skipping user posts deletion: UserPosts model not found.");
+        }
 
-        const deletedSettings = await UserSettings.deleteMany({ userId });
-        console.log('🔹 Deleted user settings:', deletedSettings.deletedCount);
+        if (UserSettings) {
+            console.log("🔹 Deleting related user settings...");
+            const deletedSettings = await UserSettings.deleteMany({ userId });
+            console.log("🔹 Deleted user settings:", deletedSettings.deletedCount);
+        } else {
+            console.warn("⚠️ Skipping user settings deletion: UserSettings model not found.");
+        }
 
-        console.log('✅ All user data deleted successfully');
+        console.log("✅ All user data deleted successfully");
         res.json({ message: "Account deleted successfully" });
 
     } catch (error) {
