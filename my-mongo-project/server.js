@@ -7,11 +7,11 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const cors = require('cors');
 
-const app = express(); // 🟢 Alustetaan `app` ennen käyttöä
+const app = express(); //  Alustetaan `app` ennen käyttöä
 
 app.use(express.json());
 
-// ✅ CORS-asetukset oikeassa kohdassa
+// CORS-asetukset oikeassa kohdassa
 app.use(cors({
     origin: "https://www.johannesportfolio.space",
     credentials: true
@@ -202,7 +202,6 @@ try {
     console.warn("⚠️ Warning: UserPosts or UserSettings model not found.");
 }
 
-const app = express();
 
 // Delete account endpoint
 app.delete("/delete-account", verifyToken, async (req, res) => {
