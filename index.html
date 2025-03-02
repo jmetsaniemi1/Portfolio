@@ -238,10 +238,16 @@
     </div>
     <button id="logout-btn">Sign out</button>
     <br>
-    <!-- Delete account button not active -->
     <p>You can also delete your account.</p>
     <button id="delete-account-btn">Delete account</button>
-    <!-- Delete account button not active -->
+    <dialog class="modal" id="delete-confirmation-modal">
+      <h2>Confirm Account Deletion</h2>
+      <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+      <div class="button-container">
+        <button id="confirm-delete">Yes, delete account</button>
+        <button id="cancel-delete">Cancel</button>
+      </div>
+    </dialog>
 
   </div>
 </dialog>

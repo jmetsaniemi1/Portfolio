@@ -44,7 +44,7 @@ async function testMongoConnection() {
 }
 testMongoConnection();
 
-// MongoDB-yhteyden muodostus
+
 // MongoDB-yhteyden muodostus
 async function connectToDatabase() {
   try {
@@ -173,4 +173,46 @@ app.get("/", (req, res) => {
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
+
+// JWT token verification middleware
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
+};
+
+// Delete account endpoint
+app.delete("/delete-account", verifyToken, async (req, res) => {
+    console.log('🔹 Delete account request received');
+    try {
+        const userId = req.user.id;
+        console.log('🔹 Attempting to delete user with ID:', userId);
+        
+        // Find and delete the user
+        const deletedUser = await User.findByIdAndDelete(userId);
+        
+        if (!deletedUser) {
+            console.log('❌ User not found for deletion:', userId);
+            return res.status(404).json({ message: "User not found" });
+        }
+        
+        console.log('✅ User deleted successfully:', userId);
+        res.json({ message: "Account deleted successfully" });
+    } catch (error) {
+        console.error("❌ Error in delete account process:", error);
+        res.status(500).json({ message: "Server error while deleting account" });
+    }
+});
+
+
 

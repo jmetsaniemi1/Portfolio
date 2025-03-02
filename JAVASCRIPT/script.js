@@ -859,4 +859,65 @@ document.getElementById("register-form").addEventListener("submit", async functi
         alert("Palvelimeen ei saada yhteyttä.");
     }
 });
+
+// Delete account procedure
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteAccountBtn = document.getElementById('delete-account-btn');
+    const deleteConfirmationModal = document.getElementById('delete-confirmation-modal');
+    const confirmDeleteBtn = document.getElementById('confirm-delete');
+    const cancelDeleteBtn = document.getElementById('cancel-delete');
+
+    console.log('🔹 Delete account handlers initialized');
+
+    deleteAccountBtn.addEventListener('click', () => {
+        console.log('🔹 Delete account button clicked');
+        deleteConfirmationModal.showModal();
+    });
+
+    cancelDeleteBtn.addEventListener('click', () => {
+        console.log('🔹 Cancel delete button clicked');
+        deleteConfirmationModal.close();
+    });
+
+    confirmDeleteBtn.addEventListener('click', async () => {
+        console.log('🔹 Confirm delete button clicked');
+        try {
+            const token = localStorage.getItem('token');
+            console.log('🔹 Token retrieved:', token ? 'Token exists' : 'No token found');
+            
+            if (!token) {
+                console.log('❌ No token found, cannot delete account');
+                alert('You must be logged in to delete your account.');
+                return;
+            }
+
+            console.log('🔹 Sending delete request to server...');
+            const response = await fetch('https://portfolio-zvkt.onrender.com/delete-account', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            console.log('🔹 Server response:', data);
+
+            if (response.ok) {
+                console.log('✅ Account deleted successfully');
+                localStorage.removeItem('token');
+                deleteConfirmationModal.close();
+                document.getElementById('user-modal').close();
+                loginModal.showModal();
+                alert('Account deleted successfully');
+            } else {
+                console.log('❌ Failed to delete account:', data.message);
+                alert('Failed to delete account: ' + data.message);
+            }
+        } catch (error) {
+            console.error('❌ Error in delete process:', error);
+            alert('Server connection error. Please try again later.');
+        }
+    });
+});
  
