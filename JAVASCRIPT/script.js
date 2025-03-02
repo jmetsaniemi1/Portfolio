@@ -861,6 +861,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
 });
 
 // Delete account procedure
+// Delete account procedure
 document.addEventListener('DOMContentLoaded', function() {
     const deleteAccountBtn = document.getElementById('delete-account-btn');
     const deleteConfirmationModal = document.getElementById('delete-confirmation-modal');
@@ -868,6 +869,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelDeleteBtn = document.getElementById('cancel-delete');
 
     console.log('🔹 Delete account handlers initialized');
+
+    if (!deleteAccountBtn || !deleteConfirmationModal || !confirmDeleteBtn || !cancelDeleteBtn) {
+        console.error('❌ Error: Missing delete account elements in DOM');
+        return;
+    }
 
     deleteAccountBtn.addEventListener('click', () => {
         console.log('🔹 Delete account button clicked');
@@ -884,7 +890,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const token = localStorage.getItem('token');
             console.log('🔹 Token retrieved:', token ? 'Token exists' : 'No token found');
-            
+
             if (!token) {
                 console.log('❌ No token found, cannot delete account');
                 alert('You must be logged in to delete your account.');
@@ -907,8 +913,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('✅ Account deleted successfully');
                 localStorage.removeItem('token');
                 deleteConfirmationModal.close();
-                document.getElementById('user-modal').close();
-                loginModal.showModal();
+                document.getElementById('user-modal')?.close();
+                loginModal?.showModal();
                 alert('Account deleted successfully');
             } else {
                 console.log('❌ Failed to delete account:', data.message);
@@ -920,4 +926,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
- 
