@@ -144,7 +144,7 @@ app.post("/login", async (req, res) => {
 
         console.log("🔹 User found in database:", user.email);
 
-        const validPassword = await bcrypt.compare(password, user.password);
+        const validPassword = await bcrypt.compare(password, user.passwordHash);
         if (!validPassword) {
             console.log("❌ Invalid password for:", email);
             return res.status(400).json({ message: "Invalid password" });
