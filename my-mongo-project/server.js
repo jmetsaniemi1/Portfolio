@@ -207,13 +207,25 @@ app.delete("/delete-account", verifyToken, async (req, res) => {
         }
 
         // Poistetaan käyttäjä PortfolioDatabase.Users -kokoelmasta
+        console.log('🔹 Deleting user from database...');
         const deletedUser = await User.findByIdAndDelete(userId);
+        
+        if (!deletedUser) {
+            console.log('❌ Failed to delete user:', userId);
+            return res.status(500).json({ message: "Failed to delete user" });
+        }
+
         console.log('✅ User deleted successfully:', userId);
 
         // (Valinnainen) Poistetaan käyttäjän mahdolliset muut tiedot muista tauluista
-        await UserPosts.deleteMany({ userId });  // Esim. käyttäjän postaukset
-        await UserSettings.deleteMany({ userId }); // Esim. asetukset
+        console.log('🔹 Deleting related user data...');
+        const deletedPosts = await UserPosts.deleteMany({ userId });
+        console.log('🔹 Deleted user posts:', deletedPosts.deletedCount);
 
+        const deletedSettings = await UserSettings.deleteMany({ userId });
+        console.log('🔹 Deleted user settings:', deletedSettings.deletedCount);
+
+        console.log('✅ All user data deleted successfully');
         res.json({ message: "Account deleted successfully" });
 
     } catch (error) {
