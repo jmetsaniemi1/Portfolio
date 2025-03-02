@@ -191,9 +191,7 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-const express = require("express");
-const mongoose = require("mongoose");
-const User = require("./models/User");
+
 
 // 🔹 Yritetään tuoda UserPosts ja UserSettings, mutta ei kaadeta palvelinta jos ne puuttuvat
 let UserPosts, UserSettings;
